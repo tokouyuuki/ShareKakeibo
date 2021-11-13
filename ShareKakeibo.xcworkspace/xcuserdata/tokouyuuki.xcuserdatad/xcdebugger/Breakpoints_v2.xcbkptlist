@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "70F9D96C-3D59-4785-8EE7-AAC5DD3B520F"
+   type = "0"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C1BB1EAE-76E4-48CB-8AD1-454389888935"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShareKakeibo/Model/loadModel/EditDBModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
+            landmarkName = "editMonthDetailsDelete(groupID:userID:startDate:endDate:index:activityIndicatorView:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9FCC4B8D-6369-4D56-949E-3B9712B04B59"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShareKakeibo/Controller/PagingController/New Group/DetailMyselfLastMonthViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
+            landmarkName = "tableView(_:trailingSwipeActionsConfigurationForRowAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BE9FA104-F3DE-4418-A4FC-22A8C299EE54"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShareKakeibo/Model/loadModel/EditDBModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "editMonthDetailsDelete(groupID:userID:startDate:endDate:index:activityIndicatorView:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "BE9FA104-F3DE-4418-A4FC-22A8C299EE54 - 39d1a2863fa0ad9f"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ShareKakeibo.EditDBModel.editMonthDetailsDelete(groupID: Swift.String, userID: Swift.String, startDate: Foundation.Date, endDate: Foundation.Date, index: Swift.Int, activityIndicatorView: __C.UIActivityIndicatorView) -&gt; ()"
+                  moduleName = "ShareKakeibo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tokouyuuki/Desktop/SwiftDevelopment/ShareKakeibo/ShareKakeibo/Model/loadModel/EditDBModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "50"
+                  endingLineNumber = "50"
+                  offsetFromSymbolStart = "244">
+               </Location>
+               <Location
+                  uuid = "BE9FA104-F3DE-4418-A4FC-22A8C299EE54 - ba1b0f917bc081b8"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__C.FIRQuerySnapshot&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in ShareKakeibo.EditDBModel.editMonthDetailsDelete(groupID: Swift.String, userID: Swift.String, startDate: Foundation.Date, endDate: Foundation.Date, index: Swift.Int, activityIndicatorView: __C.UIActivityIndicatorView) -&gt; ()"
+                  moduleName = "ShareKakeibo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tokouyuuki/Desktop/SwiftDevelopment/ShareKakeibo/ShareKakeibo/Model/loadModel/EditDBModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "51"
+                  endingLineNumber = "51"
+                  offsetFromSymbolStart = "404">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B9D4BEA8-71BE-4B77-9E00-90D3957ECAB1"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShareKakeibo/Controller/PagingController/New Group/DetailMyselfViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
+            landmarkName = "tableView(_:trailingSwipeActionsConfigurationForRowAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A3204145-7FFA-44EC-B008-9946458DC318"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShareKakeibo/Controller/PagingController/New Group/DetailMyselfViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
+            landmarkName = "editMonthDetailsDelete_OK()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "049DE57A-D8C8-4BA6-A6B9-BDC935B4B1D1"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShareKakeibo/Controller/Profile/ProfileViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "143"
+            endingLineNumber = "143"
+            landmarkName = "loadUserJoinGroup_OK(joinGroupDic:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "049DE57A-D8C8-4BA6-A6B9-BDC935B4B1D1 - 93fbbdfcb1895607"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ShareKakeibo.ProfileViewController.loadUserJoinGroup_OK(joinGroupDic: Swift.Dictionary&lt;Swift.String, Swift.Bool&gt;) -&gt; ()"
+                  moduleName = "ShareKakeibo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tokouyuuki/Desktop/SwiftDevelopment/ShareKakeibo/ShareKakeibo/Controller/Profile/ProfileViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "143"
+                  endingLineNumber = "143"
+                  offsetFromSymbolStart = "188">
+               </Location>
+               <Location
+                  uuid = "049DE57A-D8C8-4BA6-A6B9-BDC935B4B1D1 - 93fbbdfcb1895607"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ShareKakeibo.ProfileViewController.loadUserJoinGroup_OK(joinGroupDic: Swift.Dictionary&lt;Swift.String, Swift.Bool&gt;) -&gt; ()"
+                  moduleName = "ShareKakeibo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tokouyuuki/Desktop/SwiftDevelopment/ShareKakeibo/ShareKakeibo/Controller/Profile/ProfileViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "143"
+                  endingLineNumber = "143"
+                  offsetFromSymbolStart = "224">
+               </Location>
+               <Location
+                  uuid = "049DE57A-D8C8-4BA6-A6B9-BDC935B4B1D1 - 43069ddf8e7422d7"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (ShareKakeibo.JoinGroupSets) -&gt; () in ShareKakeibo.ProfileViewController.loadUserJoinGroup_OK(joinGroupDic: Swift.Dictionary&lt;Swift.String, Swift.Bool&gt;) -&gt; ()"
+                  moduleName = "ShareKakeibo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tokouyuuki/Desktop/SwiftDevelopment/ShareKakeibo/ShareKakeibo/Controller/Profile/ProfileViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "144"
+                  endingLineNumber = "144"
+                  offsetFromSymbolStart = "88">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "31C2035B-7DBB-4235-A606-7E9F002557E0"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShareKakeibo/Controller/Profile/ProfileViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
+            landmarkName = "loadUserJoinGroup_OK(joinGroupDic:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4ACCE9A0-969B-4D57-AE4A-F123FB2081F9"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShareKakeibo/Model/loadModel/LoadDBModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
+            landmarkName = "loadUserJoinGroup(userID:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "4ACCE9A0-969B-4D57-AE4A-F123FB2081F9 - e72eabb98b874103"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ShareKakeibo.LoadDBModel.loadUserJoinGroup(userID: Swift.String) -&gt; ()"
+                  moduleName = "ShareKakeibo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tokouyuuki/Desktop/SwiftDevelopment/ShareKakeibo/ShareKakeibo/Model/loadModel/LoadDBModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "96"
+                  endingLineNumber = "96"
+                  offsetFromSymbolStart = "40">
+               </Location>
+               <Location
+                  uuid = "4ACCE9A0-969B-4D57-AE4A-F123FB2081F9 - d3cfa08f8e9e35a2"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__C.FIRDocumentSnapshot&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in ShareKakeibo.LoadDBModel.loadUserJoinGroup(userID: Swift.String) -&gt; ()"
+                  moduleName = "ShareKakeibo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tokouyuuki/Desktop/SwiftDevelopment/ShareKakeibo/ShareKakeibo/Model/loadModel/LoadDBModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "98"
+                  endingLineNumber = "98"
+                  offsetFromSymbolStart = "112">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "302C6E36-3F06-4B7E-8B05-6E180DF28E17"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShareKakeibo/Controller/Profile/ProfileViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "122"
+            endingLineNumber = "122"
+            landmarkName = "viewWillAppear(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0669A5C5-F8BB-4CE0-AF88-BE72477A77C5"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShareKakeibo/Model/loadModel/LoadDBModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "loadUserInfo(userID:activityIndicatorView:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "08F15084-9310-4DE7-AFCE-70A05937707F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShareKakeibo/Model/loadModel/LoadDBModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "loadUserInfo(userID:activityIndicatorView:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "08F15084-9310-4DE7-AFCE-70A05937707F - c666828e176c1929"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ShareKakeibo.LoadDBModel.loadUserInfo(userID: Swift.String, activityIndicatorView: __C.UIActivityIndicatorView) -&gt; ()"
+                  moduleName = "ShareKakeibo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tokouyuuki/Desktop/SwiftDevelopment/ShareKakeibo/ShareKakeibo/Model/loadModel/LoadDBModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "56"
+                  endingLineNumber = "56"
+                  offsetFromSymbolStart = "60">
+               </Location>
+               <Location
+                  uuid = "08F15084-9310-4DE7-AFCE-70A05937707F - ba2d4122faba0bfd"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__C.FIRDocumentSnapshot&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in ShareKakeibo.LoadDBModel.loadUserInfo(userID: Swift.String, activityIndicatorView: __C.UIActivityIndicatorView) -&gt; ()"
+                  moduleName = "ShareKakeibo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tokouyuuki/Desktop/SwiftDevelopment/ShareKakeibo/ShareKakeibo/Model/loadModel/LoadDBModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "58"
+                  endingLineNumber = "58"
+                  offsetFromSymbolStart = "164">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9A516FA1-8ED5-4303-8B6F-E0151FAEE071"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShareKakeibo/Controller/Profile/ProfileViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
+            landmarkName = "loadUserInfo_OK(userName:profileImage:email:password:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "297DBE20-CCFC-44BF-9460-53C970F12A70"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShareKakeibo/Controller/Profile/ProfileViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
+            landmarkName = "viewWillAppear(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1938A830-14B8-40B5-B4BC-B7624FE18B0E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShareKakeibo/Controller/Profile/ProfileViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
+            landmarkName = "loadUserInfo_OK(userName:profileImage:email:password:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3254726B-3B75-4FB0-8CCF-F56541A6E7D4"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShareKakeibo/Model/loadModel/LoadDBModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "110"
+            endingLineNumber = "110"
+            landmarkName = "loadGroupInfo(joinGroupDic:completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1C73842B-BA28-44D9-8CD4-59E5BAB9D857"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShareKakeibo/Model/loadModel/LoadDBModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "112"
+            endingLineNumber = "112"
+            landmarkName = "loadGroupInfo(joinGroupDic:completion:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "1C73842B-BA28-44D9-8CD4-59E5BAB9D857 - 7d3422167e22998a"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ShareKakeibo.LoadDBModel.loadGroupInfo(joinGroupDic: Swift.Dictionary&lt;Swift.String, Swift.Bool&gt;, completion: (ShareKakeibo.JoinGroupSets) -&gt; ()) -&gt; ()"
+                  moduleName = "ShareKakeibo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tokouyuuki/Desktop/SwiftDevelopment/ShareKakeibo/ShareKakeibo/Model/loadModel/LoadDBModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "112"
+                  endingLineNumber = "112"
+                  offsetFromSymbolStart = "2104">
+               </Location>
+               <Location
+                  uuid = "1C73842B-BA28-44D9-8CD4-59E5BAB9D857 - 85479d4e82a6412c"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__C.FIRDocumentSnapshot&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in ShareKakeibo.LoadDBModel.loadGroupInfo(joinGroupDic: Swift.Dictionary&lt;Swift.String, Swift.Bool&gt;, completion: (ShareKakeibo.JoinGroupSets) -&gt; ()) -&gt; ()"
+                  moduleName = "ShareKakeibo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tokouyuuki/Desktop/SwiftDevelopment/ShareKakeibo/ShareKakeibo/Model/loadModel/LoadDBModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "114"
+                  endingLineNumber = "114"
+                  offsetFromSymbolStart = "156">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0CC979FE-58F3-44B6-9D43-A3C9B118E89D"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShareKakeibo/Controller/Profile/CreateGroupViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "143"
+            endingLineNumber = "143"
+            landmarkName = "sendImage_OK(url:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "94B36157-EE51-4767-B74E-3FF3A231A8EF"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShareKakeibo/Controller/Profile/CreateGroupViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "124"
+            endingLineNumber = "124"
+            landmarkName = "createGroupButton(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4CD445B2-64A7-4D3C-9945-CF7B57A4BAA0"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShareKakeibo/Controller/Profile/CreateGroupViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "138"
+            endingLineNumber = "138"
+            landmarkName = "createGroupButton(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FAFEB4D4-0D3A-4A55-A1BB-054F7C3BE3AA"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShareKakeibo/Model/loadModel/SendDBModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
+            landmarkName = "sendGroupImage(data:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "08F94BBC-C621-4F88-8021-7B1FFDAFC075"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShareKakeibo/Model/loadModel/SendDBModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
+            landmarkName = "sendGroupImage(data:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "08F94BBC-C621-4F88-8021-7B1FFDAFC075 - f6af85a66642b47b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ShareKakeibo.SendDBModel.sendGroupImage(data: Foundation.Data) -&gt; ()"
+                  moduleName = "ShareKakeibo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tokouyuuki/Desktop/SwiftDevelopment/ShareKakeibo/ShareKakeibo/Model/loadModel/SendDBModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
+                  offsetFromSymbolStart = "1816">
+               </Location>
+               <Location
+                  uuid = "08F94BBC-C621-4F88-8021-7B1FFDAFC075 - 5d61795b18ba8b61"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__C.FIRStorageMetadata&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in ShareKakeibo.SendDBModel.sendGroupImage(data: Foundation.Data) -&gt; ()"
+                  moduleName = "ShareKakeibo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tokouyuuki/Desktop/SwiftDevelopment/ShareKakeibo/ShareKakeibo/Model/loadModel/SendDBModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "44"
+                  endingLineNumber = "44"
+                  offsetFromSymbolStart = "48">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
