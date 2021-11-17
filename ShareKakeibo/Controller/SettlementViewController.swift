@@ -33,6 +33,7 @@ class SettlementViewController: UIViewController,UITableViewDelegate,UITableView
     var profileImageArray = [String]()
     var settlementArray = [Bool]()
     var howMuchArray = [Int]()
+    var settlementDic = Dictionary<String,Bool>()
     //追加
     var userIDArray = [String]()
     var groupPaymentOfMonth = Int()
@@ -98,6 +99,7 @@ class SettlementViewController: UIViewController,UITableViewDelegate,UITableView
     
     //メンバーの決済可否を取得完了
     func loadUserIDAndSettlementDic_OK(settlementDic: Dictionary<String, Bool>, userIDArray: [String]) {
+        self.settlementDic = settlementDic
         settlementArray = Array(settlementDic.values)
         loadDBModel.loadMonthPayment(groupID: groupID, userIDArray: userIDArray, startDate: startDate, endDate: endDate)
     }
