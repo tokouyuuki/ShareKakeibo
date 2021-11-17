@@ -33,7 +33,6 @@ class SettlementViewController: UIViewController,UITableViewDelegate,UITableView
     var profileImageArray = [String]()
     var settlementArray = [Bool]()
     var howMuchArray = [Int]()
-    var settlementDic = Dictionary<String,Bool>()
     //追加
     var userIDArray = [String]()
     var groupPaymentOfMonth = Int()
@@ -99,7 +98,6 @@ class SettlementViewController: UIViewController,UITableViewDelegate,UITableView
     
     //メンバーの決済可否を取得完了
     func loadUserIDAndSettlementDic_OK(settlementDic: Dictionary<String, Bool>, userIDArray: [String]) {
-        self.settlementDic = settlementDic
         settlementArray = Array(settlementDic.values)
         loadDBModel.loadMonthPayment(groupID: groupID, userIDArray: userIDArray, startDate: startDate, endDate: endDate)
     }
@@ -107,26 +105,9 @@ class SettlementViewController: UIViewController,UITableViewDelegate,UITableView
     //変更
     //(グループの合計金額)と(1人当たりの金額)と(支払いに参加したユーザーの数)取得完了
     func loadMonthPayment_OK(groupPaymentOfMonth: Int, paymentAverageOfMonth: Int, userIDArray: [String]) {
-        //        var totalDic = Dictionary<String,Int>()
         self.userIDArray = userIDArray
         self.paymentAverageOfMonth = paymentAverageOfMonth
         loadDBModel.loadMonthSettlement(groupID: groupID, userID: nil, startDate: startDate, endDate: endDate)
-        
-        //グループの支払い状況の取得完了
-        //        loadDBModel.loadMonthSettlement(groupID: groupID, userID: nil, userIDArray: userIDArray, startDate: startDate, endDate: endDate) { [self] myTotalPay, userID in
-        //            totalDic.updateValue(myTotalPay, forKey: userID)
-        //            //各メンバーの決済額の配列
-        //            howMuchArray = totalDic.map{($1 - paymentAverageOfMonth) * -1}
-        //            //自分の決済額
-        //            var userPayment = totalDic[userID]!
-        //            userPayment = paymentAverageOfMonth - userPayment
-        //            if userPayment < 0{
-        //                userPaymentOfLastMonth.text = "あなたは" + String(userPayment * -1) + "の受け取りがあります"
-        //            }else{
-        //                userPaymentOfLastMonth.text = "あなたは" + String(userPayment) + "の支払いがあります"
-        //            }
-        //            loadDBModel.loadTableView(userIDArray: userIDArray)
-        //        }
     }
     
     //追加
