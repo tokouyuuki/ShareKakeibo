@@ -144,7 +144,6 @@ class CreateGroupViewController: UIViewController,UICollectionViewDelegate, UICo
         let groupID = groupDocument.documentID
         UserDefaults.standard.setValue(groupID, forKey: "groupID")
         
-        //変更
         db.collection("groupManagement").document(groupID).setData([
             "groupName": groupNameTextField.text!,
             "groupImage": url,
@@ -153,19 +152,17 @@ class CreateGroupViewController: UIViewController,UICollectionViewDelegate, UICo
             "userIDArray":[userID]
         ])
         
-        //追加
         db.collection("userManagement").document(userID).setData([
             "joinGroupDic" : ["\(groupID)": true]
             ],merge: true)
         
-        //変更
         for usersID in userIDArray{
             db.collection("userManagement").document(usersID).setData([
                 "joinGroupDic":["\(groupID)": false]
             ], merge: true)
         }
         
-        //追加
+        
 //        db.collection(groupID).document().setData(["paymentDay" : Any])
         navigationController?.popViewController(animated: true)
     }

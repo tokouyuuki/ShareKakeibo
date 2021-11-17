@@ -107,24 +107,33 @@ class MonthDataViewController: UIViewController,GoToVcDelegate,UIScrollViewDeleg
         loadDBModel.loadCategoryGraphOfTithMonth(groupID: groupID, startDate: startDate, endDate: endDate, activityIndicatorView: activityIndicatorView)
     }
     
+    //変更
     //グラフに反映するカテゴリ別合計金額取得完了
     func loadCategoryGraphOfTithMonth_OK(categoryPayArray: [Int]) {
         activityIndicatorView.stopAnimating()
         graphModel.setPieCht(piecht: pieChartView, categorypay: categoryPayArray)
-        //変更
-        loadDBModel.loadMonthPayment(groupID: groupID, startDate: startDate, endDate: endDate)
+        loadDBModel.loadUserIDAndSettlementDic(groupID: groupID, activityIndicatorView: activityIndicatorView)
     }
     
+    //追加
+    //グループに参加しているメンバーを取得完了
+    func loadUserIDAndSettlementDic_OK(settlementDic: Dictionary<String, Bool>, userIDArray: [String]) {
+        activityIndicatorView.stopAnimating()
+        loadDBModel.loadMonthPayment(groupID: groupID, userIDArray: userIDArray, startDate: startDate, endDate: endDate)
+    }
+    
+    //変更
     //グループの合計出資額、1人当たりの出資額を取得完了
     func loadMonthPayment_OK(groupPaymentOfMonth: Int, paymentAverageOfMonth: Int, userIDArray: [String]) {
         self.groupPaymentOfThisMonth.text = String(groupPaymentOfMonth) + "　円"
         self.paymentAverageOfTithMonth.text = String(paymentAverageOfMonth) + "　円"
-        self.userPaymentThisMonth.text = "0　円"
-        //自分の支払額を取得完了
-        loadDBModel.loadMonthSettlement(groupID: groupID, userID: userID, userIDArray: nil, startDate: startDate, endDate: endDate) { myTotalPay, userID in
-            
-            self.userPaymentThisMonth.text = String(myTotalPay) + "　円"
-        }
+        loadDBModel.loadMonthSettlement(groupID: groupID, userID: userID, startDate: startDate, endDate: endDate)
+    }
+    
+    //追加
+    //自分の支払額を取得完了
+    func loadMonthSettlement_OK() {
+        self.userPaymentThisMonth.text = String(loadDBModel.settlementSets[0].paymentAmount!) + "　円"
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

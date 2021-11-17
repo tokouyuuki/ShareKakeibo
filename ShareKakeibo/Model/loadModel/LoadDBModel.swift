@@ -12,9 +12,8 @@ import FirebaseFirestore
 @objc protocol LoadOKDelegate {
     @objc optional func loadUserInfo_OK(userName:String,profileImage:String,email:String,password:String)
     @objc optional func loadUserSearch_OK()
-    //追加
-    @objc optional func loadUserJoinGroup_OK(joinGroupDic:Dictionary<String,Bool>)
-    
+    @objc optional func loadJoinGroup_OK()
+    @objc optional func loadNotJoinGroup_OK(groupIDArray:[String],notJoinCount:Int)
     @objc optional func loadGroupName_OK(groupName:String,groupImage:String)
     @objc optional func loadSettlementNotification_OK()
     @objc optional func loadSettlementDay_OK(settlementDay:String)
@@ -22,31 +21,22 @@ import FirebaseFirestore
     @objc optional func loadMonthDetails_OK()
     @objc optional func loadCategoryGraphOfTithMonth_OK(categoryPayArray:[Int])
     @objc optional func loadMonthlyTransition_OK(countArray:[Int])
-    //追加
     @objc optional func loadMonthPayment_OK(groupPaymentOfMonth:Int,paymentAverageOfMonth:Int,userIDArray:[String])
-    
+    //追加
+    @objc optional func loadMonthSettlement_OK()
+    @objc optional func loadTableView_OK()
 }
 
 class LoadDBModel{
     
     var loadOKDelegate:LoadOKDelegate?
     var db = Firestore.firestore()
-    var userSearchSets:[UserSearchSets] = []
-    var notificationSets:[NotificationSets] = []
-    var monthMyDetailsSets:[MonthMyDetailsSets] = []
-    var monthGroupDetailsSets:[MonthGroupDetailsSets] = []
-    var januaryCount = 0
-    var februaryCount = 0
-    var marchCount = 0
-    var aprilCount = 0
-    var mayCount = 0
-    var juneCount = 0
-    var julyCount = 0
-    var augustCount = 0
-    var septemberCount = 0
-    var octoberCount = 0
-    var novemberCount = 0
-    var decemberCount = 0
+    var groupSets:[GroupSets] = []
+    var userSearchSets = [UserSearchSets]()
+    var notificationSets = [NotificationSets]()
+    var monthMyDetailsSets = [MonthMyDetailsSets]()
+    var monthGroupDetailsSets = [MonthGroupDetailsSets]()
+    var settlementSets = [SettlementSets]()
     let dateFormatter = DateFormatter()
     var countArray = [Int]()
     
@@ -90,45 +80,67 @@ class LoadDBModel{
         }
     }
     
-    //追加
-    //参加しているか参加していないかの配列を取得するロード
-    func loadUserJoinGroup(userID:String){
-        db.collection("userManagement").document(userID).addSnapshotListener { (snapShot, error) in
-            
+    //参加しているグループの情報を取得するロード
+    func loadJoinGroup(groupID:String,userID:String){
+        db.collection("groupManagement").whereField("userIDArray", arrayContains: userID).addSnapshotListener { (snapShot, error) in
+            self.groupSets = []
             if error != nil{
                 return
             }
-            let data = snapShot?.data()
-            if let joinGroupDic = data!["joinGroupDic"] as? Dictionary<String,Bool>{
-                self.loadOKDelegate?.loadUserJoinGroup_OK?(joinGroupDic: joinGroupDic)
+            if let snapShotDoc = snapShot?.documents{
+                for doc in snapShotDoc{
+                    let data = doc.data()
+                    let groupName = data["groupName"] as! String
+                    let groupImage = data["groupImage"] as! String
+                    let groupID = data["groupID"] as! String
+                    let newData = GroupSets(groupName: groupName, groupImage: groupImage, groupID: groupID)
+                    self.groupSets.append(newData)
+                }
             }
+            self.loadOKDelegate?.loadJoinGroup_OK?()
         }
     }
     
-    //追加
-    //参加している、招待されてるルームの情報を取得するロード
-    func loadGroupInfo(joinGroupDic:Dictionary<String,Bool>,completion:@escaping(JoinGroupSets)->()){
-        for (key, value) in joinGroupDic{
-            db.collection("groupManagement").document(key).addSnapshotListener { (snapShot, error) in
+    //招待されているグループの数を取得するロード
+    func loadNotJoinGroup(userID:String){
+        db.collection("userManagement").document(userID).addSnapshotListener { (snapShot, error) in
+            
+            var groupIDArray = [String]()
+            var notJoinCount = 0
+            if error != nil{
+                return
+            }
+            if let data = snapShot?.data(){
+                let joinGroupDic = data["joinGroupDic"] as! Dictionary<String,Bool>
+                for (key,value) in joinGroupDic{
+                    if value == false{
+                        groupIDArray.append(key)
+                        notJoinCount = notJoinCount + 1
+                    }
+                }
+            }
+            self.loadOKDelegate?.loadNotJoinGroup_OK?(groupIDArray: groupIDArray, notJoinCount: notJoinCount)
+        }
+    }
+    
+    //招待されているグループの情報を取得するロード
+    func loadNotJoinGroupInfo(groupIDArray:[String],completion:@escaping(GroupSets)->()){
+        for groupID in groupIDArray{
+            db.collection("groupManagement").document(groupID).addSnapshotListener { (sanpShot, error) in
                 
                 if error != nil{
                     return
                 }
-                if let data = snapShot?.data(){
-                    let groupName = data["groupName"] as? String
-                    let groupImage = data["groupImage"] as? String
-                    let groupID = data["groupID"] as? String
-                    switch value {
-                    case true:   //←グループに参加している場合
-                        let newTrue = JoinGroupSets(groupName: groupName!, groupImage: groupImage!, groupID: groupID!, join: true)
-                        completion(newTrue)
-                    case false:  //←グループに参加していない場合
-                        let newFalse = JoinGroupSets(groupName: groupName!, groupImage: groupImage!, groupID: groupID!, join: false)
-                        completion(newFalse)
-                    }
+                if let data = sanpShot?.data(){
+                    let groupName = data["groupName"] as! String
+                    let groupImage = data["groupImage"] as! String
+                    let groupID = data["groupID"] as! String
+                    let newData = GroupSets(groupName: groupName, groupImage: groupImage, groupID: groupID)
+                    completion(newData)
                 }
             }
         }
+        
     }
     
     //グループ名、グループ画像を取得するロード。
@@ -147,7 +159,6 @@ class LoadDBModel{
         }
     }
     
-    //変更
     //決済日を取得し決済通知するロード
     func loadSettlementNotification(userID:String,day:String,activityIndicatorView:UIActivityIndicatorView){
         db.collection("groupManagement").whereField("userIDArray", arrayContains: userID).addSnapshotListener { (snapShot, error) in
@@ -189,7 +200,6 @@ class LoadDBModel{
         }
     }
     
-    //追加
     //グループに所属する人のuserIDと決済可否を取得するロード
     func loadUserIDAndSettlementDic(groupID:String,activityIndicatorView:UIActivityIndicatorView){
         db.collection("groupManagement").document(groupID).addSnapshotListener { (snapShot, error) in
@@ -207,7 +217,6 @@ class LoadDBModel{
         }
     }
     
-    //変更
     //グループに所属する人の名前とプロフィール画像を取得するロード
     func loadGroupMember(userIDArray:[String],completion:@escaping(UserSets)->()){
         for userID in userIDArray{
@@ -336,10 +345,10 @@ class LoadDBModel{
     func loadMonthlyAllTransition(groupID:String,year:String,settlementDay:String,startDate:Date,endDate:Date,activityIndicatorView:UIActivityIndicatorView){
         
         db.collection(groupID).whereField("paymentDay", isGreaterThan: startDate).whereField("paymentDay", isLessThanOrEqualTo: endDate).addSnapshotListener { [self] (snapShot, error) in
-            self.countArray = []
-            self.dateFormatter.dateFormat = "yyyy年MM月dd日"
-            self.dateFormatter.locale = Locale(identifier: "ja_JP")
-            self.dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
+            countArray = []
+            dateFormatter.dateFormat = "yyyy年MM月dd日"
+            dateFormatter.locale = Locale(identifier: "ja_JP")
+            dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
             let january = dateFormatter.date(from: "\(year)年1月\(settlementDay)日")
             let february = dateFormatter.date(from: "\(year)年2月\(settlementDay)日")
             let march = dateFormatter.date(from: "\(year)年3月\(settlementDay)日")
@@ -352,6 +361,20 @@ class LoadDBModel{
             let october = dateFormatter.date(from: "\(year)年10月\(settlementDay)日")
             let november = dateFormatter.date(from: "\(year)年11月\(settlementDay)日")
             let december = dateFormatter.date(from: "\(year)年12月\(settlementDay)日")
+            
+            var januaryCount = 0
+            var februaryCount = 0
+            var marchCount = 0
+            var aprilCount = 0
+            var mayCount = 0
+            var juneCount = 0
+            var julyCount = 0
+            var augustCount = 0
+            var septemberCount = 0
+            var octoberCount = 0
+            var novemberCount = 0
+            var decemberCount = 0
+            
             if error != nil{
                 activityIndicatorView.stopAnimating()
                 return
@@ -362,35 +385,35 @@ class LoadDBModel{
                     let paymentAmount = data["paymentAmount"] as! Int
                     let timestamp = data["paymentDay"] as! Timestamp
                     let paymentDay = timestamp.dateValue()
-                    if startDate < paymentDay && paymentDay >= january!{
+                    if startDate < paymentDay && paymentDay <= january!{
                         januaryCount = januaryCount + paymentAmount
-                    }else if january! < paymentDay && paymentDay >= february!{
+                    }else if january! < paymentDay && paymentDay <= february!{
                         februaryCount = februaryCount + paymentAmount
-                    }else if february! < paymentDay && paymentDay >= march!{
+                    }else if february! < paymentDay && paymentDay <= march!{
                         marchCount = marchCount + paymentAmount
-                    }else if march! < paymentDay && paymentDay >= april!{
+                    }else if march! < paymentDay && paymentDay <= april!{
                         aprilCount = aprilCount + paymentAmount
-                    }else if april! < paymentDay && paymentDay >= may!{
+                    }else if april! < paymentDay && paymentDay <= may!{
                         mayCount = mayCount + paymentAmount
-                    }else if may! < paymentDay && paymentDay >= june!{
+                    }else if may! < paymentDay && paymentDay <= june!{
                         juneCount = juneCount + paymentAmount
-                    }else if june! < paymentDay && paymentDay >= july!{
+                    }else if june! < paymentDay && paymentDay <= july!{
                         julyCount = julyCount + paymentAmount
-                    }else if july! < paymentDay && paymentDay >= august!{
+                    }else if july! < paymentDay && paymentDay <= august!{
                         augustCount = augustCount + paymentAmount
-                    }else if august! < paymentDay && paymentDay >= september!{
+                    }else if august! < paymentDay && paymentDay <= september!{
                         septemberCount = septemberCount + paymentAmount
-                    }else if september! < paymentDay && paymentDay >= october!{
+                    }else if september! < paymentDay && paymentDay <= october!{
                         octoberCount = octoberCount + paymentAmount
-                    }else if october! < paymentDay && paymentDay >= november!{
+                    }else if october! < paymentDay && paymentDay <= november!{
                         novemberCount = novemberCount + paymentAmount
-                    }else if november! < paymentDay && paymentDay >= december!{
+                    }else if november! < paymentDay && paymentDay <= december!{
                         decemberCount = decemberCount + paymentAmount
                     }
                 }
             }
-            self.countArray = [januaryCount,februaryCount,marchCount,aprilCount,mayCount,juneCount,julyCount,augustCount,septemberCount,octoberCount,novemberCount,decemberCount]
-            self.loadOKDelegate?.loadMonthlyTransition_OK?(countArray: self.countArray)
+            countArray = [januaryCount,februaryCount,marchCount,aprilCount,mayCount,juneCount,julyCount,augustCount,septemberCount,octoberCount,novemberCount,decemberCount]
+            loadOKDelegate?.loadMonthlyTransition_OK?(countArray: countArray)
         }
     }
     
@@ -398,10 +421,10 @@ class LoadDBModel{
     func loadMonthlyUtilityTransition(groupID:String,year:String,settlementDay:String,startDate:Date,endDate:Date,activityIndicatorView:UIActivityIndicatorView){
         
         db.collection(groupID).whereField("paymentDay", isGreaterThan: startDate).whereField("paymentDay", isLessThanOrEqualTo: endDate).whereField("category", isEqualTo: "水道代").whereField("category", isEqualTo: "電気代").whereField("category", isEqualTo: "ガス代").addSnapshotListener { [self] (snapShot, error) in
-            self.countArray = []
-            self.dateFormatter.dateFormat = "yyyy年MM月dd日"
-            self.dateFormatter.locale = Locale(identifier: "ja_JP")
-            self.dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
+            countArray = []
+            dateFormatter.dateFormat = "yyyy年MM月dd日"
+            dateFormatter.locale = Locale(identifier: "ja_JP")
+            dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
             let january = dateFormatter.date(from: "\(year)年1月\(settlementDay)日")
             let february = dateFormatter.date(from: "\(year)年2月\(settlementDay)日")
             let march = dateFormatter.date(from: "\(year)年3月\(settlementDay)日")
@@ -414,6 +437,20 @@ class LoadDBModel{
             let october = dateFormatter.date(from: "\(year)年10月\(settlementDay)日")
             let november = dateFormatter.date(from: "\(year)年11月\(settlementDay)日")
             let december = dateFormatter.date(from: "\(year)年12月\(settlementDay)日")
+            
+            var januaryCount = 0
+            var februaryCount = 0
+            var marchCount = 0
+            var aprilCount = 0
+            var mayCount = 0
+            var juneCount = 0
+            var julyCount = 0
+            var augustCount = 0
+            var septemberCount = 0
+            var octoberCount = 0
+            var novemberCount = 0
+            var decemberCount = 0
+            
             if error != nil{
                 activityIndicatorView.stopAnimating()
                 return
@@ -424,35 +461,35 @@ class LoadDBModel{
                     let paymentAmount = data["paymentAmount"] as! Int
                     let timestamp = data["paymentDay"] as! Timestamp
                     let paymentDay = timestamp.dateValue()
-                    if startDate < paymentDay && paymentDay >= january!{
+                    if startDate < paymentDay && paymentDay <= january!{
                         januaryCount = januaryCount + paymentAmount
-                    }else if january! < paymentDay && paymentDay >= february!{
+                    }else if january! < paymentDay && paymentDay <= february!{
                         februaryCount = februaryCount + paymentAmount
-                    }else if february! < paymentDay && paymentDay >= march!{
+                    }else if february! < paymentDay && paymentDay <= march!{
                         marchCount = marchCount + paymentAmount
-                    }else if march! < paymentDay && paymentDay >= april!{
+                    }else if march! < paymentDay && paymentDay <= april!{
                         aprilCount = aprilCount + paymentAmount
-                    }else if april! < paymentDay && paymentDay >= may!{
+                    }else if april! < paymentDay && paymentDay <= may!{
                         mayCount = mayCount + paymentAmount
-                    }else if may! < paymentDay && paymentDay >= june!{
+                    }else if may! < paymentDay && paymentDay <= june!{
                         juneCount = juneCount + paymentAmount
-                    }else if june! < paymentDay && paymentDay >= july!{
+                    }else if june! < paymentDay && paymentDay <= july!{
                         julyCount = julyCount + paymentAmount
-                    }else if july! < paymentDay && paymentDay >= august!{
+                    }else if july! < paymentDay && paymentDay <= august!{
                         augustCount = augustCount + paymentAmount
-                    }else if august! < paymentDay && paymentDay >= september!{
+                    }else if august! < paymentDay && paymentDay <= september!{
                         septemberCount = septemberCount + paymentAmount
-                    }else if september! < paymentDay && paymentDay >= october!{
+                    }else if september! < paymentDay && paymentDay <= october!{
                         octoberCount = octoberCount + paymentAmount
-                    }else if october! < paymentDay && paymentDay >= november!{
+                    }else if october! < paymentDay && paymentDay <= november!{
                         novemberCount = novemberCount + paymentAmount
-                    }else if november! < paymentDay && paymentDay >= december!{
+                    }else if november! < paymentDay && paymentDay <= december!{
                         decemberCount = decemberCount + paymentAmount
                     }
                 }
             }
-            self.countArray = [januaryCount,februaryCount,marchCount,aprilCount,mayCount,juneCount,julyCount,augustCount,septemberCount,octoberCount,novemberCount,decemberCount]
-            self.loadOKDelegate?.loadMonthlyTransition_OK?(countArray: self.countArray)
+            countArray = [januaryCount,februaryCount,marchCount,aprilCount,mayCount,juneCount,julyCount,augustCount,septemberCount,octoberCount,novemberCount,decemberCount]
+            loadOKDelegate?.loadMonthlyTransition_OK?(countArray: countArray)
         }
     }
     
@@ -461,10 +498,10 @@ class LoadDBModel{
         
         db.collection(groupID).whereField("paymentDay", isGreaterThan: startDate).whereField("paymentDay", isLessThanOrEqualTo: endDate).whereField("category", isEqualTo: "食費").addSnapshotListener { [self] (snapShot, error) in
 
-            self.countArray = []
-            self.dateFormatter.dateFormat = "yyyy年MM月dd日"
-            self.dateFormatter.locale = Locale(identifier: "ja_JP")
-            self.dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
+            countArray = []
+            dateFormatter.dateFormat = "yyyy年MM月dd日"
+            dateFormatter.locale = Locale(identifier: "ja_JP")
+            dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
             let january = dateFormatter.date(from: "\(year)年1月\(settlementDay)日")
             let february = dateFormatter.date(from: "\(year)年2月\(settlementDay)日")
             let march = dateFormatter.date(from: "\(year)年3月\(settlementDay)日")
@@ -477,6 +514,20 @@ class LoadDBModel{
             let october = dateFormatter.date(from: "\(year)年10月\(settlementDay)日")
             let november = dateFormatter.date(from: "\(year)年11月\(settlementDay)日")
             let december = dateFormatter.date(from: "\(year)年12月\(settlementDay)日")
+            
+            var januaryCount = 0
+            var februaryCount = 0
+            var marchCount = 0
+            var aprilCount = 0
+            var mayCount = 0
+            var juneCount = 0
+            var julyCount = 0
+            var augustCount = 0
+            var septemberCount = 0
+            var octoberCount = 0
+            var novemberCount = 0
+            var decemberCount = 0
+            
             if error != nil{
                 activityIndicatorView.stopAnimating()
                 return
@@ -487,35 +538,35 @@ class LoadDBModel{
                     let paymentAmount = data["paymentAmount"] as! Int
                     let timestamp = data["paymentDay"] as! Timestamp
                     let paymentDay = timestamp.dateValue()
-                    if startDate < paymentDay && paymentDay >= january!{
+                    if startDate < paymentDay && paymentDay <= january!{
                         januaryCount = januaryCount + paymentAmount
-                    }else if january! < paymentDay && paymentDay >= february!{
+                    }else if january! < paymentDay && paymentDay <= february!{
                         februaryCount = februaryCount + paymentAmount
-                    }else if february! < paymentDay && paymentDay >= march!{
+                    }else if february! < paymentDay && paymentDay <= march!{
                         marchCount = marchCount + paymentAmount
-                    }else if march! < paymentDay && paymentDay >= april!{
+                    }else if march! < paymentDay && paymentDay <= april!{
                         aprilCount = aprilCount + paymentAmount
-                    }else if april! < paymentDay && paymentDay >= may!{
+                    }else if april! < paymentDay && paymentDay <= may!{
                         mayCount = mayCount + paymentAmount
-                    }else if may! < paymentDay && paymentDay >= june!{
+                    }else if may! < paymentDay && paymentDay <= june!{
                         juneCount = juneCount + paymentAmount
-                    }else if june! < paymentDay && paymentDay >= july!{
+                    }else if june! < paymentDay && paymentDay <= july!{
                         julyCount = julyCount + paymentAmount
-                    }else if july! < paymentDay && paymentDay >= august!{
+                    }else if july! < paymentDay && paymentDay <= august!{
                         augustCount = augustCount + paymentAmount
-                    }else if august! < paymentDay && paymentDay >= september!{
+                    }else if august! < paymentDay && paymentDay <= september!{
                         septemberCount = septemberCount + paymentAmount
-                    }else if september! < paymentDay && paymentDay >= october!{
+                    }else if september! < paymentDay && paymentDay <= october!{
                         octoberCount = octoberCount + paymentAmount
-                    }else if october! < paymentDay && paymentDay >= november!{
+                    }else if october! < paymentDay && paymentDay <= november!{
                         novemberCount = novemberCount + paymentAmount
-                    }else if november! < paymentDay && paymentDay >= december!{
+                    }else if november! < paymentDay && paymentDay <= december!{
                         decemberCount = decemberCount + paymentAmount
                     }
                 }
             }
-            self.countArray = [januaryCount,februaryCount,marchCount,aprilCount,mayCount,juneCount,julyCount,augustCount,septemberCount,octoberCount,novemberCount,decemberCount]
-            self.loadOKDelegate?.loadMonthlyTransition_OK?(countArray: self.countArray)
+            countArray = [januaryCount,februaryCount,marchCount,aprilCount,mayCount,juneCount,julyCount,augustCount,septemberCount,octoberCount,novemberCount,decemberCount]
+            loadOKDelegate?.loadMonthlyTransition_OK?(countArray: countArray)
         }
     }
     
@@ -524,10 +575,10 @@ class LoadDBModel{
         
         db.collection(groupID).whereField("paymentDay", isGreaterThan: startDate).whereField("paymentDay", isLessThanOrEqualTo: endDate).whereField("category", isEqualTo: "通信費").whereField("category", isEqualTo: "家賃").whereField("category", isEqualTo: "その他").addSnapshotListener { [self] (snapShot, error) in
             
-            self.countArray = []
-            self.dateFormatter.dateFormat = "yyyy年MM月dd日"
-            self.dateFormatter.locale = Locale(identifier: "ja_JP")
-            self.dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
+            countArray = []
+            dateFormatter.dateFormat = "yyyy年MM月dd日"
+            dateFormatter.locale = Locale(identifier: "ja_JP")
+            dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
             let january = dateFormatter.date(from: "\(year)年1月\(settlementDay)日")
             let february = dateFormatter.date(from: "\(year)年2月\(settlementDay)日")
             let march = dateFormatter.date(from: "\(year)年3月\(settlementDay)日")
@@ -540,6 +591,20 @@ class LoadDBModel{
             let october = dateFormatter.date(from: "\(year)年10月\(settlementDay)日")
             let november = dateFormatter.date(from: "\(year)年11月\(settlementDay)日")
             let december = dateFormatter.date(from: "\(year)年12月\(settlementDay)日")
+            
+            var januaryCount = 0
+            var februaryCount = 0
+            var marchCount = 0
+            var aprilCount = 0
+            var mayCount = 0
+            var juneCount = 0
+            var julyCount = 0
+            var augustCount = 0
+            var septemberCount = 0
+            var octoberCount = 0
+            var novemberCount = 0
+            var decemberCount = 0
+            
             if error != nil{
                 activityIndicatorView.stopAnimating()
                 return
@@ -550,45 +615,43 @@ class LoadDBModel{
                     let paymentAmount = data["paymentAmount"] as! Int
                     let timestamp = data["paymentDay"] as! Timestamp
                     let paymentDay = timestamp.dateValue()
-                    if startDate < paymentDay && paymentDay >= january!{
+                    if startDate < paymentDay && paymentDay <= january!{
                         januaryCount = januaryCount + paymentAmount
-                    }else if january! < paymentDay && paymentDay >= february!{
+                    }else if january! < paymentDay && paymentDay <= february!{
                         februaryCount = februaryCount + paymentAmount
-                    }else if february! < paymentDay && paymentDay >= march!{
+                    }else if february! < paymentDay && paymentDay <= march!{
                         marchCount = marchCount + paymentAmount
-                    }else if march! < paymentDay && paymentDay >= april!{
+                    }else if march! < paymentDay && paymentDay <= april!{
                         aprilCount = aprilCount + paymentAmount
-                    }else if april! < paymentDay && paymentDay >= may!{
+                    }else if april! < paymentDay && paymentDay <= may!{
                         mayCount = mayCount + paymentAmount
-                    }else if may! < paymentDay && paymentDay >= june!{
+                    }else if may! < paymentDay && paymentDay <= june!{
                         juneCount = juneCount + paymentAmount
-                    }else if june! < paymentDay && paymentDay >= july!{
+                    }else if june! < paymentDay && paymentDay <= july!{
                         julyCount = julyCount + paymentAmount
-                    }else if july! < paymentDay && paymentDay >= august!{
+                    }else if july! < paymentDay && paymentDay <= august!{
                         augustCount = augustCount + paymentAmount
-                    }else if august! < paymentDay && paymentDay >= september!{
+                    }else if august! < paymentDay && paymentDay <= september!{
                         septemberCount = septemberCount + paymentAmount
-                    }else if september! < paymentDay && paymentDay >= october!{
+                    }else if september! < paymentDay && paymentDay <= october!{
                         octoberCount = octoberCount + paymentAmount
-                    }else if october! < paymentDay && paymentDay >= november!{
+                    }else if october! < paymentDay && paymentDay <= november!{
                         novemberCount = novemberCount + paymentAmount
-                    }else if november! < paymentDay && paymentDay >= december!{
+                    }else if november! < paymentDay && paymentDay <= december!{
                         decemberCount = decemberCount + paymentAmount
                     }
                 }
             }
-            self.countArray = [januaryCount,februaryCount,marchCount,aprilCount,mayCount,juneCount,julyCount,augustCount,septemberCount,octoberCount,novemberCount,decemberCount]
-            self.loadOKDelegate?.loadMonthlyTransition_OK?(countArray: self.countArray)
+            countArray = [januaryCount,februaryCount,marchCount,aprilCount,mayCount,juneCount,julyCount,augustCount,septemberCount,octoberCount,novemberCount,decemberCount]
+            loadOKDelegate?.loadMonthlyTransition_OK?(countArray: countArray)
         }
     }
     
-    //追加
     //(グループの合計金額)と(1人当たりの金額)と(支払いに参加したユーザー)をロード
-    func loadMonthPayment(groupID:String,startDate:Date,endDate:Date){
+    func loadMonthPayment(groupID:String,userIDArray:[String],startDate:Date,endDate:Date){
         db.collection(groupID).whereField("paymentDay", isGreaterThan: startDate).whereField("paymentDay", isLessThanOrEqualTo: endDate).addSnapshotListener { (snapShot, error) in
             
             var groupPaymentOfMonth = 0
-            var userIDDic = Dictionary<String,String>()
             if error != nil{
                 return
             }
@@ -596,35 +659,22 @@ class LoadDBModel{
                 for doc in snapShotDoc{
                     let data = doc.data()
                     let paymentAmount = data["paymentAmount"] as! Int
-                    let userID = data["userID"] as! String
                     groupPaymentOfMonth = groupPaymentOfMonth + paymentAmount
-                    userIDDic.updateValue(userID, forKey: userID)
                 }
-                let userIDArray = Array(userIDDic.values)
                 let numberOfPeople = userIDArray.count
-                if numberOfPeople == 0{
-                    let paymentAverageOfMonth = 0
-                    self.loadOKDelegate?.loadMonthPayment_OK?(groupPaymentOfMonth: groupPaymentOfMonth, paymentAverageOfMonth: paymentAverageOfMonth, userIDArray: userIDArray)
-
-                }else{
-                    let paymentAverageOfMonth = groupPaymentOfMonth / numberOfPeople
-                    self.loadOKDelegate?.loadMonthPayment_OK?(groupPaymentOfMonth: groupPaymentOfMonth, paymentAverageOfMonth: paymentAverageOfMonth, userIDArray: userIDArray)
-                }
-                
+                let paymentAverageOfMonth = groupPaymentOfMonth / numberOfPeople
+                self.loadOKDelegate?.loadMonthPayment_OK?(groupPaymentOfMonth: groupPaymentOfMonth, paymentAverageOfMonth: paymentAverageOfMonth, userIDArray: userIDArray)
             }
         }
     }
     
-    //追加
     //グループの支払状況のロード
     //各メンバーの支払い金額を取得するロード
-    func loadMonthSettlement(groupID:String,userID:String?,userIDArray:[String]?,startDate:Date,endDate:Date,completion:@escaping(Int,String)->()){
+    func loadMonthSettlement(groupID:String,userID:String?,startDate:Date,endDate:Date){
         
         if userID == nil{
-            for userID in userIDArray!{
-                db.collection(groupID).whereField("userID", isEqualTo: userID).whereField("paymentDay", isGreaterThan: startDate).whereField("paymentDay", isLessThanOrEqualTo: endDate).addSnapshotListener { (snapShot, error) in
+                db.collection(groupID).whereField("paymentDay", isGreaterThan: startDate).whereField("paymentDay", isLessThanOrEqualTo: endDate).addSnapshotListener { (snapShot, error) in
                     
-                    var myTotalPay = 0
                     if error != nil{
                         return
                     }
@@ -632,13 +682,13 @@ class LoadDBModel{
                         for doc in snapShotDoc{
                             let data = doc.data()
                             let paymentAmount = data["paymentAmount"] as! Int
-                            //自分の支払い合計金額
-                            myTotalPay = myTotalPay + paymentAmount
+                            let userID = data["userID"] as! String
+                            let newData = SettlementSets(paymentAmount: paymentAmount, userID: userID)
+                            self.settlementSets.append(newData)
                         }
+                        self.loadOKDelegate?.loadMonthSettlement_OK?()
                     }
-                    completion(myTotalPay, userID)
                 }
-            }
         }else{
             db.collection(groupID).whereField("userID", isEqualTo: userID!).whereField("paymentDay", isGreaterThan: startDate).whereField("paymentDay", isLessThanOrEqualTo: endDate).addSnapshotListener { (snapShot, error) in
                 
@@ -654,13 +704,58 @@ class LoadDBModel{
                         //自分の支払い合計金額
                         myTotalPay = myTotalPay + paymentAmount
                     }
+                    let newData = SettlementSets(paymentAmount: myTotalPay, userID: nil)
+                    self.settlementSets.append(newData)
+                    self.loadOKDelegate?.loadMonthSettlement_OK?()
                 }
-                completion(myTotalPay, userID!)
+                
             }
         }
     }
     
     
-    
+
+//    func loadMonthSettlement(groupID:String,userID:String?,userIDArray:[String]?,startDate:Date,endDate:Date,completion:@escaping(Int,String)->()){
+//
+//        if userID == nil{
+//            for userID in userIDArray!{
+//                db.collection(groupID).whereField("userID", isEqualTo: userID).whereField("paymentDay", isGreaterThan: startDate).whereField("paymentDay", isLessThanOrEqualTo: endDate).addSnapshotListener { (snapShot, error) in
+//
+//                    var myTotalPay = 0
+//                    if error != nil{
+//                        return
+//                    }
+//                    if let snapShotDoc = snapShot?.documents{
+//                        for doc in snapShotDoc{
+//                            let data = doc.data()
+//                            let paymentAmount = data["paymentAmount"] as! Int
+//                            //自分の支払い合計金額
+//                            myTotalPay = myTotalPay + paymentAmount
+//                        }
+//                    }
+//                    completion(myTotalPay, userID)
+//                }
+//            }
+//        }else{
+//            db.collection(groupID).whereField("userID", isEqualTo: userID!).whereField("paymentDay", isGreaterThan: startDate).whereField("paymentDay", isLessThanOrEqualTo: endDate).addSnapshotListener { (snapShot, error) in
+//
+//                var myTotalPay = 0
+//                if error != nil{
+//                    print(error.debugDescription)
+//                    return
+//                }
+//                if let snapShotDoc = snapShot?.documents{
+//                    for doc in snapShotDoc{
+//                        let data = doc.data()
+//                        let paymentAmount = data["paymentAmount"] as! Int
+//                        //自分の支払い合計金額
+//                        myTotalPay = myTotalPay + paymentAmount
+//                    }
+//                }
+//                completion(myTotalPay, userID!)
+//            }
+//        }
+//    }
+
 }
 

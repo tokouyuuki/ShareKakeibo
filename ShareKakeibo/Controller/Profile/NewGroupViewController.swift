@@ -25,7 +25,7 @@ class NewGroupViewController: UIViewController, UITableViewDelegate, UITableView
     
     var buttonAnimatedModel = ButtonAnimatedModel(withDuration: 0.1, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, transform: CGAffineTransform(scaleX: 0.95, y: 0.95), alpha: 0.7)
     
-    var groupNotJoinArray = [JoinGroupSets]()
+    var groupNotJoinArray = [GroupSets]()
     var activityIndicatorView = UIActivityIndicatorView()
     
     
@@ -46,7 +46,6 @@ class NewGroupViewController: UIViewController, UITableViewDelegate, UITableView
         
     }
     
-    //追加
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -55,18 +54,15 @@ class NewGroupViewController: UIViewController, UITableViewDelegate, UITableView
         profileImage = UserDefaults.standard.object(forKey: "profileImage") as! String
         loadDBModel.loadOKDelegate = self
         activityIndicatorView.startAnimating()
-        loadDBModel.loadUserJoinGroup(userID: userID)
+        loadDBModel.loadNotJoinGroup(userID: userID)
     }
     
-    //追加
     //どのグループに参加しているか招待されているかを取得完了
-    func loadUserJoinGroup_OK(joinGroupDic: Dictionary<String, Bool>) {
-        self.groupNotJoinArray = []
-        //参加、不参加ごとにのグループの情報を取得完了
-        loadDBModel.loadGroupInfo(joinGroupDic: joinGroupDic) { JoinGroupSets in
-            if JoinGroupSets.join == false{
-                self.groupNotJoinArray.append(JoinGroupSets)
-            }
+    func loadNotJoinGroup_OK(groupIDArray: [String], notJoinCount: Int) {
+        groupNotJoinArray = []
+        //招待されているグループの情報を取得完了
+        loadDBModel.loadNotJoinGroupInfo(groupIDArray: groupIDArray) { JoinGroupSets in
+            self.groupNotJoinArray.append(JoinGroupSets)
             self.tableView.reloadData()
         }
     }

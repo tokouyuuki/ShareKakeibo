@@ -29,8 +29,8 @@ class ProfileViewController: UIViewController,UIScrollViewDelegate, UITableViewD
     var userID = String()
     var groupID = String()
     //変更
-    var groupJoinArray = [JoinGroupSets]()
-    var newGroupCountArray = [JoinGroupSets]()
+    var groupJoinArray = [GroupSets]()
+    var newGroupCountArray = [GroupSets]()
     
     var userInfoArray = [String]()
     var loginModel = LoginModel()
@@ -129,38 +129,34 @@ class ProfileViewController: UIViewController,UIScrollViewDelegate, UITableViewD
         profileImageView.sd_setImage(with: URL(string: profileImage), completed: nil)
         userNameLabel.text = userName
         userInfoArray = [userName,email,password]
-        //変更
-        loadDBModel.loadUserJoinGroup(userID: userID)
+        loadDBModel.loadJoinGroup(groupID: groupID, userID: userID)
         newGroupCountLabel.isHidden = true
     }
     
-    //追加
-    //どのグループに参加しているか招待されているかを取得完了
-    func loadUserJoinGroup_OK(joinGroupDic: Dictionary<String, Bool>) {
-        self.groupJoinArray = []
-        self.newGroupCountArray = []
-        //参加、不参加ごとにのグループの情報を取得完了
-        loadDBModel.loadGroupInfo(joinGroupDic: joinGroupDic) { [self] JoinGroupSets in
-            if JoinGroupSets.join == true{
-                self.groupJoinArray.append(JoinGroupSets)
-            }else if JoinGroupSets.join == false{
-                self.newGroupCountArray.append(JoinGroupSets)
-            }
-            newGroupCountLabel.text = String(newGroupCountArray.count)
-            if newGroupCountArray.count == 0{
-                newGroupCountLabel.isHidden = true
-            }else if newGroupCountArray.count < 10{
-                newGroupCountLabel.isHidden = false
-                newGroupCountLabel.text = String(newGroupCountArray.count)
-            }else if newGroupCountArray.count >= 10{
-                newGroupCountLabel.isHidden = false
-                newGroupCountLabel.text = String(newGroupCountArray.count)
-                newGroupCountLabel.frame.size = CGSize(width: 25, height: 20)
-            }
-            tableView.delegate = self
-            tableView.dataSource = self
-            tableView.reloadData()
+    //参加しているグループの情報を取得完了
+    func loadJoinGroup_OK() {
+        groupJoinArray = loadDBModel.groupSets
+        loadDBModel.loadNotJoinGroup(userID: userID)
+    }
+    
+    //不参加のグループの数を取得完了
+    func loadNotJoinGroup_OK(groupIDArray: [String], notJoinCount: Int) {
+        print(notJoinCount)
+        newGroupCountLabel.text = String(notJoinCount)
+        if notJoinCount == 0{
+            newGroupCountLabel.isHidden = true
+        }else if notJoinCount < 10{
+            newGroupCountLabel.isHidden = false
+            newGroupCountLabel.text = String(notJoinCount)
+        }else if notJoinCount >= 10{
+            newGroupCountLabel.isHidden = false
+            newGroupCountLabel.text = String(notJoinCount)
+            newGroupCountLabel.frame.size = CGSize(width: 25, height: 20)
         }
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.reloadData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

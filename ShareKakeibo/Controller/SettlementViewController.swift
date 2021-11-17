@@ -34,6 +34,10 @@ class SettlementViewController: UIViewController,UITableViewDelegate,UITableView
     var settlementArray = [Bool]()
     var howMuchArray = [Int]()
     var settlementDic = Dictionary<String,Bool>()
+    //追加
+    var userIDArray = [String]()
+    var groupPaymentOfMonth = Int()
+    var paymentAverageOfMonth = Int()
     
     var buttonAnimatedModel = ButtonAnimatedModel(withDuration: 0.1, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, transform: CGAffineTransform(scaleX: 0.95, y: 0.95), alpha: 0.7)
     
@@ -97,37 +101,83 @@ class SettlementViewController: UIViewController,UITableViewDelegate,UITableView
     func loadUserIDAndSettlementDic_OK(settlementDic: Dictionary<String, Bool>, userIDArray: [String]) {
         self.settlementDic = settlementDic
         settlementArray = Array(settlementDic.values)
-        loadDBModel.loadMonthPayment(groupID: groupID, startDate: startDate, endDate: endDate)
+        loadDBModel.loadMonthPayment(groupID: groupID, userIDArray: userIDArray, startDate: startDate, endDate: endDate)
     }
     
+    //変更
     //(グループの合計金額)と(1人当たりの金額)と(支払いに参加したユーザーの数)取得完了
     func loadMonthPayment_OK(groupPaymentOfMonth: Int, paymentAverageOfMonth: Int, userIDArray: [String]) {
-        var totalDic = Dictionary<String,Int>()
+        //        var totalDic = Dictionary<String,Int>()
+        self.userIDArray = userIDArray
+        self.paymentAverageOfMonth = paymentAverageOfMonth
+        loadDBModel.loadMonthSettlement(groupID: groupID, userID: nil, startDate: startDate, endDate: endDate)
         
         //グループの支払い状況の取得完了
-        loadDBModel.loadMonthSettlement(groupID: groupID, userID: nil, userIDArray: userIDArray, startDate: startDate, endDate: endDate) { [self] myTotalPay, userID in
-            totalDic.updateValue(myTotalPay, forKey: userID)
-            //各メンバーの決済額の配列
-            howMuchArray = totalDic.map{($1 - paymentAverageOfMonth) * -1}
-            //自分の決済額
-            var userPayment = totalDic[userID]!
-            userPayment = paymentAverageOfMonth - userPayment
-            if userPayment < 0{
-                userPaymentOfLastMonth.text = "あなたは" + String(userPayment * -1) + "の受け取りがあります"
+        //        loadDBModel.loadMonthSettlement(groupID: groupID, userID: nil, userIDArray: userIDArray, startDate: startDate, endDate: endDate) { [self] myTotalPay, userID in
+        //            totalDic.updateValue(myTotalPay, forKey: userID)
+        //            //各メンバーの決済額の配列
+        //            howMuchArray = totalDic.map{($1 - paymentAverageOfMonth) * -1}
+        //            //自分の決済額
+        //            var userPayment = totalDic[userID]!
+        //            userPayment = paymentAverageOfMonth - userPayment
+        //            if userPayment < 0{
+        //                userPaymentOfLastMonth.text = "あなたは" + String(userPayment * -1) + "の受け取りがあります"
+        //            }else{
+        //                userPaymentOfLastMonth.text = "あなたは" + String(userPayment) + "の支払いがあります"
+        //            }
+        //            loadDBModel.loadTableView(userIDArray: userIDArray)
+        //        }
+    }
+    
+    //追加
+    //グループの支払い状況の取得完了
+    func loadMonthSettlement_OK() {
+        howMuchArray = []
+        profileImageArray = []
+        userNameArray = []
+        var Dic = Dictionary<String,Int>()
+        
+        for ID in userIDArray{
+            var totalPay = 0
+            if (loadDBModel.settlementSets.count != 0){
+                for count in 0...loadDBModel.settlementSets.count - 1{
+                    if ID == loadDBModel.settlementSets[count].userID{
+                        totalPay = totalPay + loadDBModel.settlementSets[count].paymentAmount!
+                    }
+                }
             }else{
-                userPaymentOfLastMonth.text = "あなたは" + String(userPayment) + "の支払いがあります"
+                return
             }
+            //各メンバーの支払金額の配列
+            Dic.updateValue(totalPay, forKey: ID)
+        }
+        
+        //各メンバーの決済額の配列
+        howMuchArray = Dic.map{($1 - paymentAverageOfMonth) * -1}
+        
+        //自分の決済額
+        var userPayment = Dic[userID]!
+        userPayment = paymentAverageOfMonth - userPayment
+        if userPayment < 0{
+            userPaymentOfLastMonth.text = "あなたは" + String(userPayment * -1) + "の受け取りがあります"
+        }else{
+            userPaymentOfLastMonth.text = "あなたは" + String(userPayment) + "の支払いがあります"
         }
         
         //各メンバーのプロフィール画像、名前取得完了
-        loadDBModel.loadGroupMember(userIDArray: userIDArray) { [self] UserSets in
-            profileImageArray.append(UserSets.profileImage)
-            userNameArray.append(UserSets.userName)
+        print(userIDArray)
+        loadDBModel.loadGroupMember(userIDArray: userIDArray) { UserSets in
+            self.profileImageArray.append(UserSets.profileImage)
+            self.userNameArray.append(UserSets.userName)
+            self.loadDBModel.loadTableView()
             
-            tableView.delegate = self
-            tableView.dataSource = self
-            tableView.reloadData()
         }
+    }
+    
+    func loadTableView_OK() {
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        self.tableView.reloadData()
     }
     
     @objc func touchDown(_ sender:UIButton){
@@ -140,7 +190,7 @@ class SettlementViewController: UIViewController,UITableViewDelegate,UITableView
     
     @IBAction func settlementCompletionButton(_ sender: Any) {
         buttonAnimatedModel.endAnimation(sender: sender as! UIButton)
-
+        
         //変更
         if settlementDic[userID] == true{
             db.collection("groupManagement").document(groupID).setData(["settlementDic" : [userID:false]],merge: true)
@@ -156,17 +206,17 @@ class SettlementViewController: UIViewController,UITableViewDelegate,UITableView
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return settlementArray.count
+        return settlementArray.count
     }
-
+    
     func numberOfSections(in tableView: UITableView) -> Int {
-            return 1
+        return 1
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-            return 85
+        return 85
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell")
@@ -175,6 +225,10 @@ class SettlementViewController: UIViewController,UITableViewDelegate,UITableView
         let userNameLabel = cell?.contentView.viewWithTag(3) as! UILabel
         let checkSettlementLabel = cell?.contentView.viewWithTag(4) as! UILabel
         let howMuchLabel = cell?.contentView.viewWithTag(5) as! UILabel
+        
+        print("とこうです")
+        print(profileImageArray)
+        print(userNameArray)
         
         profileImage.layer.cornerRadius = 30
         profileImage.sd_setImage(with: URL(string: profileImageArray[indexPath.row]), completed: nil)

@@ -72,7 +72,6 @@ class DetailAllLastMonthViewController: UIViewController,UITableViewDelegate,UIT
     func loadMonthDetails_OK() {
         activityIndicatorView.stopAnimating()
         monthGroupDetailsSets = loadDBModel.monthGroupDetailsSets
-        //変更
         userIDArray = []
         profileImageArray = []
         userNameArray = []
@@ -104,7 +103,6 @@ class DetailAllLastMonthViewController: UIViewController,UITableViewDelegate,UIT
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath) as! DetailCell
         
-        //変更
         cell.profileImage.sd_setImage(with: URL(string: profileImageArray[indexPath.row]), completed: nil)
         cell.paymentLabel.text = String(monthGroupDetailsSets[indexPath.row].paymentAmount)
         cell.userNameLabel.text = userNameArray[indexPath.row]

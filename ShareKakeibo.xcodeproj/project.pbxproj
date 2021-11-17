@@ -16,7 +16,7 @@
 		2205570E27381A0200B8C683 /* NotificationSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205570527381A0200B8C683 /* NotificationSets.swift */; };
 		2205570F27381A0200B8C683 /* LoadDBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205570627381A0200B8C683 /* LoadDBModel.swift */; };
 		2205571027381A0200B8C683 /* EditDBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205570727381A0200B8C683 /* EditDBModel.swift */; };
-		2205571127381A0200B8C683 /* JoinGroupSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205570827381A0200B8C683 /* JoinGroupSets.swift */; };
+		2205571127381A0200B8C683 /* GroupSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205570827381A0200B8C683 /* GroupSets.swift */; };
 		2205571327381A0200B8C683 /* MonthGroupDetailsSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205570A27381A0200B8C683 /* MonthGroupDetailsSets.swift */; };
 		2205571727381A1500B8C683 /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205571427381A1500B8C683 /* LoginModel.swift */; };
 		2205571827381A1500B8C683 /* GraphModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205571527381A1500B8C683 /* GraphModel.swift */; };
@@ -57,6 +57,7 @@
 		2205576327381B8400B8C683 /* DetailAllViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205575F27381B8400B8C683 /* DetailAllViewController.swift */; };
 		2205576427381B8400B8C683 /* DetailAllLastMonthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205576027381B8400B8C683 /* DetailAllLastMonthViewController.swift */; };
 		22055767273843BC00B8C683 /* UserSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22055766273843BC00B8C683 /* UserSets.swift */; };
+		221ABF7F274283CC0010B32B /* SettlementSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221ABF7E274283CC0010B32B /* SettlementSets.swift */; };
 		225E642E2738165E0040FB1A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 225E642D2738165E0040FB1A /* Assets.xcassets */; };
 		225E64312738165E0040FB1A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 225E642F2738165E0040FB1A /* LaunchScreen.storyboard */; };
 		225E643A273818630040FB1A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 225E6439273818630040FB1A /* GoogleService-Info.plist */; };
@@ -73,7 +74,7 @@
 		2205570527381A0200B8C683 /* NotificationSets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationSets.swift; sourceTree = "<group>"; };
 		2205570627381A0200B8C683 /* LoadDBModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadDBModel.swift; sourceTree = "<group>"; };
 		2205570727381A0200B8C683 /* EditDBModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditDBModel.swift; sourceTree = "<group>"; };
-		2205570827381A0200B8C683 /* JoinGroupSets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinGroupSets.swift; sourceTree = "<group>"; };
+		2205570827381A0200B8C683 /* GroupSets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupSets.swift; sourceTree = "<group>"; };
 		2205570A27381A0200B8C683 /* MonthGroupDetailsSets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonthGroupDetailsSets.swift; sourceTree = "<group>"; };
 		2205571427381A1500B8C683 /* LoginModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		2205571527381A1500B8C683 /* GraphModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphModel.swift; sourceTree = "<group>"; };
@@ -114,6 +115,7 @@
 		2205575F27381B8400B8C683 /* DetailAllViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailAllViewController.swift; sourceTree = "<group>"; };
 		2205576027381B8400B8C683 /* DetailAllLastMonthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailAllLastMonthViewController.swift; sourceTree = "<group>"; };
 		22055766273843BC00B8C683 /* UserSets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSets.swift; sourceTree = "<group>"; };
+		221ABF7E274283CC0010B32B /* SettlementSets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettlementSets.swift; sourceTree = "<group>"; };
 		225E64212738165D0040FB1A /* ShareKakeibo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShareKakeibo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		225E642D2738165E0040FB1A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		225E64302738165E0040FB1A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -237,12 +239,13 @@
 		2205576527383A9000B8C683 /* DataSets */ = {
 			isa = PBXGroup;
 			children = (
-				2205570827381A0200B8C683 /* JoinGroupSets.swift */,
+				2205570827381A0200B8C683 /* GroupSets.swift */,
 				2205570A27381A0200B8C683 /* MonthGroupDetailsSets.swift */,
 				2205570327381A0200B8C683 /* MonthMyDetailsSets.swift */,
 				2205570527381A0200B8C683 /* NotificationSets.swift */,
 				22055766273843BC00B8C683 /* UserSets.swift */,
 				2205570227381A0200B8C683 /* UserSearchSets.swift */,
+				221ABF7E274283CC0010B32B /* SettlementSets.swift */,
 			);
 			path = DataSets;
 			sourceTree = "<group>";
@@ -423,6 +426,7 @@
 				2205573C27381AE100B8C683 /* SearchViewController.swift in Sources */,
 				2205571727381A1500B8C683 /* LoginModel.swift in Sources */,
 				2205572527381A5F00B8C683 /* CollectionViewCell.swift in Sources */,
+				221ABF7F274283CC0010B32B /* SettlementSets.swift in Sources */,
 				2205574E27381AF300B8C683 /* PaymentViewController.swift in Sources */,
 				2205574827381AF300B8C683 /* GroupMemberViewController.swift in Sources */,
 				2205574F27381AF300B8C683 /* DetailLastMonthViewController.swift in Sources */,
@@ -444,7 +448,7 @@
 				2205572D27381AB300B8C683 /* RegisterViewController.swift in Sources */,
 				2205570F27381A0200B8C683 /* LoadDBModel.swift in Sources */,
 				2205575927381B4A00B8C683 /* FoodViewController.swift in Sources */,
-				2205571127381A0200B8C683 /* JoinGroupSets.swift in Sources */,
+				2205571127381A0200B8C683 /* GroupSets.swift in Sources */,
 				2205575B27381B4A00B8C683 /* OthersViewController.swift in Sources */,
 				2205573B27381AE100B8C683 /* ProfileDetailViewController.swift in Sources */,
 				2205575827381B4A00B8C683 /* UtilityViewController.swift in Sources */,
