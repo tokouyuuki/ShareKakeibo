@@ -169,15 +169,10 @@ class SettlementViewController: UIViewController,UITableViewDelegate,UITableView
         loadDBModel.loadGroupMember(userIDArray: userIDArray) { UserSets in
             self.profileImageArray.append(UserSets.profileImage)
             self.userNameArray.append(UserSets.userName)
-            self.loadDBModel.loadTableView()
-            
+            self.tableView.delegate = self
+            self.tableView.dataSource = self
+            self.tableView.reloadData()
         }
-    }
-    
-    func loadTableView_OK() {
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
-        self.tableView.reloadData()
     }
     
     @objc func touchDown(_ sender:UIButton){

@@ -22,9 +22,7 @@ import FirebaseFirestore
     @objc optional func loadCategoryGraphOfTithMonth_OK(categoryPayArray:[Int])
     @objc optional func loadMonthlyTransition_OK(countArray:[Int])
     @objc optional func loadMonthPayment_OK(groupPaymentOfMonth:Int,paymentAverageOfMonth:Int,userIDArray:[String])
-    //追加
     @objc optional func loadMonthSettlement_OK()
-    @objc optional func loadTableView_OK()
 }
 
 class LoadDBModel{
