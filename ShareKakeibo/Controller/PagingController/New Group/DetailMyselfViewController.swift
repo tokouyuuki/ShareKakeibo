@@ -125,7 +125,7 @@ class DetailMyselfViewController: UIViewController,UITableViewDelegate,UITableVi
             (ctxAction, view, completionHandler) in
             
             //データ削除
-            editDBModel.editMonthDetailsDelete(groupID: groupID, userID: userID, startDate: startDate, endDate: endDate, index: indexPath.row, activityIndicatorView: activityIndicatorView)
+            
             completionHandler(true)
         }
         // 削除ボタンのデザインを設定する

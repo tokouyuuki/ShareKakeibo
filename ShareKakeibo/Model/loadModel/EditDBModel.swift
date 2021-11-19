@@ -45,40 +45,40 @@ class EditDBModel{
         }
     }
     
-    //自分の明細を削除したときにロード
-    func editMonthDetailsDelete(groupID:String,userID:String,startDate:Date,endDate:Date,index:Int,activityIndicatorView:UIActivityIndicatorView){
-        db.collection(groupID).whereField("userID", isEqualTo: userID).whereField("paymentDay", isGreaterThan: startDate).whereField("paymentDay", isLessThanOrEqualTo: endDate).order(by: "paymentDay").getDocuments { (snapShot, error) in
-            self.monthMyDetailsSets = []
-            self.dateFormatter.dateFormat = "yyyy/MM/dd"
-            self.dateFormatter.locale = Locale(identifier: "ja_JP")
-            self.dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
-            if error != nil{
-                activityIndicatorView.stopAnimating()
-                return
-            }
-            if let snapShotDoc = snapShot?.documents{
-                var count = 0
-                for doc in snapShotDoc{
-                    let data = doc.data()
-                    let productName = data["productName"] as! String
-                    let paymentAmount = data["paymentAmount"] as! Int
-                    let timestamp = data["paymentDay"] as! Timestamp
-                    let category = data["category"] as! String
-                    let userID = data["userID"] as! String
-                    let date = timestamp.dateValue()
-                    let paymentDay = self.dateFormatter.string(from: date)
-                    if count == index{
-                        self.db.collection(groupID).document(doc.documentID).delete()
-                    }else{
-                        let myNewData = MonthMyDetailsSets(productName: productName, paymentAmount: paymentAmount, paymentDay: paymentDay, category: category, userID: userID)
-                        self.monthMyDetailsSets.append(myNewData)
-                    }
-                    count = count + 1
-                }
-            }
-            self.editOKDelegate?.editMonthDetailsDelete_OK?()
-        }
-    }
+//    //自分の明細を削除したときにロード
+//    func editMonthDetailsDelete(groupID:String,userID:String,startDate:Date,endDate:Date,index:Int,activityIndicatorView:UIActivityIndicatorView){
+//        db.collection(groupID).whereField("userID", isEqualTo: userID).whereField("paymentDay", isGreaterThan: startDate).whereField("paymentDay", isLessThanOrEqualTo: endDate).order(by: "paymentDay").getDocuments { (snapShot, error) in
+//            self.monthMyDetailsSets = []
+//            self.dateFormatter.dateFormat = "yyyy/MM/dd"
+//            self.dateFormatter.locale = Locale(identifier: "ja_JP")
+//            self.dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
+//            if error != nil{
+//                activityIndicatorView.stopAnimating()
+//                return
+//            }
+//            if let snapShotDoc = snapShot?.documents{
+//                var count = 0
+//                for doc in snapShotDoc{
+//                    let data = doc.data()
+//                    let productName = data["productName"] as! String
+//                    let paymentAmount = data["paymentAmount"] as! Int
+//                    let timestamp = data["paymentDay"] as! Timestamp
+//                    let category = data["category"] as! String
+//                    let userID = data["userID"] as! String
+//                    let date = timestamp.dateValue()
+//                    let paymentDay = self.dateFormatter.string(from: date)
+//                    if count == index{
+//                        self.db.collection(groupID).document(doc.documentID).delete()
+//                    }else{
+//                        let myNewData = MonthMyDetailsSets(productName: productName, paymentAmount: paymentAmount, paymentDay: paymentDay, category: category, userID: userID)
+//                        self.monthMyDetailsSets.append(myNewData)
+//                    }
+//                    count = count + 1
+//                }
+//            }
+//            self.editOKDelegate?.editMonthDetailsDelete_OK?()
+//        }
+//    }
     
     //変更
     //ユーザーが退会したときのロード

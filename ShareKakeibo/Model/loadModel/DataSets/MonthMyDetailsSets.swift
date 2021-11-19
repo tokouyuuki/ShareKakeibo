@@ -13,4 +13,5 @@ struct MonthMyDetailsSets {
     let paymentDay:String
     let category:String
     let userID:String
+    let documentID:String
 }

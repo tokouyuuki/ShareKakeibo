@@ -3,4 +3,54 @@
    uuid = "70F9D96C-3D59-4785-8EE7-AAC5DD3B520F"
    type = "0"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A92146E0-F8C0-468E-A9A8-26AE8C08EB5E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShareKakeibo/Model/loadModel/LoadDBModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "205"
+            endingLineNumber = "205"
+            landmarkName = "loadUserIDAndSettlementDic(groupID:activityIndicatorView:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "A92146E0-F8C0-468E-A9A8-26AE8C08EB5E - 150c8638b5f380f0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ShareKakeibo.LoadDBModel.loadUserIDAndSettlementDic(groupID: Swift.String, activityIndicatorView: __C.UIActivityIndicatorView) -&gt; ()"
+                  moduleName = "ShareKakeibo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tokouyuuki/Desktop/SwiftDevelopment/ShareKakeibo/ShareKakeibo/Model/loadModel/LoadDBModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "205"
+                  endingLineNumber = "205"
+                  offsetFromSymbolStart = "60">
+               </Location>
+               <Location
+                  uuid = "A92146E0-F8C0-468E-A9A8-26AE8C08EB5E - 27ba5dbf067fdbcf"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__C.FIRDocumentSnapshot&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in ShareKakeibo.LoadDBModel.loadUserIDAndSettlementDic(groupID: Swift.String, activityIndicatorView: __C.UIActivityIndicatorView) -&gt; ()"
+                  moduleName = "ShareKakeibo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tokouyuuki/Desktop/SwiftDevelopment/ShareKakeibo/ShareKakeibo/Model/loadModel/LoadDBModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "207"
+                  endingLineNumber = "207"
+                  offsetFromSymbolStart = "140">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

@@ -81,6 +81,7 @@ class LoadDBModel{
     //参加しているグループの情報を取得するロード
     func loadJoinGroup(groupID:String,userID:String){
         db.collection("groupManagement").whereField("userIDArray", arrayContains: userID).addSnapshotListener { (snapShot, error) in
+            
             self.groupSets = []
             if error != nil{
                 return
@@ -109,11 +110,12 @@ class LoadDBModel{
                 return
             }
             if let data = snapShot?.data(){
-                let joinGroupDic = data["joinGroupDic"] as! Dictionary<String,Bool>
-                for (key,value) in joinGroupDic{
-                    if value == false{
-                        groupIDArray.append(key)
-                        notJoinCount = notJoinCount + 1
+                if let joinGroupDic = data["joinGroupDic"] as? Dictionary<String,Bool>{
+                    for (key,value) in joinGroupDic{
+                        if value == false{
+                            groupIDArray.append(key)
+                            notJoinCount = notJoinCount + 1
+                        }
                     }
                 }
             }
@@ -276,6 +278,7 @@ class LoadDBModel{
                 if let snapShotDoc = snapShot?.documents{
                     for doc in snapShotDoc{
                         let data = doc.data()
+                        let documentID = doc.documentID
                         let productName = data["productName"] as! String
                         let paymentAmount = data["paymentAmount"] as! Int
                         let timestamp = data["paymentDay"] as! Timestamp
@@ -283,7 +286,7 @@ class LoadDBModel{
                         let userID = data["userID"] as! String
                         let date = timestamp.dateValue()
                         let paymentDay = self.dateFormatter.string(from: date)
-                        let myNewData = MonthMyDetailsSets(productName: productName, paymentAmount: paymentAmount, paymentDay: paymentDay, category: category, userID: userID)
+                        let myNewData = MonthMyDetailsSets(productName: productName, paymentAmount: paymentAmount, paymentDay: paymentDay, category: category, userID: userID, documentID: documentID)
                         self.monthMyDetailsSets.append(myNewData)
                     }
                 }
@@ -659,6 +662,7 @@ class LoadDBModel{
                     let paymentAmount = data["paymentAmount"] as! Int
                     groupPaymentOfMonth = groupPaymentOfMonth + paymentAmount
                 }
+
                 let numberOfPeople = userIDArray.count
                 let paymentAverageOfMonth = groupPaymentOfMonth / numberOfPeople
                 self.loadOKDelegate?.loadMonthPayment_OK?(groupPaymentOfMonth: groupPaymentOfMonth, paymentAverageOfMonth: paymentAverageOfMonth, userIDArray: userIDArray)
@@ -669,10 +673,10 @@ class LoadDBModel{
     //グループの支払状況のロード
     //各メンバーの支払い金額を取得するロード
     func loadMonthSettlement(groupID:String,userID:String?,startDate:Date,endDate:Date){
-        
         if userID == nil{
                 db.collection(groupID).whereField("paymentDay", isGreaterThan: startDate).whereField("paymentDay", isLessThanOrEqualTo: endDate).addSnapshotListener { (snapShot, error) in
                     
+                    self.settlementSets = []
                     if error != nil{
                         return
                     }
@@ -690,6 +694,7 @@ class LoadDBModel{
         }else{
             db.collection(groupID).whereField("userID", isEqualTo: userID!).whereField("paymentDay", isGreaterThan: startDate).whereField("paymentDay", isLessThanOrEqualTo: endDate).addSnapshotListener { (snapShot, error) in
                 
+                self.settlementSets = []
                 var myTotalPay = 0
                 if error != nil{
                     print(error.debugDescription)
