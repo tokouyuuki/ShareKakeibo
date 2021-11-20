@@ -437,10 +437,10 @@ class LoadDBModel{
         }
     }
     
-    //1〜12月の項目ごとの光熱費の推移
+    //1〜12月の項目ごとの光熱費と家賃と通信費の推移
     func loadMonthlyUtilityTransition(groupID:String,year:String,settlementDay:String,startDate:Date,endDate:Date,activityIndicatorView:UIActivityIndicatorView){
         
-        db.collection("paymentData").whereField("groupID", isEqualTo: groupID).whereField("paymentDay", isGreaterThanOrEqualTo: startDate).whereField("paymentDay", isLessThan: endDate).whereField("category", isEqualTo: "水道代").whereField("category", isEqualTo: "電気代").whereField("category", isEqualTo: "ガス代").addSnapshotListener { [self] (snapShot, error) in
+        db.collection("paymentData").whereField("groupID", isEqualTo: groupID).whereField("paymentDay", isGreaterThanOrEqualTo: startDate).whereField("paymentDay", isLessThan: endDate).whereField("category", isEqualTo: "水道代").whereField("category", isEqualTo: "電気代").whereField("category", isEqualTo: "ガス代").whereField("category", isEqualTo: "家賃").whereField("category", isEqualTo: "通信費").addSnapshotListener { [self] (snapShot, error) in
             countArray = []
             dateFormatter.dateFormat = "yyyy年MM月dd日"
             dateFormatter.locale = Locale(identifier: "ja_JP")
@@ -593,7 +593,7 @@ class LoadDBModel{
     //1〜12月の項目ごとのその他の推移
     func loadMonthlyOthersTransition(groupID:String,year:String,settlementDay:String,startDate:Date,endDate:Date,activityIndicatorView:UIActivityIndicatorView){
         
-        db.collection("paymentData").whereField("groupID", isEqualTo: groupID).whereField("paymentDay", isGreaterThanOrEqualTo: startDate).whereField("paymentDay", isLessThan: endDate).whereField("category", isEqualTo: "通信費").whereField("category", isEqualTo: "家賃").whereField("category", isEqualTo: "その他").addSnapshotListener { [self] (snapShot, error) in
+        db.collection("paymentData").whereField("groupID", isEqualTo: groupID).whereField("paymentDay", isGreaterThanOrEqualTo: startDate).whereField("paymentDay", isLessThan: endDate).whereField("category", isEqualTo: "その他").addSnapshotListener { [self] (snapShot, error) in
             
             countArray = []
             dateFormatter.dateFormat = "yyyy年MM月dd日"
@@ -672,6 +672,7 @@ class LoadDBModel{
         db.collection("paymentData").whereField("groupID", isEqualTo: groupID).whereField("paymentDay", isGreaterThanOrEqualTo: startDate).whereField("paymentDay", isLessThan: endDate).addSnapshotListener { (snapShot, error) in
             
             var groupPaymentOfMonth = 0
+            var paymentAverageOfMonth = 0
             if error != nil{
                 return
             }
@@ -681,9 +682,14 @@ class LoadDBModel{
                     let paymentAmount = data["paymentAmount"] as! Int
                     groupPaymentOfMonth = groupPaymentOfMonth + paymentAmount
                 }
-                let numberOfPeople = userIDArray.count
-                let paymentAverageOfMonth = groupPaymentOfMonth / numberOfPeople
-                self.loadOKDelegate?.loadMonthPayment_OK?(groupPaymentOfMonth: groupPaymentOfMonth, paymentAverageOfMonth: paymentAverageOfMonth, userIDArray: userIDArray)
+                if userIDArray.count == 0{
+                    self.loadOKDelegate?.loadMonthPayment_OK?(groupPaymentOfMonth: groupPaymentOfMonth, paymentAverageOfMonth: paymentAverageOfMonth, userIDArray: userIDArray)
+                }else{
+                    let numberOfPeople = userIDArray.count
+                    paymentAverageOfMonth = groupPaymentOfMonth / numberOfPeople
+                    self.loadOKDelegate?.loadMonthPayment_OK?(groupPaymentOfMonth: groupPaymentOfMonth, paymentAverageOfMonth: paymentAverageOfMonth, userIDArray: userIDArray)
+                }
+                
             }
         }
     }
