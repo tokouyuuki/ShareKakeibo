@@ -1,8 +1,8 @@
 //
 //  SettlementSets.swift
-//  ShareKakeibo
+//  Kakeibo
 //
-//  Created by 都甲裕希 on 2021/11/15.
+//  Created by 近藤大伍 on 2021/11/17.
 //
 
 import Foundation

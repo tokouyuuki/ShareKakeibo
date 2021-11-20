@@ -7,57 +7,57 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		220556FE273819D300B8C683 /* AppDelegate.swift 23-25-58-966.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220556FB273819D300B8C683 /* AppDelegate.swift 23-25-58-966.swift */; };
-		220556FF273819D300B8C683 /* ButtonAnimatedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220556FC273819D300B8C683 /* ButtonAnimatedModel.swift */; };
-		22055700273819D300B8C683 /* SceneDelegate.swift 23-25-58-971.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220556FD273819D300B8C683 /* SceneDelegate.swift 23-25-58-971.swift */; };
-		2205570B27381A0200B8C683 /* UserSearchSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205570227381A0200B8C683 /* UserSearchSets.swift */; };
-		2205570C27381A0200B8C683 /* MonthMyDetailsSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205570327381A0200B8C683 /* MonthMyDetailsSets.swift */; };
-		2205570D27381A0200B8C683 /* SendDBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205570427381A0200B8C683 /* SendDBModel.swift */; };
-		2205570E27381A0200B8C683 /* NotificationSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205570527381A0200B8C683 /* NotificationSets.swift */; };
-		2205570F27381A0200B8C683 /* LoadDBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205570627381A0200B8C683 /* LoadDBModel.swift */; };
-		2205571027381A0200B8C683 /* EditDBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205570727381A0200B8C683 /* EditDBModel.swift */; };
-		2205571127381A0200B8C683 /* GroupSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205570827381A0200B8C683 /* GroupSets.swift */; };
-		2205571327381A0200B8C683 /* MonthGroupDetailsSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205570A27381A0200B8C683 /* MonthGroupDetailsSets.swift */; };
-		2205571727381A1500B8C683 /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205571427381A1500B8C683 /* LoginModel.swift */; };
-		2205571827381A1500B8C683 /* GraphModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205571527381A1500B8C683 /* GraphModel.swift */; };
-		2205571927381A1500B8C683 /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205571627381A1500B8C683 /* AlertModel.swift */; };
-		2205572227381A5F00B8C683 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2205571B27381A5F00B8C683 /* Main.storyboard */; };
-		2205572327381A5F00B8C683 /* DetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205571C27381A5F00B8C683 /* DetailCell.swift */; };
-		2205572427381A5F00B8C683 /* DetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2205571D27381A5F00B8C683 /* DetailCell.xib */; };
-		2205572527381A5F00B8C683 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205571E27381A5F00B8C683 /* CollectionViewCell.swift */; };
-		2205572627381A5F00B8C683 /* ProfileConfigurationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205571F27381A5F00B8C683 /* ProfileConfigurationCell.swift */; };
-		2205572727381A5F00B8C683 /* CollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2205572027381A5F00B8C683 /* CollectionViewCell.xib */; };
-		2205572827381A5F00B8C683 /* ProfileConfigurationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2205572127381A5F00B8C683 /* ProfileConfigurationCell.xib */; };
-		2205572C27381AB300B8C683 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205572A27381AB300B8C683 /* LoginViewController.swift */; };
-		2205572D27381AB300B8C683 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205572B27381AB300B8C683 /* RegisterViewController.swift */; };
-		2205573627381AE100B8C683 /* NewGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205572F27381AE000B8C683 /* NewGroupViewController.swift */; };
-		2205573727381AE100B8C683 /* ProfileConfigurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205573027381AE100B8C683 /* ProfileConfigurationViewController.swift */; };
-		2205573827381AE100B8C683 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205573127381AE100B8C683 /* ProfileViewController.swift */; };
-		2205573927381AE100B8C683 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205573227381AE100B8C683 /* NotificationViewController.swift */; };
-		2205573A27381AE100B8C683 /* CreateGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205573327381AE100B8C683 /* CreateGroupViewController.swift */; };
-		2205573B27381AE100B8C683 /* ProfileDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205573427381AE100B8C683 /* ProfileDetailViewController.swift */; };
-		2205573C27381AE100B8C683 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205573527381AE100B8C683 /* SearchViewController.swift */; };
-		2205574827381AF300B8C683 /* GroupMemberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205573D27381AF200B8C683 /* GroupMemberViewController.swift */; };
-		2205574927381AF300B8C683 /* GroupDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205573E27381AF200B8C683 /* GroupDetailViewController.swift */; };
-		2205574A27381AF300B8C683 /* LastMonthDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205573F27381AF200B8C683 /* LastMonthDataViewController.swift */; };
-		2205574B27381AF300B8C683 /* DetailThisMonthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205574027381AF200B8C683 /* DetailThisMonthViewController.swift */; };
-		2205574C27381AF300B8C683 /* AdditionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205574127381AF200B8C683 /* AdditionViewController.swift */; };
-		2205574D27381AF300B8C683 /* MonthDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205574227381AF200B8C683 /* MonthDataViewController.swift */; };
-		2205574E27381AF300B8C683 /* PaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205574327381AF200B8C683 /* PaymentViewController.swift */; };
-		2205574F27381AF300B8C683 /* DetailLastMonthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205574427381AF200B8C683 /* DetailLastMonthViewController.swift */; };
-		2205575027381AF300B8C683 /* MonthlyDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205574527381AF200B8C683 /* MonthlyDataViewController.swift */; };
-		2205575127381AF300B8C683 /* SettlementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205574627381AF300B8C683 /* SettlementViewController.swift */; };
-		2205575227381AF300B8C683 /* GroupConfigurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205574727381AF300B8C683 /* GroupConfigurationViewController.swift */; };
-		2205575827381B4A00B8C683 /* UtilityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205575427381B4A00B8C683 /* UtilityViewController.swift */; };
-		2205575927381B4A00B8C683 /* FoodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205575527381B4A00B8C683 /* FoodViewController.swift */; };
-		2205575A27381B4A00B8C683 /* OverAllViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205575627381B4A00B8C683 /* OverAllViewController.swift */; };
-		2205575B27381B4A00B8C683 /* OthersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205575727381B4A00B8C683 /* OthersViewController.swift */; };
-		2205576127381B8400B8C683 /* DetailMyselfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205575D27381B8400B8C683 /* DetailMyselfViewController.swift */; };
-		2205576227381B8400B8C683 /* DetailMyselfLastMonthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205575E27381B8400B8C683 /* DetailMyselfLastMonthViewController.swift */; };
-		2205576327381B8400B8C683 /* DetailAllViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205575F27381B8400B8C683 /* DetailAllViewController.swift */; };
-		2205576427381B8400B8C683 /* DetailAllLastMonthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205576027381B8400B8C683 /* DetailAllLastMonthViewController.swift */; };
-		22055767273843BC00B8C683 /* UserSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22055766273843BC00B8C683 /* UserSets.swift */; };
-		221ABF7F274283CC0010B32B /* SettlementSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221ABF7E274283CC0010B32B /* SettlementSets.swift */; };
+		221B86DC27482F040000122F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B86D627482F040000122F /* AppDelegate.swift */; };
+		221B86DD27482F040000122F /* ButtonAnimatedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B86D727482F040000122F /* ButtonAnimatedModel.swift */; };
+		221B86DE27482F040000122F /* GraphModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B86D827482F040000122F /* GraphModel.swift */; };
+		221B86DF27482F040000122F /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B86D927482F040000122F /* LoginModel.swift */; };
+		221B86E027482F040000122F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B86DA27482F040000122F /* SceneDelegate.swift */; };
+		221B86E127482F040000122F /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B86DB27482F040000122F /* AlertModel.swift */; };
+		221B86E527482F220000122F /* LoadDBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B86E227482F220000122F /* LoadDBModel.swift */; };
+		221B86E627482F220000122F /* SendDBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B86E327482F220000122F /* SendDBModel.swift */; };
+		221B86E727482F220000122F /* EditDBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B86E427482F220000122F /* EditDBModel.swift */; };
+		221B86EF27482F350000122F /* MonthMyDetailsSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B86E827482F340000122F /* MonthMyDetailsSets.swift */; };
+		221B86F027482F350000122F /* UserSearchSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B86E927482F340000122F /* UserSearchSets.swift */; };
+		221B86F127482F350000122F /* GroupSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B86EA27482F340000122F /* GroupSets.swift */; };
+		221B86F227482F350000122F /* MonthGroupDetailsSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B86EB27482F350000122F /* MonthGroupDetailsSets.swift */; };
+		221B86F327482F350000122F /* SettlementSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B86EC27482F350000122F /* SettlementSets.swift */; };
+		221B86F427482F350000122F /* NotificationSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B86ED27482F350000122F /* NotificationSets.swift */; };
+		221B86F527482F350000122F /* UserSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B86EE27482F350000122F /* UserSets.swift */; };
+		221B86FD27482F560000122F /* ProfileConfigurationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 221B86F627482F560000122F /* ProfileConfigurationCell.xib */; };
+		221B86FE27482F560000122F /* DetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 221B86F727482F560000122F /* DetailCell.xib */; };
+		221B86FF27482F560000122F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 221B86F827482F560000122F /* Main.storyboard */; };
+		221B870027482F560000122F /* ProfileConfigurationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B86F927482F560000122F /* ProfileConfigurationCell.swift */; };
+		221B870127482F560000122F /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B86FA27482F560000122F /* CollectionViewCell.swift */; };
+		221B870227482F560000122F /* CollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 221B86FB27482F560000122F /* CollectionViewCell.xib */; };
+		221B870327482F560000122F /* DetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B86FC27482F560000122F /* DetailCell.swift */; };
+		221B870627482F6F0000122F /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B870427482F6F0000122F /* RegisterViewController.swift */; };
+		221B870727482F6F0000122F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B870527482F6F0000122F /* LoginViewController.swift */; };
+		221B870F27482F890000122F /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B870827482F890000122F /* SearchViewController.swift */; };
+		221B871027482F890000122F /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B870927482F890000122F /* NotificationViewController.swift */; };
+		221B871127482F890000122F /* ProfileConfigurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B870A27482F890000122F /* ProfileConfigurationViewController.swift */; };
+		221B871227482F890000122F /* ProfileDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B870B27482F890000122F /* ProfileDetailViewController.swift */; };
+		221B871327482F890000122F /* NewGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B870C27482F890000122F /* NewGroupViewController.swift */; };
+		221B871427482F890000122F /* CreateGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B870D27482F890000122F /* CreateGroupViewController.swift */; };
+		221B871527482F890000122F /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B870E27482F890000122F /* ProfileViewController.swift */; };
+		221B872227482FC60000122F /* MonthDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B871727482FC50000122F /* MonthDataViewController.swift */; };
+		221B872327482FC60000122F /* PaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B871827482FC60000122F /* PaymentViewController.swift */; };
+		221B872427482FC60000122F /* LastMonthDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B871927482FC60000122F /* LastMonthDataViewController.swift */; };
+		221B872527482FC60000122F /* SettlementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B871A27482FC60000122F /* SettlementViewController.swift */; };
+		221B872627482FC60000122F /* DetailThisMonthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B871B27482FC60000122F /* DetailThisMonthViewController.swift */; };
+		221B872727482FC60000122F /* GroupConfigurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B871C27482FC60000122F /* GroupConfigurationViewController.swift */; };
+		221B872827482FC60000122F /* DetailLastMonthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B871D27482FC60000122F /* DetailLastMonthViewController.swift */; };
+		221B872927482FC60000122F /* GroupMemberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B871E27482FC60000122F /* GroupMemberViewController.swift */; };
+		221B872A27482FC60000122F /* MonthlyDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B871F27482FC60000122F /* MonthlyDataViewController.swift */; };
+		221B872B27482FC60000122F /* AdditionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B872027482FC60000122F /* AdditionViewController.swift */; };
+		221B872C27482FC60000122F /* GroupDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B872127482FC60000122F /* GroupDetailViewController.swift */; };
+		221B873127482FDE0000122F /* OverAllViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B872D27482FDE0000122F /* OverAllViewController.swift */; };
+		221B873227482FDE0000122F /* OthersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B872E27482FDE0000122F /* OthersViewController.swift */; };
+		221B873327482FDE0000122F /* UtilityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B872F27482FDE0000122F /* UtilityViewController.swift */; };
+		221B873427482FDE0000122F /* FoodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B873027482FDE0000122F /* FoodViewController.swift */; };
+		221B873927482FFA0000122F /* DetailMyselfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B873527482FFA0000122F /* DetailMyselfViewController.swift */; };
+		221B873A27482FFA0000122F /* DetailAllLastMonthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B873627482FFA0000122F /* DetailAllLastMonthViewController.swift */; };
+		221B873B27482FFA0000122F /* DetailAllViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B873727482FFA0000122F /* DetailAllViewController.swift */; };
+		221B873C27482FFA0000122F /* DetailMyselfLastMonthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221B873827482FFA0000122F /* DetailMyselfLastMonthViewController.swift */; };
 		225E642E2738165E0040FB1A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 225E642D2738165E0040FB1A /* Assets.xcassets */; };
 		225E64312738165E0040FB1A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 225E642F2738165E0040FB1A /* LaunchScreen.storyboard */; };
 		225E643A273818630040FB1A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 225E6439273818630040FB1A /* GoogleService-Info.plist */; };
@@ -65,57 +65,57 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		220556FB273819D300B8C683 /* AppDelegate.swift 23-25-58-966.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppDelegate.swift 23-25-58-966.swift"; sourceTree = "<group>"; };
-		220556FC273819D300B8C683 /* ButtonAnimatedModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonAnimatedModel.swift; sourceTree = "<group>"; };
-		220556FD273819D300B8C683 /* SceneDelegate.swift 23-25-58-971.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SceneDelegate.swift 23-25-58-971.swift"; sourceTree = "<group>"; };
-		2205570227381A0200B8C683 /* UserSearchSets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSearchSets.swift; sourceTree = "<group>"; };
-		2205570327381A0200B8C683 /* MonthMyDetailsSets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonthMyDetailsSets.swift; sourceTree = "<group>"; };
-		2205570427381A0200B8C683 /* SendDBModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendDBModel.swift; sourceTree = "<group>"; };
-		2205570527381A0200B8C683 /* NotificationSets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationSets.swift; sourceTree = "<group>"; };
-		2205570627381A0200B8C683 /* LoadDBModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadDBModel.swift; sourceTree = "<group>"; };
-		2205570727381A0200B8C683 /* EditDBModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditDBModel.swift; sourceTree = "<group>"; };
-		2205570827381A0200B8C683 /* GroupSets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupSets.swift; sourceTree = "<group>"; };
-		2205570A27381A0200B8C683 /* MonthGroupDetailsSets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonthGroupDetailsSets.swift; sourceTree = "<group>"; };
-		2205571427381A1500B8C683 /* LoginModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
-		2205571527381A1500B8C683 /* GraphModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphModel.swift; sourceTree = "<group>"; };
-		2205571627381A1500B8C683 /* AlertModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
-		2205571B27381A5F00B8C683 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		2205571C27381A5F00B8C683 /* DetailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailCell.swift; sourceTree = "<group>"; };
-		2205571D27381A5F00B8C683 /* DetailCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailCell.xib; sourceTree = "<group>"; };
-		2205571E27381A5F00B8C683 /* CollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
-		2205571F27381A5F00B8C683 /* ProfileConfigurationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileConfigurationCell.swift; sourceTree = "<group>"; };
-		2205572027381A5F00B8C683 /* CollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewCell.xib; sourceTree = "<group>"; };
-		2205572127381A5F00B8C683 /* ProfileConfigurationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileConfigurationCell.xib; sourceTree = "<group>"; };
-		2205572A27381AB300B8C683 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		2205572B27381AB300B8C683 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
-		2205572F27381AE000B8C683 /* NewGroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewGroupViewController.swift; sourceTree = "<group>"; };
-		2205573027381AE100B8C683 /* ProfileConfigurationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileConfigurationViewController.swift; sourceTree = "<group>"; };
-		2205573127381AE100B8C683 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		2205573227381AE100B8C683 /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
-		2205573327381AE100B8C683 /* CreateGroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateGroupViewController.swift; sourceTree = "<group>"; };
-		2205573427381AE100B8C683 /* ProfileDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileDetailViewController.swift; sourceTree = "<group>"; };
-		2205573527381AE100B8C683 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
-		2205573D27381AF200B8C683 /* GroupMemberViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupMemberViewController.swift; sourceTree = "<group>"; };
-		2205573E27381AF200B8C683 /* GroupDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupDetailViewController.swift; sourceTree = "<group>"; };
-		2205573F27381AF200B8C683 /* LastMonthDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LastMonthDataViewController.swift; sourceTree = "<group>"; };
-		2205574027381AF200B8C683 /* DetailThisMonthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailThisMonthViewController.swift; sourceTree = "<group>"; };
-		2205574127381AF200B8C683 /* AdditionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdditionViewController.swift; sourceTree = "<group>"; };
-		2205574227381AF200B8C683 /* MonthDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonthDataViewController.swift; sourceTree = "<group>"; };
-		2205574327381AF200B8C683 /* PaymentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentViewController.swift; sourceTree = "<group>"; };
-		2205574427381AF200B8C683 /* DetailLastMonthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailLastMonthViewController.swift; sourceTree = "<group>"; };
-		2205574527381AF200B8C683 /* MonthlyDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonthlyDataViewController.swift; sourceTree = "<group>"; };
-		2205574627381AF300B8C683 /* SettlementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettlementViewController.swift; sourceTree = "<group>"; };
-		2205574727381AF300B8C683 /* GroupConfigurationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupConfigurationViewController.swift; sourceTree = "<group>"; };
-		2205575427381B4A00B8C683 /* UtilityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilityViewController.swift; sourceTree = "<group>"; };
-		2205575527381B4A00B8C683 /* FoodViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodViewController.swift; sourceTree = "<group>"; };
-		2205575627381B4A00B8C683 /* OverAllViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverAllViewController.swift; sourceTree = "<group>"; };
-		2205575727381B4A00B8C683 /* OthersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OthersViewController.swift; sourceTree = "<group>"; };
-		2205575D27381B8400B8C683 /* DetailMyselfViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailMyselfViewController.swift; sourceTree = "<group>"; };
-		2205575E27381B8400B8C683 /* DetailMyselfLastMonthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailMyselfLastMonthViewController.swift; sourceTree = "<group>"; };
-		2205575F27381B8400B8C683 /* DetailAllViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailAllViewController.swift; sourceTree = "<group>"; };
-		2205576027381B8400B8C683 /* DetailAllLastMonthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailAllLastMonthViewController.swift; sourceTree = "<group>"; };
-		22055766273843BC00B8C683 /* UserSets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSets.swift; sourceTree = "<group>"; };
-		221ABF7E274283CC0010B32B /* SettlementSets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettlementSets.swift; sourceTree = "<group>"; };
+		221B86D627482F040000122F /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		221B86D727482F040000122F /* ButtonAnimatedModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonAnimatedModel.swift; sourceTree = "<group>"; };
+		221B86D827482F040000122F /* GraphModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphModel.swift; sourceTree = "<group>"; };
+		221B86D927482F040000122F /* LoginModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
+		221B86DA27482F040000122F /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		221B86DB27482F040000122F /* AlertModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
+		221B86E227482F220000122F /* LoadDBModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadDBModel.swift; sourceTree = "<group>"; };
+		221B86E327482F220000122F /* SendDBModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendDBModel.swift; sourceTree = "<group>"; };
+		221B86E427482F220000122F /* EditDBModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditDBModel.swift; sourceTree = "<group>"; };
+		221B86E827482F340000122F /* MonthMyDetailsSets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonthMyDetailsSets.swift; sourceTree = "<group>"; };
+		221B86E927482F340000122F /* UserSearchSets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSearchSets.swift; sourceTree = "<group>"; };
+		221B86EA27482F340000122F /* GroupSets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupSets.swift; sourceTree = "<group>"; };
+		221B86EB27482F350000122F /* MonthGroupDetailsSets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonthGroupDetailsSets.swift; sourceTree = "<group>"; };
+		221B86EC27482F350000122F /* SettlementSets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettlementSets.swift; sourceTree = "<group>"; };
+		221B86ED27482F350000122F /* NotificationSets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationSets.swift; sourceTree = "<group>"; };
+		221B86EE27482F350000122F /* UserSets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSets.swift; sourceTree = "<group>"; };
+		221B86F627482F560000122F /* ProfileConfigurationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileConfigurationCell.xib; sourceTree = "<group>"; };
+		221B86F727482F560000122F /* DetailCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailCell.xib; sourceTree = "<group>"; };
+		221B86F827482F560000122F /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		221B86F927482F560000122F /* ProfileConfigurationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileConfigurationCell.swift; sourceTree = "<group>"; };
+		221B86FA27482F560000122F /* CollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
+		221B86FB27482F560000122F /* CollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewCell.xib; sourceTree = "<group>"; };
+		221B86FC27482F560000122F /* DetailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailCell.swift; sourceTree = "<group>"; };
+		221B870427482F6F0000122F /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		221B870527482F6F0000122F /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		221B870827482F890000122F /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		221B870927482F890000122F /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
+		221B870A27482F890000122F /* ProfileConfigurationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileConfigurationViewController.swift; sourceTree = "<group>"; };
+		221B870B27482F890000122F /* ProfileDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileDetailViewController.swift; sourceTree = "<group>"; };
+		221B870C27482F890000122F /* NewGroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewGroupViewController.swift; sourceTree = "<group>"; };
+		221B870D27482F890000122F /* CreateGroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateGroupViewController.swift; sourceTree = "<group>"; };
+		221B870E27482F890000122F /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		221B871727482FC50000122F /* MonthDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonthDataViewController.swift; sourceTree = "<group>"; };
+		221B871827482FC60000122F /* PaymentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentViewController.swift; sourceTree = "<group>"; };
+		221B871927482FC60000122F /* LastMonthDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LastMonthDataViewController.swift; sourceTree = "<group>"; };
+		221B871A27482FC60000122F /* SettlementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettlementViewController.swift; sourceTree = "<group>"; };
+		221B871B27482FC60000122F /* DetailThisMonthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailThisMonthViewController.swift; sourceTree = "<group>"; };
+		221B871C27482FC60000122F /* GroupConfigurationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupConfigurationViewController.swift; sourceTree = "<group>"; };
+		221B871D27482FC60000122F /* DetailLastMonthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailLastMonthViewController.swift; sourceTree = "<group>"; };
+		221B871E27482FC60000122F /* GroupMemberViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupMemberViewController.swift; sourceTree = "<group>"; };
+		221B871F27482FC60000122F /* MonthlyDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonthlyDataViewController.swift; sourceTree = "<group>"; };
+		221B872027482FC60000122F /* AdditionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdditionViewController.swift; sourceTree = "<group>"; };
+		221B872127482FC60000122F /* GroupDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupDetailViewController.swift; sourceTree = "<group>"; };
+		221B872D27482FDE0000122F /* OverAllViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverAllViewController.swift; sourceTree = "<group>"; };
+		221B872E27482FDE0000122F /* OthersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OthersViewController.swift; sourceTree = "<group>"; };
+		221B872F27482FDE0000122F /* UtilityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilityViewController.swift; sourceTree = "<group>"; };
+		221B873027482FDE0000122F /* FoodViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodViewController.swift; sourceTree = "<group>"; };
+		221B873527482FFA0000122F /* DetailMyselfViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailMyselfViewController.swift; sourceTree = "<group>"; };
+		221B873627482FFA0000122F /* DetailAllLastMonthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailAllLastMonthViewController.swift; sourceTree = "<group>"; };
+		221B873727482FFA0000122F /* DetailAllViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailAllViewController.swift; sourceTree = "<group>"; };
+		221B873827482FFA0000122F /* DetailMyselfLastMonthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailMyselfLastMonthViewController.swift; sourceTree = "<group>"; };
 		225E64212738165D0040FB1A /* ShareKakeibo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShareKakeibo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		225E642D2738165E0040FB1A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		225E64302738165E0040FB1A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -141,12 +141,12 @@
 		220556FA2738199C00B8C683 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				220556FB273819D300B8C683 /* AppDelegate.swift 23-25-58-966.swift */,
-				220556FC273819D300B8C683 /* ButtonAnimatedModel.swift */,
-				220556FD273819D300B8C683 /* SceneDelegate.swift 23-25-58-971.swift */,
-				2205571627381A1500B8C683 /* AlertModel.swift */,
-				2205571527381A1500B8C683 /* GraphModel.swift */,
-				2205571427381A1500B8C683 /* LoginModel.swift */,
+				221B86DB27482F040000122F /* AlertModel.swift */,
+				221B86D627482F040000122F /* AppDelegate.swift */,
+				221B86D727482F040000122F /* ButtonAnimatedModel.swift */,
+				221B86D827482F040000122F /* GraphModel.swift */,
+				221B86D927482F040000122F /* LoginModel.swift */,
+				221B86DA27482F040000122F /* SceneDelegate.swift */,
 				22055701273819E500B8C683 /* loadModel */,
 			);
 			path = Model;
@@ -155,9 +155,9 @@
 		22055701273819E500B8C683 /* loadModel */ = {
 			isa = PBXGroup;
 			children = (
-				2205570627381A0200B8C683 /* LoadDBModel.swift */,
-				2205570727381A0200B8C683 /* EditDBModel.swift */,
-				2205570427381A0200B8C683 /* SendDBModel.swift */,
+				221B86E427482F220000122F /* EditDBModel.swift */,
+				221B86E227482F220000122F /* LoadDBModel.swift */,
+				221B86E327482F220000122F /* SendDBModel.swift */,
 				2205576527383A9000B8C683 /* DataSets */,
 			);
 			path = loadModel;
@@ -166,13 +166,13 @@
 		2205571A27381A2C00B8C683 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				2205571E27381A5F00B8C683 /* CollectionViewCell.swift */,
-				2205572027381A5F00B8C683 /* CollectionViewCell.xib */,
-				2205571C27381A5F00B8C683 /* DetailCell.swift */,
-				2205571D27381A5F00B8C683 /* DetailCell.xib */,
-				2205571B27381A5F00B8C683 /* Main.storyboard */,
-				2205571F27381A5F00B8C683 /* ProfileConfigurationCell.swift */,
-				2205572127381A5F00B8C683 /* ProfileConfigurationCell.xib */,
+				221B86FA27482F560000122F /* CollectionViewCell.swift */,
+				221B86FB27482F560000122F /* CollectionViewCell.xib */,
+				221B86FC27482F560000122F /* DetailCell.swift */,
+				221B86F727482F560000122F /* DetailCell.xib */,
+				221B86F827482F560000122F /* Main.storyboard */,
+				221B86F927482F560000122F /* ProfileConfigurationCell.swift */,
+				221B86F627482F560000122F /* ProfileConfigurationCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -180,20 +180,10 @@
 		2205572927381A7E00B8C683 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				2205572A27381AB300B8C683 /* LoginViewController.swift */,
-				2205572B27381AB300B8C683 /* RegisterViewController.swift */,
+				221B870527482F6F0000122F /* LoginViewController.swift */,
+				221B870427482F6F0000122F /* RegisterViewController.swift */,
 				2205572E27381AC700B8C683 /* Profile */,
-				2205574127381AF200B8C683 /* AdditionViewController.swift */,
-				2205574427381AF200B8C683 /* DetailLastMonthViewController.swift */,
-				2205574027381AF200B8C683 /* DetailThisMonthViewController.swift */,
-				2205574727381AF300B8C683 /* GroupConfigurationViewController.swift */,
-				2205573E27381AF200B8C683 /* GroupDetailViewController.swift */,
-				2205573D27381AF200B8C683 /* GroupMemberViewController.swift */,
-				2205573F27381AF200B8C683 /* LastMonthDataViewController.swift */,
-				2205574227381AF200B8C683 /* MonthDataViewController.swift */,
-				2205574527381AF200B8C683 /* MonthlyDataViewController.swift */,
-				2205574327381AF200B8C683 /* PaymentViewController.swift */,
-				2205574627381AF300B8C683 /* SettlementViewController.swift */,
+				221B871627482FAE0000122F /* Group */,
 				2205575327381B3A00B8C683 /* PagingController */,
 			);
 			path = Controller;
@@ -202,13 +192,13 @@
 		2205572E27381AC700B8C683 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				2205573327381AE100B8C683 /* CreateGroupViewController.swift */,
-				2205572F27381AE000B8C683 /* NewGroupViewController.swift */,
-				2205573227381AE100B8C683 /* NotificationViewController.swift */,
-				2205573027381AE100B8C683 /* ProfileConfigurationViewController.swift */,
-				2205573427381AE100B8C683 /* ProfileDetailViewController.swift */,
-				2205573127381AE100B8C683 /* ProfileViewController.swift */,
-				2205573527381AE100B8C683 /* SearchViewController.swift */,
+				221B870D27482F890000122F /* CreateGroupViewController.swift */,
+				221B870C27482F890000122F /* NewGroupViewController.swift */,
+				221B870927482F890000122F /* NotificationViewController.swift */,
+				221B870A27482F890000122F /* ProfileConfigurationViewController.swift */,
+				221B870B27482F890000122F /* ProfileDetailViewController.swift */,
+				221B870E27482F890000122F /* ProfileViewController.swift */,
+				221B870827482F890000122F /* SearchViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -216,10 +206,10 @@
 		2205575327381B3A00B8C683 /* PagingController */ = {
 			isa = PBXGroup;
 			children = (
-				2205575527381B4A00B8C683 /* FoodViewController.swift */,
-				2205575727381B4A00B8C683 /* OthersViewController.swift */,
-				2205575627381B4A00B8C683 /* OverAllViewController.swift */,
-				2205575427381B4A00B8C683 /* UtilityViewController.swift */,
+				221B873027482FDE0000122F /* FoodViewController.swift */,
+				221B872E27482FDE0000122F /* OthersViewController.swift */,
+				221B872D27482FDE0000122F /* OverAllViewController.swift */,
+				221B872F27482FDE0000122F /* UtilityViewController.swift */,
 				2205575C27381B6D00B8C683 /* New Group */,
 			);
 			path = PagingController;
@@ -228,10 +218,10 @@
 		2205575C27381B6D00B8C683 /* New Group */ = {
 			isa = PBXGroup;
 			children = (
-				2205576027381B8400B8C683 /* DetailAllLastMonthViewController.swift */,
-				2205575F27381B8400B8C683 /* DetailAllViewController.swift */,
-				2205575E27381B8400B8C683 /* DetailMyselfLastMonthViewController.swift */,
-				2205575D27381B8400B8C683 /* DetailMyselfViewController.swift */,
+				221B873627482FFA0000122F /* DetailAllLastMonthViewController.swift */,
+				221B873727482FFA0000122F /* DetailAllViewController.swift */,
+				221B873827482FFA0000122F /* DetailMyselfLastMonthViewController.swift */,
+				221B873527482FFA0000122F /* DetailMyselfViewController.swift */,
 			);
 			path = "New Group";
 			sourceTree = "<group>";
@@ -239,15 +229,33 @@
 		2205576527383A9000B8C683 /* DataSets */ = {
 			isa = PBXGroup;
 			children = (
-				2205570827381A0200B8C683 /* GroupSets.swift */,
-				2205570A27381A0200B8C683 /* MonthGroupDetailsSets.swift */,
-				2205570327381A0200B8C683 /* MonthMyDetailsSets.swift */,
-				2205570527381A0200B8C683 /* NotificationSets.swift */,
-				22055766273843BC00B8C683 /* UserSets.swift */,
-				2205570227381A0200B8C683 /* UserSearchSets.swift */,
-				221ABF7E274283CC0010B32B /* SettlementSets.swift */,
+				221B86EA27482F340000122F /* GroupSets.swift */,
+				221B86EB27482F350000122F /* MonthGroupDetailsSets.swift */,
+				221B86E827482F340000122F /* MonthMyDetailsSets.swift */,
+				221B86ED27482F350000122F /* NotificationSets.swift */,
+				221B86EC27482F350000122F /* SettlementSets.swift */,
+				221B86E927482F340000122F /* UserSearchSets.swift */,
+				221B86EE27482F350000122F /* UserSets.swift */,
 			);
 			path = DataSets;
+			sourceTree = "<group>";
+		};
+		221B871627482FAE0000122F /* Group */ = {
+			isa = PBXGroup;
+			children = (
+				221B872027482FC60000122F /* AdditionViewController.swift */,
+				221B871D27482FC60000122F /* DetailLastMonthViewController.swift */,
+				221B871B27482FC60000122F /* DetailThisMonthViewController.swift */,
+				221B871C27482FC60000122F /* GroupConfigurationViewController.swift */,
+				221B872127482FC60000122F /* GroupDetailViewController.swift */,
+				221B871E27482FC60000122F /* GroupMemberViewController.swift */,
+				221B871927482FC60000122F /* LastMonthDataViewController.swift */,
+				221B871727482FC50000122F /* MonthDataViewController.swift */,
+				221B871F27482FC60000122F /* MonthlyDataViewController.swift */,
+				221B871827482FC60000122F /* PaymentViewController.swift */,
+				221B871A27482FC60000122F /* SettlementViewController.swift */,
+			);
+			path = Group;
 			sourceTree = "<group>";
 		};
 		225E64182738165D0040FB1A = {
@@ -359,12 +367,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				225E64312738165E0040FB1A /* LaunchScreen.storyboard in Resources */,
-				2205572727381A5F00B8C683 /* CollectionViewCell.xib in Resources */,
-				2205572227381A5F00B8C683 /* Main.storyboard in Resources */,
-				2205572427381A5F00B8C683 /* DetailCell.xib in Resources */,
+				221B870227482F560000122F /* CollectionViewCell.xib in Resources */,
 				225E643A273818630040FB1A /* GoogleService-Info.plist in Resources */,
+				221B86FD27482F560000122F /* ProfileConfigurationCell.xib in Resources */,
+				221B86FF27482F560000122F /* Main.storyboard in Resources */,
 				225E642E2738165E0040FB1A /* Assets.xcassets in Resources */,
-				2205572827381A5F00B8C683 /* ProfileConfigurationCell.xib in Resources */,
+				221B86FE27482F560000122F /* DetailCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -417,53 +425,53 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2205570B27381A0200B8C683 /* UserSearchSets.swift in Sources */,
-				2205573627381AE100B8C683 /* NewGroupViewController.swift in Sources */,
-				2205576427381B8400B8C683 /* DetailAllLastMonthViewController.swift in Sources */,
-				2205574C27381AF300B8C683 /* AdditionViewController.swift in Sources */,
-				2205573927381AE100B8C683 /* NotificationViewController.swift in Sources */,
-				2205575A27381B4A00B8C683 /* OverAllViewController.swift in Sources */,
-				2205573C27381AE100B8C683 /* SearchViewController.swift in Sources */,
-				2205571727381A1500B8C683 /* LoginModel.swift in Sources */,
-				2205572527381A5F00B8C683 /* CollectionViewCell.swift in Sources */,
-				221ABF7F274283CC0010B32B /* SettlementSets.swift in Sources */,
-				2205574E27381AF300B8C683 /* PaymentViewController.swift in Sources */,
-				2205574827381AF300B8C683 /* GroupMemberViewController.swift in Sources */,
-				2205574F27381AF300B8C683 /* DetailLastMonthViewController.swift in Sources */,
-				2205575127381AF300B8C683 /* SettlementViewController.swift in Sources */,
-				2205575027381AF300B8C683 /* MonthlyDataViewController.swift in Sources */,
-				2205571027381A0200B8C683 /* EditDBModel.swift in Sources */,
-				2205572C27381AB300B8C683 /* LoginViewController.swift in Sources */,
-				2205574D27381AF300B8C683 /* MonthDataViewController.swift in Sources */,
-				2205576127381B8400B8C683 /* DetailMyselfViewController.swift in Sources */,
-				2205571927381A1500B8C683 /* AlertModel.swift in Sources */,
-				2205575227381AF300B8C683 /* GroupConfigurationViewController.swift in Sources */,
-				220556FF273819D300B8C683 /* ButtonAnimatedModel.swift in Sources */,
-				2205573A27381AE100B8C683 /* CreateGroupViewController.swift in Sources */,
-				2205571327381A0200B8C683 /* MonthGroupDetailsSets.swift in Sources */,
-				2205572627381A5F00B8C683 /* ProfileConfigurationCell.swift in Sources */,
-				2205576227381B8400B8C683 /* DetailMyselfLastMonthViewController.swift in Sources */,
-				2205574A27381AF300B8C683 /* LastMonthDataViewController.swift in Sources */,
-				2205570C27381A0200B8C683 /* MonthMyDetailsSets.swift in Sources */,
-				2205572D27381AB300B8C683 /* RegisterViewController.swift in Sources */,
-				2205570F27381A0200B8C683 /* LoadDBModel.swift in Sources */,
-				2205575927381B4A00B8C683 /* FoodViewController.swift in Sources */,
-				2205571127381A0200B8C683 /* GroupSets.swift in Sources */,
-				2205575B27381B4A00B8C683 /* OthersViewController.swift in Sources */,
-				2205573B27381AE100B8C683 /* ProfileDetailViewController.swift in Sources */,
-				2205575827381B4A00B8C683 /* UtilityViewController.swift in Sources */,
-				2205573827381AE100B8C683 /* ProfileViewController.swift in Sources */,
-				22055700273819D300B8C683 /* SceneDelegate.swift 23-25-58-971.swift in Sources */,
-				2205574927381AF300B8C683 /* GroupDetailViewController.swift in Sources */,
-				2205574B27381AF300B8C683 /* DetailThisMonthViewController.swift in Sources */,
-				2205570D27381A0200B8C683 /* SendDBModel.swift in Sources */,
-				2205573727381AE100B8C683 /* ProfileConfigurationViewController.swift in Sources */,
-				220556FE273819D300B8C683 /* AppDelegate.swift 23-25-58-966.swift in Sources */,
-				2205570E27381A0200B8C683 /* NotificationSets.swift in Sources */,
-				2205572327381A5F00B8C683 /* DetailCell.swift in Sources */,
-				22055767273843BC00B8C683 /* UserSets.swift in Sources */,
-				2205576327381B8400B8C683 /* DetailAllViewController.swift in Sources */,
-				2205571827381A1500B8C683 /* GraphModel.swift in Sources */,
+				221B872427482FC60000122F /* LastMonthDataViewController.swift in Sources */,
+				221B872A27482FC60000122F /* MonthlyDataViewController.swift in Sources */,
+				221B86F127482F350000122F /* GroupSets.swift in Sources */,
+				221B86E527482F220000122F /* LoadDBModel.swift in Sources */,
+				221B872227482FC60000122F /* MonthDataViewController.swift in Sources */,
+				221B873C27482FFA0000122F /* DetailMyselfLastMonthViewController.swift in Sources */,
+				221B870127482F560000122F /* CollectionViewCell.swift in Sources */,
+				221B873A27482FFA0000122F /* DetailAllLastMonthViewController.swift in Sources */,
+				221B86F227482F350000122F /* MonthGroupDetailsSets.swift in Sources */,
+				221B871527482F890000122F /* ProfileViewController.swift in Sources */,
+				221B86DE27482F040000122F /* GraphModel.swift in Sources */,
+				221B86EF27482F350000122F /* MonthMyDetailsSets.swift in Sources */,
+				221B871127482F890000122F /* ProfileConfigurationViewController.swift in Sources */,
+				221B86F427482F350000122F /* NotificationSets.swift in Sources */,
+				221B873327482FDE0000122F /* UtilityViewController.swift in Sources */,
+				221B86E127482F040000122F /* AlertModel.swift in Sources */,
+				221B86DC27482F040000122F /* AppDelegate.swift in Sources */,
+				221B86F327482F350000122F /* SettlementSets.swift in Sources */,
+				221B872B27482FC60000122F /* AdditionViewController.swift in Sources */,
+				221B873127482FDE0000122F /* OverAllViewController.swift in Sources */,
+				221B872827482FC60000122F /* DetailLastMonthViewController.swift in Sources */,
+				221B873227482FDE0000122F /* OthersViewController.swift in Sources */,
+				221B871427482F890000122F /* CreateGroupViewController.swift in Sources */,
+				221B872727482FC60000122F /* GroupConfigurationViewController.swift in Sources */,
+				221B873927482FFA0000122F /* DetailMyselfViewController.swift in Sources */,
+				221B86F027482F350000122F /* UserSearchSets.swift in Sources */,
+				221B872927482FC60000122F /* GroupMemberViewController.swift in Sources */,
+				221B873427482FDE0000122F /* FoodViewController.swift in Sources */,
+				221B871227482F890000122F /* ProfileDetailViewController.swift in Sources */,
+				221B872527482FC60000122F /* SettlementViewController.swift in Sources */,
+				221B872627482FC60000122F /* DetailThisMonthViewController.swift in Sources */,
+				221B870327482F560000122F /* DetailCell.swift in Sources */,
+				221B872327482FC60000122F /* PaymentViewController.swift in Sources */,
+				221B86E727482F220000122F /* EditDBModel.swift in Sources */,
+				221B86E027482F040000122F /* SceneDelegate.swift in Sources */,
+				221B86E627482F220000122F /* SendDBModel.swift in Sources */,
+				221B870F27482F890000122F /* SearchViewController.swift in Sources */,
+				221B872C27482FC60000122F /* GroupDetailViewController.swift in Sources */,
+				221B870027482F560000122F /* ProfileConfigurationCell.swift in Sources */,
+				221B86DD27482F040000122F /* ButtonAnimatedModel.swift in Sources */,
+				221B870627482F6F0000122F /* RegisterViewController.swift in Sources */,
+				221B870727482F6F0000122F /* LoginViewController.swift in Sources */,
+				221B871327482F890000122F /* NewGroupViewController.swift in Sources */,
+				221B871027482F890000122F /* NotificationViewController.swift in Sources */,
+				221B873B27482FFA0000122F /* DetailAllViewController.swift in Sources */,
+				221B86DF27482F040000122F /* LoginModel.swift in Sources */,
+				221B86F527482F350000122F /* UserSets.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,7 +8,7 @@
 import UIKit
 import FirebaseFirestore
 
-class NewGroupViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,LoadOKDelegate, EditOKDelegate {
+class NewGroupViewController: UIViewController {
     
     
     @IBOutlet weak var createGroupButton: UIButton!
@@ -22,6 +22,9 @@ class NewGroupViewController: UIViewController, UITableViewDelegate, UITableView
     var userName = String()
     var profileImage = String()
     var groupID = String()
+    
+    //追加
+    var sortedGroupNotJoinArray = [GroupSets]()
     
     var buttonAnimatedModel = ButtonAnimatedModel(withDuration: 0.1, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, transform: CGAffineTransform(scaleX: 0.95, y: 0.95), alpha: 0.7)
     
@@ -41,9 +44,6 @@ class NewGroupViewController: UIViewController, UITableViewDelegate, UITableView
         createGroupButton.layer.shadowOffset = CGSize(width: 1, height: 1)
         createGroupButton.layer.shadowOpacity = 0.5
         createGroupButton.layer.shadowRadius = 1
-        
-        
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -55,16 +55,6 @@ class NewGroupViewController: UIViewController, UITableViewDelegate, UITableView
         loadDBModel.loadOKDelegate = self
         activityIndicatorView.startAnimating()
         loadDBModel.loadNotJoinGroup(userID: userID)
-    }
-    
-    //どのグループに参加しているか招待されているかを取得完了
-    func loadNotJoinGroup_OK(groupIDArray: [String], notJoinCount: Int) {
-        groupNotJoinArray = []
-        //招待されているグループの情報を取得完了
-        loadDBModel.loadNotJoinGroupInfo(groupIDArray: groupIDArray) { JoinGroupSets in
-            self.groupNotJoinArray.append(JoinGroupSets)
-            self.tableView.reloadData()
-        }
     }
     
     @objc func touchDown(_ sender:UIButton){
@@ -90,8 +80,46 @@ class NewGroupViewController: UIViewController, UITableViewDelegate, UITableView
         createGroupButton.layer.shadowRadius = 1
     }
     
+    
+    @objc func joinButton(_ sender:UIButton){
+        buttonAnimatedModel.endAnimation(sender: sender)
+        
+        let cell = sender.superview?.superview?.superview as! UITableViewCell
+        indexPath = tableView.indexPath(for: cell)!
+        
+        groupID = sortedGroupNotJoinArray[indexPath.row].groupID
+        UserDefaults.standard.setValue(groupID, forKey: "groupID")
+        db.collection("userManagement").document(userID).setData([
+            "joinGroupDic": [groupID: true],
+        ], merge: true)
+        db.collection("groupManagement").document(groupID).setData([
+            "settlementDic": [userID: false],
+            "userIDArray": FieldValue.arrayUnion([userID])
+        ],merge: true)
+        performSegue(withIdentifier: "TabBarContoller", sender: nil)
+    }
+    
+    @objc func rejectButton(_ sender:UIButton){
+        buttonAnimatedModel.endAnimation(sender: sender)
+        
+        let cell = sender.superview?.superview?.superview as! UITableViewCell
+        indexPath = tableView.indexPath(for: cell)!
+        
+        editDBModel.editOKDelegate = self
+        groupID = sortedGroupNotJoinArray[indexPath.row].groupID
+        editDBModel.editGroupInfoDelete(groupID: groupID, userID: userID, activityIndicatorView: activityIndicatorView)
+    }
+    
+    @IBAction func back(_ sender: Any) {
+        navigationController?.popViewController(animated: true)
+    }
+    
+}
+//MARK:- TabeleView
+extension NewGroupViewController:UITableViewDelegate, UITableViewDataSource{
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return groupNotJoinArray.count
+        return sortedGroupNotJoinArray.count
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -113,12 +141,11 @@ class NewGroupViewController: UIViewController, UITableViewDelegate, UITableView
         
         invitationView.layer.cornerRadius = 5
         invitationView.layer.masksToBounds = false
-        invitationView.layer.cornerRadius = 5
-        invitationView.layer.shadowOffset = CGSize(width: 1, height: 1)
+        invitationView.layer.shadowOffset = CGSize(width: 1, height: 3)
         invitationView.layer.shadowOpacity = 0.2
-        invitationView.layer.shadowRadius = 1
+        invitationView.layer.shadowRadius = 3
         
-        groupNameLabel.text = groupNotJoinArray[indexPath.row].groupName
+        groupNameLabel.text = sortedGroupNotJoinArray[indexPath.row].groupName
         
         joinButton.layer.cornerRadius = 3
         joinButton.addTarget(self, action: #selector(joinButton(_:)), for: .touchUpInside)
@@ -133,33 +160,26 @@ class NewGroupViewController: UIViewController, UITableViewDelegate, UITableView
         return cell
     }
     
-    @objc func joinButton(_ sender:UIButton){
-        buttonAnimatedModel.endAnimation(sender: sender)
-        
-        let cell = sender.superview?.superview?.superview as! UITableViewCell
-        indexPath = tableView.indexPath(for: cell)!
-        //追加
-        groupID = groupNotJoinArray[indexPath.row].groupID
-        UserDefaults.standard.setValue(groupID, forKey: "groupID")
-        db.collection("userManagement").document(userID).setData([
-            "joinGroupDic": [groupID: true]
-        ], merge: true)
-        db.collection("groupManagement").document(groupID).setData([
-            "settlementDic" : [userID:false],
-            "userIDArray" : FieldValue.arrayUnion([userID])
-        ],merge: true)
-        performSegue(withIdentifier: "TabBarContoller", sender: nil)
-    }
+}
+
+//MARK:- LoadOKDelegate,EditOKDelegate
+extension NewGroupViewController:LoadOKDelegate, EditOKDelegate{
     
-    @objc func rejectButton(_ sender:UIButton){
-        buttonAnimatedModel.endAnimation(sender: sender)
-        
-        let cell = sender.superview?.superview?.superview as! UITableViewCell
-        indexPath = tableView.indexPath(for: cell)!
-        
-        editDBModel.editOKDelegate = self
-        groupID = groupNotJoinArray[indexPath.row].groupID
-        editDBModel.editGroupInfoDelete(groupID: groupID, userID: userID, activityIndicatorView: activityIndicatorView)
+    //どのグループに参加しているか招待されているかを取得完了
+    func loadNotJoinGroup_OK(groupIDArray: [String], notJoinCount: Int) {
+        groupNotJoinArray = []
+        //招待されているグループの情報を取得完了
+        loadDBModel.loadNotJoinGroupInfo(groupIDArray: groupIDArray) { JoinGroupSets in
+            print("$$$$$$$$$$$$$$$$")
+            print(JoinGroupSets)
+            self.groupNotJoinArray.append(JoinGroupSets)
+            print("%%%%%%%%%%%%%%%%")
+            print(self.groupNotJoinArray)
+            self.sortedGroupNotJoinArray = self.groupNotJoinArray.sorted(by: {($0.create_at! > $1.create_at!)})
+            print("****************")
+            print(self.sortedGroupNotJoinArray)
+            self.tableView.reloadData()
+        }
     }
     
     func editGroupInfoDelete_OK() {
@@ -167,19 +187,5 @@ class NewGroupViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.deleteRows(at: [IndexPath(row: indexPath.row, section: 0)], with: .automatic)
         activityIndicatorView.stopAnimating()
     }
-    
-    @IBAction func back(_ sender: Any) {
-        navigationController?.popViewController(animated: true)
-    }
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
     
 }

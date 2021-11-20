@@ -35,7 +35,7 @@ class DetailThisMonthViewController: UIViewController {
         self.addChild(pagingVC)
         self.view.addSubview(pagingVC.view)
         pagingVC.didMove(toParent: self)
-        
+        pagingVC.contentInteraction = .none
         pagingVC.view.translatesAutoresizingMaskIntoConstraints = false
         pagingVC.view.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         pagingVC.view.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
@@ -47,7 +47,10 @@ class DetailThisMonthViewController: UIViewController {
         pagingVC.textColor = .darkGray
         pagingVC.selectedTextColor = UIColor(red: 255 / 255, green: 190 / 255, blue: 115 / 255, alpha: 1.0)
         pagingVC.menuBackgroundColor = .clear
-        pagingVC.borderColor = .clear
+        pagingVC.borderColor = .systemGray3
+        pagingVC.borderOptions = .visible(height: 0.8,
+                                          zIndex: Int.max - 1,
+                                          insets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
         pagingVC.menuItemSize = .selfSizing(estimatedWidth: 100, height: 40)
         pagingVC.menuItemSpacing = 80
         pagingVC.menuHorizontalAlignment = .center
@@ -71,7 +74,7 @@ class DetailThisMonthViewController: UIViewController {
         addPaymentButton.layer.shadowRadius = 1
         
         self.view.bringSubviewToFront(addPaymentButton)
-
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

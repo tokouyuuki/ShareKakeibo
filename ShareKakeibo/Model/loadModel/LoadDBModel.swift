@@ -4,7 +4,6 @@
 //
 //  Created by 都甲裕希 on 2021/10/24.
 //
-
 import Foundation
 import Firebase
 import FirebaseFirestore
@@ -19,7 +18,7 @@ import FirebaseFirestore
     @objc optional func loadSettlementDay_OK(settlementDay:String)
     @objc optional func loadUserIDAndSettlementDic_OK(settlementDic:Dictionary<String,Bool>,userIDArray:[String])
     @objc optional func loadMonthDetails_OK()
-    @objc optional func loadCategoryGraphOfTithMonth_OK(categoryPayArray:[Int])
+    @objc optional func loadCategoryGraphOfTithMonth_OK(categoryDic:Dictionary<String,Int>)
     @objc optional func loadMonthlyTransition_OK(countArray:[Int])
     @objc optional func loadMonthPayment_OK(groupPaymentOfMonth:Int,paymentAverageOfMonth:Int,userIDArray:[String])
     @objc optional func loadMonthSettlement_OK()
@@ -80,10 +79,10 @@ class LoadDBModel{
     
     //参加しているグループの情報を取得するロード
     func loadJoinGroup(groupID:String,userID:String){
-        db.collection("groupManagement").whereField("userIDArray", arrayContains: userID).addSnapshotListener { (snapShot, error) in
-            
+        db.collection("groupManagement").whereField("userIDArray", arrayContains: userID).order(by: "create_at").addSnapshotListener { (snapShot, error) in
             self.groupSets = []
             if error != nil{
+                print(error.debugDescription)
                 return
             }
             if let snapShotDoc = snapShot?.documents{
@@ -92,10 +91,11 @@ class LoadDBModel{
                     let groupName = data["groupName"] as! String
                     let groupImage = data["groupImage"] as! String
                     let groupID = data["groupID"] as! String
-                    let newData = GroupSets(groupName: groupName, groupImage: groupImage, groupID: groupID)
+                    let newData = GroupSets(groupName: groupName, groupImage: groupImage, groupID: groupID, create_at: nil)
                     self.groupSets.append(newData)
                 }
             }
+            self.groupSets.reverse()
             self.loadOKDelegate?.loadJoinGroup_OK?()
         }
     }
@@ -135,7 +135,8 @@ class LoadDBModel{
                     let groupName = data["groupName"] as! String
                     let groupImage = data["groupImage"] as! String
                     let groupID = data["groupID"] as! String
-                    let newData = GroupSets(groupName: groupName, groupImage: groupImage, groupID: groupID)
+                    let create_at = data["create_at"] as! Double
+                    let newData = GroupSets(groupName: groupName, groupImage: groupImage, groupID: groupID, create_at: create_at)
                     completion(newData)
                 }
             }
@@ -299,7 +300,7 @@ class LoadDBModel{
     func loadCategoryGraphOfTithMonth(groupID:String,startDate:Date,endDate:Date,activityIndicatorView:UIActivityIndicatorView){
         
         db.collection(groupID).whereField("paymentDay", isGreaterThan: startDate).whereField("paymentDay", isLessThanOrEqualTo: endDate).addSnapshotListener { (snapShot, error) in
-            var categoryPayArray = [Int]()
+            
             var foodCount = 0
             var waterCount = 0
             var electricityCount = 0
@@ -307,6 +308,9 @@ class LoadDBModel{
             var communicationCount = 0
             var rentCount = 0
             var othersCount = 0
+            
+            var categoryDic = [String:Int]()
+            
             if error != nil{
                 activityIndicatorView.stopAnimating()
                 return
@@ -320,27 +324,40 @@ class LoadDBModel{
                     switch category {
                     case "食費":
                         foodCount = foodCount + paymentAmount
+                        categoryDic.updateValue(foodCount, forKey: "食費")
                     case "水道代":
                         waterCount = waterCount + paymentAmount
+                        categoryDic.updateValue(waterCount, forKey: "水道代")
                     case "電気代":
                         electricityCount = electricityCount + paymentAmount
+                        categoryDic.updateValue(electricityCount, forKey: "電気代")
                     case "ガス代":
                         gasCount = gasCount + paymentAmount
+                        categoryDic.updateValue(gasCount, forKey: "ガス代")
                     case "通信費":
                         communicationCount = communicationCount + paymentAmount
+                        categoryDic.updateValue(communicationCount, forKey: "通信費")
                     case "家賃":
                         rentCount = rentCount + paymentAmount
+                        categoryDic.updateValue(rentCount, forKey: "家賃")
                     case "その他":
                         othersCount = othersCount + paymentAmount
+                        categoryDic.updateValue(othersCount, forKey: "その他")
                     default:
                         break
                     }
                 }
-                categoryPayArray = [foodCount,waterCount,electricityCount,gasCount,communicationCount,rentCount,othersCount]
+                
+                for (key,value) in categoryDic{
+                    if value == 0{
+                        categoryDic.removeValue(forKey: key)
+                    }
+                }
             }
-            self.loadOKDelegate?.loadCategoryGraphOfTithMonth_OK?(categoryPayArray: categoryPayArray)
+            self.loadOKDelegate?.loadCategoryGraphOfTithMonth_OK?(categoryDic: categoryDic)
         }
     }
+    
     
     //1〜12月の全体の推移
     func loadMonthlyAllTransition(groupID:String,year:String,settlementDay:String,startDate:Date,endDate:Date,activityIndicatorView:UIActivityIndicatorView){
@@ -498,7 +515,7 @@ class LoadDBModel{
     func loadMonthlyFoodTransition(groupID:String,year:String,settlementDay:String,startDate:Date,endDate:Date,activityIndicatorView:UIActivityIndicatorView){
         
         db.collection(groupID).whereField("paymentDay", isGreaterThan: startDate).whereField("paymentDay", isLessThanOrEqualTo: endDate).whereField("category", isEqualTo: "食費").addSnapshotListener { [self] (snapShot, error) in
-
+            
             countArray = []
             dateFormatter.dateFormat = "yyyy年MM月dd日"
             dateFormatter.locale = Locale(identifier: "ja_JP")
@@ -662,7 +679,6 @@ class LoadDBModel{
                     let paymentAmount = data["paymentAmount"] as! Int
                     groupPaymentOfMonth = groupPaymentOfMonth + paymentAmount
                 }
-
                 let numberOfPeople = userIDArray.count
                 let paymentAverageOfMonth = groupPaymentOfMonth / numberOfPeople
                 self.loadOKDelegate?.loadMonthPayment_OK?(groupPaymentOfMonth: groupPaymentOfMonth, paymentAverageOfMonth: paymentAverageOfMonth, userIDArray: userIDArray)
@@ -674,23 +690,23 @@ class LoadDBModel{
     //各メンバーの支払い金額を取得するロード
     func loadMonthSettlement(groupID:String,userID:String?,startDate:Date,endDate:Date){
         if userID == nil{
-                db.collection(groupID).whereField("paymentDay", isGreaterThan: startDate).whereField("paymentDay", isLessThanOrEqualTo: endDate).addSnapshotListener { (snapShot, error) in
-                    
-                    self.settlementSets = []
-                    if error != nil{
-                        return
-                    }
-                    if let snapShotDoc = snapShot?.documents{
-                        for doc in snapShotDoc{
-                            let data = doc.data()
-                            let paymentAmount = data["paymentAmount"] as! Int
-                            let userID = data["userID"] as! String
-                            let newData = SettlementSets(paymentAmount: paymentAmount, userID: userID)
-                            self.settlementSets.append(newData)
-                        }
-                        self.loadOKDelegate?.loadMonthSettlement_OK?()
-                    }
+            db.collection(groupID).whereField("paymentDay", isGreaterThan: startDate).whereField("paymentDay", isLessThanOrEqualTo: endDate).addSnapshotListener { (snapShot, error) in
+                
+                self.settlementSets = []
+                if error != nil{
+                    return
                 }
+                if let snapShotDoc = snapShot?.documents{
+                    for doc in snapShotDoc{
+                        let data = doc.data()
+                        let paymentAmount = data["paymentAmount"] as! Int
+                        let userID = data["userID"] as! String
+                        let newData = SettlementSets(paymentAmount: paymentAmount, userID: userID)
+                        self.settlementSets.append(newData)
+                    }
+                    self.loadOKDelegate?.loadMonthSettlement_OK?()
+                }
+            }
         }else{
             db.collection(groupID).whereField("userID", isEqualTo: userID!).whereField("paymentDay", isGreaterThan: startDate).whereField("paymentDay", isLessThanOrEqualTo: endDate).addSnapshotListener { (snapShot, error) in
                 
@@ -716,49 +732,5 @@ class LoadDBModel{
         }
     }
     
-    
-
-//    func loadMonthSettlement(groupID:String,userID:String?,userIDArray:[String]?,startDate:Date,endDate:Date,completion:@escaping(Int,String)->()){
-//
-//        if userID == nil{
-//            for userID in userIDArray!{
-//                db.collection(groupID).whereField("userID", isEqualTo: userID).whereField("paymentDay", isGreaterThan: startDate).whereField("paymentDay", isLessThanOrEqualTo: endDate).addSnapshotListener { (snapShot, error) in
-//
-//                    var myTotalPay = 0
-//                    if error != nil{
-//                        return
-//                    }
-//                    if let snapShotDoc = snapShot?.documents{
-//                        for doc in snapShotDoc{
-//                            let data = doc.data()
-//                            let paymentAmount = data["paymentAmount"] as! Int
-//                            //自分の支払い合計金額
-//                            myTotalPay = myTotalPay + paymentAmount
-//                        }
-//                    }
-//                    completion(myTotalPay, userID)
-//                }
-//            }
-//        }else{
-//            db.collection(groupID).whereField("userID", isEqualTo: userID!).whereField("paymentDay", isGreaterThan: startDate).whereField("paymentDay", isLessThanOrEqualTo: endDate).addSnapshotListener { (snapShot, error) in
-//
-//                var myTotalPay = 0
-//                if error != nil{
-//                    print(error.debugDescription)
-//                    return
-//                }
-//                if let snapShotDoc = snapShot?.documents{
-//                    for doc in snapShotDoc{
-//                        let data = doc.data()
-//                        let paymentAmount = data["paymentAmount"] as! Int
-//                        //自分の支払い合計金額
-//                        myTotalPay = myTotalPay + paymentAmount
-//                    }
-//                }
-//                completion(myTotalPay, userID!)
-//            }
-//        }
-//    }
-
 }
 

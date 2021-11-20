@@ -9,10 +9,12 @@ import Foundation
 import UIKit
 import Firebase
 import Photos
+import FirebaseAuth
 
 class AlertModel{
     
-   
+    //変更_山口
+    var loginModel = LoginModel()
     
     func exitAlert(viewController:UIViewController){
         
@@ -21,7 +23,7 @@ class AlertModel{
         let aleat = UIAlertController(title: "本当に退会しますか？", message: "", preferredStyle: .alert)
         
         let exit = UIAlertAction(title: "退会", style: .default) { (action) in
-          
+            
             db.collection("email").document("roomID").delete() { err in
                 if let err = err {
                     print("Error removing document: \(err)")
@@ -41,7 +43,7 @@ class AlertModel{
         viewController.present(aleat, animated: true, completion: nil)
     }
     
-   
+    
     
     
     func satsueiAlert(viewController:UIViewController){
@@ -77,38 +79,36 @@ class AlertModel{
         CreateImagePicker.present(cameraPicker, animated: true, completion: nil)
         
     }
-   
-   
     
     
-    func passWordAlert(viewController:UIViewController,passWord:String){
+    
+    //auth内データ更新のため変更_山口
+    func passWordAlert(viewController:UIViewController,userInfo:[String]){
         
         let nilAlert = UIAlertController(title: "未入力です", message: "", preferredStyle: .alert)
         let alert = UIAlertController(title: "パスワードが違います", message: "", preferredStyle: .alert)
         let passWordAlert = UIAlertController(title: "パスワードを入力してください", message: "", preferredStyle: .alert)
         passWordAlert.addTextField { (textField:UITextField) in
             textField.placeholder = "パスワード"
+            textField.isSecureTextEntry = true
         }
-        
         let cancelAction = UIAlertAction(title: "キャンセル", style: .cancel, handler: nil)
+        let password = userInfo[2]
         
-        let OK = UIAlertAction(title: "OK", style: .default) { (action) in
+        let OK = UIAlertAction(title: "OK", style: .default) { [self] (action) in
             guard let textfield = passWordAlert.textFields?.first else{
                 return
             }
             
             if textfield.text == ""{
-                
                 viewController.present(nilAlert, animated: true, completion: nil)
-                
             }
             
-            if textfield.text != passWord{
+            if textfield.text != password{
                 viewController.present(alert, animated: true, completion: nil)
-            }
-            else{
-                print(textfield.text)
-                viewController.performSegue(withIdentifier: "ProfileConfigurationVC", sender: nil)
+            }else{
+                loginModel.reauthentication(viewController: viewController,userInfoArray: userInfo)
+                //                viewController.performSegue(withIdentifier: "ProfileConfigurationVC", sender: nil)
             }
             
         }

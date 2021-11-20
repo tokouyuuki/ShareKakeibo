@@ -8,7 +8,7 @@
 import UIKit
 import SDWebImage
 
-class DetailAllViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,LoadOKDelegate {
+class DetailAllViewController: UIViewController{
     
     var loadDBModel = LoadDBModel()
     var monthGroupDetailsSets = [MonthGroupDetailsSets]()
@@ -20,10 +20,14 @@ class DetailAllViewController: UIViewController, UITableViewDelegate, UITableVie
     var startDate = Date()
     var endDate = Date()
     var tableView = UITableView()
+    //追加、変更
     var userIDArray = [String]()
+    //追加
     var profileImage = String()
     var profileImageArray = [String]()
     var userNameArray = [String]()
+    
+    var settlementDay = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +42,6 @@ class DetailAllViewController: UIViewController, UITableViewDelegate, UITableVie
         activityIndicatorView.color = .darkGray
         view.addSubview(activityIndicatorView)
         
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -50,16 +53,12 @@ class DetailAllViewController: UIViewController, UITableViewDelegate, UITableVie
         month = String(date.month!)
         groupID = UserDefaults.standard.object(forKey: "groupID") as! String
         loadDBModel.loadOKDelegate = self
-        loadDBModel.loadSettlementDay(groupID: groupID, activityIndicatorView: activityIndicatorView)
-    }
-    
-    //決済日取得完了
-    //決済月を求める
-    func loadSettlementDay_OK(settlementDay: String) {
+        
         activityIndicatorView.stopAnimating()
         dateFormatter.dateFormat = "yyyy年MM月dd日"
         dateFormatter.locale = Locale(identifier: "ja_JP")
         dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
+        self.settlementDay = UserDefaults.standard.object(forKey: "settlementDay") as! String
         if month == "12"{
             startDate = dateFormatter.date(from: "\(year)年\(month)月\(settlementDay)日")!
             endDate = dateFormatter.date(from: "\(String(Int(year)! + 1))年\("1")月\(settlementDay)日")!
@@ -70,10 +69,17 @@ class DetailAllViewController: UIViewController, UITableViewDelegate, UITableVie
         loadDBModel.loadMonthDetails(groupID: groupID, startDate: startDate, endDate: endDate, userID: nil, activityIndicatorView: activityIndicatorView)
     }
     
+}
+
+// MARK: - LoadOKDelegate
+extension DetailAllViewController:LoadOKDelegate {
+    
     //全体の明細を取得完了
     func loadMonthDetails_OK() {
         activityIndicatorView.stopAnimating()
+        monthGroupDetailsSets = []
         monthGroupDetailsSets = loadDBModel.monthGroupDetailsSets
+        //変更
         userIDArray = []
         profileImageArray = []
         userNameArray = []
@@ -81,6 +87,10 @@ class DetailAllViewController: UIViewController, UITableViewDelegate, UITableVie
             for i in 0...monthGroupDetailsSets.count - 1{
                 userIDArray.append(monthGroupDetailsSets[i].userID)
             }
+        }else{
+            tableView.delegate = self
+            tableView.dataSource = self
+            self.tableView.reloadData()
         }
         
         //明細に表示するユーザーネームとプロフィール画像取得
@@ -94,11 +104,13 @@ class DetailAllViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
-        
-        
+}
+
+// MARK: - TableView
+extension DetailAllViewController:UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return userNameArray.count
+        return profileImageArray.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -107,25 +119,25 @@ class DetailAllViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath) as! DetailCell
-        
-        cell.profileImage.sd_setImage(with: URL(string: profileImageArray[indexPath.row]), completed: nil)
-        cell.paymentLabel.text = String(monthGroupDetailsSets[indexPath.row].paymentAmount)
-        cell.userNameLabel.text = userNameArray[indexPath.row]
-        cell.dateLabel.text = monthGroupDetailsSets[indexPath.row].paymentDay
-        cell.category.text = monthGroupDetailsSets[indexPath.row].category
-        
-        return cell
+        //変更
+        print(monthGroupDetailsSets)
+        print(profileImageArray)
+        if profileImageArray.count == monthGroupDetailsSets.count{
+            cell.profileImage.sd_setImage(with: URL(string: profileImageArray[indexPath.row]), completed: nil)
+            cell.paymentLabel.text = String(monthGroupDetailsSets[indexPath.row].paymentAmount)
+            cell.userNameLabel.text = userNameArray[indexPath.row]
+            cell.dateLabel.text = monthGroupDetailsSets[indexPath.row].paymentDay
+            cell.category.text = monthGroupDetailsSets[indexPath.row].category
+            cell.view.layer.cornerRadius = 5
+            cell.view.layer.masksToBounds = false
+            cell.view.layer.shadowOffset = CGSize(width: 1, height: 3)
+            cell.view.layer.shadowOpacity = 0.2
+            cell.view.layer.shadowRadius = 3
+            
+            return cell
+        }else{
+            return cell
+        }
     }
-    
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
     
 }

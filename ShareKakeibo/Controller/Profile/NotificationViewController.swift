@@ -7,11 +7,11 @@
 
 import UIKit
 
-class NotificationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,LoadOKDelegate {
-   
-
+class NotificationViewController: UIViewController {
+    
+    
     @IBOutlet weak var tableView: UITableView!
-
+    
     var loadDBModel = LoadDBModel()
     var userID = String()
     var groupID = String()
@@ -21,7 +21,7 @@ class NotificationViewController: UIViewController, UITableViewDelegate, UITable
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView() //空白のセルの線を消してるよ
@@ -48,12 +48,15 @@ class NotificationViewController: UIViewController, UITableViewDelegate, UITable
         loadDBModel.loadSettlementNotification(userID: userID, day: String(day), activityIndicatorView: activityIndicatorView)
     }
     
-    func loadSettlementNotification_OK() {
-        notificationArray = loadDBModel.notificationSets
-        tableView.reloadData()
-        activityIndicatorView.stopAnimating()
+    @IBAction func back(_ sender: Any) {
+        navigationController?.popViewController(animated: true)
     }
+    
+}
 
+//MARK:- TabelView
+extension NotificationViewController:UITableViewDelegate, UITableViewDataSource{
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return notificationArray.count
     }
@@ -83,19 +86,14 @@ class NotificationViewController: UIViewController, UITableViewDelegate, UITable
         navigationController?.pushViewController(settlementTabVC, animated: true)
     }
     
-  
-    @IBAction func back(_ sender: Any) {
-        navigationController?.popViewController(animated: true)
+}
+//MARK:- LoadOKDelegate
+extension NotificationViewController:LoadOKDelegate{
+    
+    func loadSettlementNotification_OK() {
+        notificationArray = loadDBModel.notificationSets
+        tableView.reloadData()
+        activityIndicatorView.stopAnimating()
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

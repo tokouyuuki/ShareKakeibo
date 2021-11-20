@@ -10,7 +10,7 @@ import Firebase
 import FirebaseFirestore
 import CropViewController
 
-class RegisterViewController: UIViewController,LoginOKDelegate,SendOKDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,CropViewControllerDelegate {
+class RegisterViewController: UIViewController,LoginOKDelegate,SendOKDelegate {
     
     
     @IBOutlet weak var registerButton: UIButton!
@@ -86,6 +86,10 @@ class RegisterViewController: UIViewController,LoginOKDelegate,SendOKDelegate,UI
         alertModel.satsueiAlert(viewController: self)
     }
     
+}
+
+//MARK:- ImagePicker
+extension RegisterViewController: UIImagePickerControllerDelegate,UINavigationControllerDelegate,CropViewControllerDelegate{
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
@@ -113,16 +117,5 @@ class RegisterViewController: UIViewController,LoginOKDelegate,SendOKDelegate,UI
         self.profileImageView.image = image
         cropViewController.dismiss(animated: true, completion: nil)
     }
-    
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
     
 }

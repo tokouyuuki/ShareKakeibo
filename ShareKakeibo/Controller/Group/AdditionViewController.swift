@@ -7,16 +7,15 @@
 //
 import UIKit
 import SDWebImage
+import Firebase
+import FirebaseFirestore
+import FirebaseStorage
 
-protocol CollectionDeligate {
-    func SendArray(selectedUserImageArray:[String],userIDArray: [String],userNameArray: [String])
-}
 
-class SearchViewController: UIViewController {
+class AdditionViewController: UIViewController {
     
-    var collectionDeligate:CollectionDeligate?
     
-    @IBOutlet weak var decideButton: UIButton!
+    @IBOutlet weak var invitationButton: UIButton!
     @IBOutlet weak var searchUserTextField: UITextField!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var tableView: UITableView!
@@ -28,16 +27,16 @@ class SearchViewController: UIViewController {
     var userNameArray = [String]()
     //    var imageArray = ["person","person.fill","pencil","trash","person"]
     var userSearchSets = [UserSearchSets]()
-    
-    let nothingLabel = UILabel()
+    var db = Firestore.firestore()
     
     var activityIndicatorView = UIActivityIndicatorView()
+    let nothingLabel = UILabel()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        decideButton.layer.cornerRadius = 5
+        invitationButton.layer.cornerRadius = 5
         
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -54,6 +53,7 @@ class SearchViewController: UIViewController {
         tableView.layer.shadowOffset = CGSize(width: 0, height: 1)
         tableView.layer.shadowOpacity = 0.5
         tableView.layer.shadowRadius = 1
+        //        tableView.isHidden = true
         tableView.transform = CGAffineTransform(scaleX: 0, y: 0)
         loadDBModel.loadOKDelegate = self
         
@@ -63,9 +63,12 @@ class SearchViewController: UIViewController {
         view.addSubview(activityIndicatorView)
     }
     
-    @IBAction func decideButton(_ sender: Any) {
-        collectionDeligate?.SendArray(selectedUserImageArray: selectedUserImageArray, userIDArray: userIDArray, userNameArray: userNameArray)
-        print(selectedUserImageArray)
+    
+    @IBAction func invitationButton(_ sender: Any) {
+        let groupID = UserDefaults.standard.object(forKey: "groupID") as! String
+        for usersID in userIDArray{
+            db.collection("userManagement").document(usersID).setData(["joinGroupDic":["\(groupID)": false]], merge: true)
+        }
         dismiss(animated: true, completion: nil)
     }
     
@@ -75,9 +78,24 @@ class SearchViewController: UIViewController {
         loadDBModel.loadUserSearch(email: searchUserTextField.text!, activityIndicatorView: activityIndicatorView)
     }
     
+    @IBAction func back(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
+    /*
+     // MARK: - Navigation
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
 // MARK: - CollectionView
-extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
+extension AdditionViewController: UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return selectedUserImageArray.count
     }
@@ -88,25 +106,13 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as! CollectionViewCell
-        cell.profileImage!.sd_setImage(with: URL(string: selectedUserImageArray[indexPath.row]), completed: nil)
-        cell.deleteButton!.addTarget(self, action: #selector(tapDeleteButton(_:)), for: .touchUpInside)
+        cell.profileImage.sd_setImage(with: URL(string: selectedUserImageArray[indexPath.row]), completed: nil)
         cell.userNameLabel.text = userNameArray[indexPath.row]
+        cell.deleteButton!.addTarget(self, action: #selector(tapDeleteButton(_:)), for: .touchUpInside)
         print("daigoitemAt")
         print(cell.deleteButton.tag)
         
         return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets.zero
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
     }
     
     @objc func tapDeleteButton(_ sender:UIButton){
@@ -115,7 +121,6 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         print(indexPath?.row)
         selectedUserImageArray.remove(at: indexPath!.row)
         userIDArray.remove(at: indexPath!.row)
-        userNameArray.remove(at: indexPath!.row)
         collectionView.deleteItems(at: [IndexPath(item: indexPath!.row, section: 0)])
     }
     
@@ -126,7 +131,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
 }
 
 // MARK: - TableView
-extension SearchViewController:UITableViewDelegate,UITableViewDataSource{
+extension AdditionViewController: UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return userSearchSets.count
@@ -138,8 +143,8 @@ extension SearchViewController:UITableViewDelegate,UITableViewDataSource{
         let profileImage = cell.contentView.viewWithTag(1) as! UIImageView
         let userNameLabel = cell.contentView.viewWithTag(2) as! UILabel
         
-        profileImage.sd_setImage(with: URL(string: userSearchSets[indexPath.row].profileImage), completed: nil)
         profileImage.layer.cornerRadius = 30
+        profileImage.sd_setImage(with: URL(string: userSearchSets[indexPath.row].profileImage), completed: nil)
         userNameLabel.text = userSearchSets[indexPath.row].userName
         
         return cell
@@ -150,7 +155,8 @@ extension SearchViewController:UITableViewDelegate,UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        //        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath
+        
         nothingLabel.isHidden = true
         selectedUserImageArray.append(userSearchSets[indexPath.row].profileImage)
         userIDArray.append(userSearchSets[indexPath.row].userID)
@@ -163,7 +169,6 @@ extension SearchViewController:UITableViewDelegate,UITableViewDataSource{
         }, completion:  { _ in
             //               self.tableView.isHidden = true
         })
-        
         collectionView.reloadData()
     }
     
@@ -173,10 +178,11 @@ extension SearchViewController:UITableViewDelegate,UITableViewDataSource{
     
 }
 
-// MARK: - LoadOKDelegate
-extension SearchViewController: LoadOKDelegate{
+// MARK: - LoadOKDeegate
+extension AdditionViewController:LoadOKDelegate{
     
     func loadUserSearch_OK() {
+        
         self.userSearchSets = loadDBModel.userSearchSets
         if userSearchSets.count == 0{
             view.addSubview(nothingLabel)

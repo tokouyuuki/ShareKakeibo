@@ -9,6 +9,7 @@ import UIKit
 
 class DetailCell: UITableViewCell {
 
+    @IBOutlet weak var view: UIView!
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var paymentLabel: UILabel!
     @IBOutlet weak var userNameLabel: UILabel!
@@ -18,6 +19,8 @@ class DetailCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        profileImage.layer.cornerRadius = 30
         // Initialization code
     }
 

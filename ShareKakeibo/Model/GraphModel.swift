@@ -20,7 +20,7 @@ class ChartFormatter: NSObject, IAxisValueFormatter {
     }
 }
 
-class GraphModel{
+class GraphModel: ChartViewDelegate{
     
     @IBInspectable var animationDuration: Double = 0.8
     
@@ -32,8 +32,10 @@ class GraphModel{
     let yachinColor = UIColor(red: 255 / 255, green: 190 / 255, blue: 177 / 255, alpha: 1.0)
     let sonotaColor = UIColor.systemGray3
     
+    var pieChartDataSet = PieChartDataSet()
+    var categoryDic = [Dictionary<String, Int>.Element]()
     
-    func setLineCht(linechart: LineChartView,yAxisValues: [Int]) {
+    func setLineCht(linechart: LineChartView,yAxisValues: [Int],thisMonth: Int) {
         
         var dataSets = [LineChartDataSet]()
         
@@ -44,43 +46,93 @@ class GraphModel{
         
         let formatter = ChartFormatter()
         linechart.xAxis.valueFormatter = formatter
-        //labelCountはChartDataEntryと同じ数だけ入れます。
-        linechart.xAxis.labelCount = 12
-        //granularityは1.0で固定
-        linechart.xAxis.granularity = 1.0
+        linechart.xAxis.labelCount = 12 //labelCountはChartDataEntryと同じ数だけ入れます。
+        linechart.xAxis.granularity = 1.0 //granularityは1.0で固定
+        linechart.xAxis.gridColor = .clear
+        linechart.rightAxis.enabled = false
+        linechart.leftAxis.drawZeroLineEnabled = true
+        linechart.leftAxis.axisMinimum = 0
+        linechart.leftAxis.gridLineWidth = 0.1
+        linechart.leftAxis.gridColor = .darkGray
+        linechart.zoom(scaleX: 2, scaleY: 1, xValue: Double(thisMonth), yValue: 1, axis: .right)
+        linechart.legend.enabled = false
+        linechart.animate(xAxisDuration: 0.8, easingOption: .easeInBack)
         
-        linechart.animate(xAxisDuration: 0.5)
+        linechart.layer.masksToBounds = false
+        linechart.layer.cornerRadius = 5
+        linechart.layer.shadowOffset = CGSize(width: 0, height: 5)
+        linechart.layer.shadowOpacity = 0.3
+        linechart.layer.shadowRadius = 4
+        
+        dataSet.lineWidth = 3
+        dataSet.setColor(shokuhiColor)
+        dataSet.circleColors = [shokuhiColor]
+        dataSet.formSize = 15
+        
     }
     
     
     
-    func setPieCht(piecht: PieChartView,categorypay: [Int]){
+    func setPieCht(piecht: PieChartView,categoryDic: [Dictionary<String, Int>.Element]){
         
-        let category = ["食費", "水道代", "電気代", "ガス代", "通信費","家賃","その他"]
-        let colors: [UIColor] = [shokuhiColor,suidouColor,denkiColor,gasColor,tushinColor,yachinColor,sonotaColor]
-        
+        self.categoryDic = categoryDic
+        let categoryColors = ["食費":shokuhiColor,"水道代":suidouColor,"電気代":denkiColor,"ガス代":gasColor,"通信費":tushinColor,"家賃":yachinColor,"その他":sonotaColor]
+        var colors = [UIColor]()
         var dataEntries: [ChartDataEntry] = []
         
-        for i in 0..<category.count {
-            if categorypay[i] == 0{
-                dataEntries.append(PieChartDataEntry(value: Double(categorypay[i]), label: ""))
-            }else{
-                dataEntries.append(PieChartDataEntry(value: Double(categorypay[i]), label: category[i]))
-            }
+        for category in categoryDic {
+            colors.append(categoryColors[category.key]!)
+            //            dataEntries.append(PieChartDataEntry(value: Double(category.value), label: "\(category.key) :\(category.value)円"))
+            dataEntries.append(PieChartDataEntry(value: Double(category.value), label: "\(category.key) :\(category.value)円", data: Double(category.value)))
         }
         
-        let pieChartDataSet = PieChartDataSet(entries: dataEntries, label: "個人のカテゴリー別支出(円)")
+        pieChartDataSet = PieChartDataSet(entries: dataEntries, label: "カテゴリー別支出(円)")
+        //        pieChartDataSet.automaticallyDisableSliceSpacing = false
         
         pieChartDataSet.colors = colors
-        pieChartDataSet.valueTextColor = NSUIColor.black
-        pieChartDataSet.entryLabelColor = NSUIColor.black
-
+        pieChartDataSet.valueColors = [.clear,.clear,.clear,.clear,.clear,.clear,.clear]
+        pieChartDataSet.entryLabelColor = .clear
+        pieChartDataSet.valueLineColor = .clear
+        //        pieChartDataSet.yValuePosition = .outsideSlice
+        pieChartDataSet.valueLinePart1Length = 0.5
+        pieChartDataSet.selectionShift = 6
+        pieChartDataSet.sliceSpace = 1.5
+        pieChartDataSet.automaticallyDisableSliceSpacing = true
+        //        pieChartDataSet.xValuePosition = .outsideSlice
+        //        pieChartDataSet.valueColors = [.red,.blue,.red,.blue,.red,.blue,.red]
+        
+        //        piecht.transparentCircleColor = .systemYellow
+        
+        piecht.layer.masksToBounds = false
+        piecht.layer.cornerRadius = 5
+        piecht.layer.shadowOffset = CGSize(width: 1, height: 5)
+        piecht.layer.shadowOpacity = 0.3
+        piecht.layer.shadowRadius = 4
+        
+        piecht.delegate = self
+        piecht.legend.formSize = 15
+        piecht.legend.formToTextSpace = 7
+        piecht.legend.yEntrySpace = 10
+        piecht.legend.font = UIFont(descriptor: UIFontDescriptor(), size: 14)
+        piecht.legend.textColor = .darkGray
+        //        piecht.legend.
+        //        piecht.drawSlicesUnderHoleEnabled = true
         piecht.data = PieChartData(dataSet: pieChartDataSet)
         piecht.animate(yAxisDuration: 2)
         piecht.rotationEnabled = false
-        piecht.highlightPerTapEnabled = false
-        
+        piecht.highlightPerTapEnabled = true
+        piecht.centerText = "今月の支出"
     }
     
+    func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
+        pieChartDataSet.valueColors = [.clear,.clear,.clear,.clear,.clear,.clear,.clear]
+        var index = Int()
+        index = categoryDic.firstIndex(where: { $0.value == entry.data as! Int })!
+        pieChartDataSet.valueColors[index] = .darkGray
+    }
+    
+    func chartValueNothingSelected(_ chartView: ChartViewBase) {
+        pieChartDataSet.valueColors = [.clear,.clear,.clear,.clear,.clear,.clear,.clear]
+    }
     
 }

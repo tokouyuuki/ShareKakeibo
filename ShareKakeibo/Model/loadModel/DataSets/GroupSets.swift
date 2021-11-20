@@ -11,5 +11,5 @@ struct GroupSets {
     let groupName:String
     let groupImage:String
     let groupID:String
+    let create_at:Double?
 }
-

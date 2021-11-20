@@ -8,8 +8,9 @@
 import UIKit
 import Charts
 
-class LastMonthDataViewController: UIViewController,LoadOKDelegate {
-
+class LastMonthDataViewController: UIViewController {
+    
+    //追加
     @IBOutlet weak var showDetailButton: UIButton!
     @IBOutlet weak var pieChartView: PieChartView!
     @IBOutlet weak var userPaymentLastMonth: UILabel!
@@ -17,6 +18,7 @@ class LastMonthDataViewController: UIViewController,LoadOKDelegate {
     @IBOutlet weak var groupPaymentOfLastMonth: UILabel!
     
     var graphModel = GraphModel()
+    //追加
     var loadDBModel = LoadDBModel()
     var activityIndicatorView = UIActivityIndicatorView()
     var groupID = String()
@@ -26,16 +28,13 @@ class LastMonthDataViewController: UIViewController,LoadOKDelegate {
     var month = String()
     var startDate = Date()
     var endDate = Date()
-    var categorypay = [Int]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         showDetailButton.layer.cornerRadius = 5
         
-        categorypay = [10,10,10,10,19,3,24]
-        graphModel.setPieCht(piecht: pieChartView, categorypay: categorypay)
-        
+        //追加
         activityIndicatorView.center = view.center
         activityIndicatorView.style = .large
         activityIndicatorView.color = .darkGray
@@ -55,6 +54,25 @@ class LastMonthDataViewController: UIViewController,LoadOKDelegate {
         loadDBModel.loadSettlementDay(groupID: groupID, activityIndicatorView: activityIndicatorView)
     }
     
+    
+    @IBAction func showDetailButton(_ sender: Any) {
+        performSegue(withIdentifier: "DetailLastMonthVC", sender: nil)
+    }
+    
+    /*
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
+}
+
+extension LastMonthDataViewController:LoadOKDelegate{
+    //追加
     //決済日取得完了
     //先月を求める
     func loadSettlementDay_OK(settlementDay: String) {
@@ -72,11 +90,14 @@ class LastMonthDataViewController: UIViewController,LoadOKDelegate {
         loadDBModel.loadCategoryGraphOfTithMonth(groupID: groupID, startDate: startDate, endDate: endDate, activityIndicatorView: activityIndicatorView)
     }
     
-    //変更
+    //追加
     //グラフに反映するカテゴリ別合計金額取得完了
-    func loadCategoryGraphOfTithMonth_OK(categoryPayArray: [Int]) {
+    func loadCategoryGraphOfTithMonth_OK(categoryDic: Dictionary<String, Int>) {
         activityIndicatorView.stopAnimating()
-        graphModel.setPieCht(piecht: pieChartView, categorypay: categoryPayArray)
+        
+        let sortedCategoryDic = categoryDic.sorted{ $0.1 > $1.1 }
+        graphModel.setPieCht(piecht: pieChartView, categoryDic: sortedCategoryDic)
+        //変更
         loadDBModel.loadUserIDAndSettlementDic(groupID: groupID, activityIndicatorView: activityIndicatorView)
     }
     
@@ -100,18 +121,4 @@ class LastMonthDataViewController: UIViewController,LoadOKDelegate {
         self.userPaymentLastMonth.text = String(loadDBModel.settlementSets[0].paymentAmount!) + "　円"
     }
     
-    @IBAction func showDetailButton(_ sender: Any) {
-        performSegue(withIdentifier: "DetailLastMonthVC", sender: nil)
-    }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

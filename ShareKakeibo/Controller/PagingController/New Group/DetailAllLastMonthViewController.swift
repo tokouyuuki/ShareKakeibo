@@ -8,7 +8,7 @@
 import UIKit
 import Parchment
 
-class DetailAllLastMonthViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,LoadOKDelegate {
+class DetailAllLastMonthViewController: UIViewController {
     
     var loadDBModel = LoadDBModel()
     var monthGroupDetailsSets = [MonthGroupDetailsSets]()
@@ -50,6 +50,20 @@ class DetailAllLastMonthViewController: UIViewController,UITableViewDelegate,UIT
         loadDBModel.loadSettlementDay(groupID: groupID, activityIndicatorView: activityIndicatorView)
     }
     
+    
+    /*
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
+}
+
+// MARK: - LoadOKDelegate
+extension DetailAllLastMonthViewController:LoadOKDelegate{
     //決済日取得完了
     //決済月を求める
     func loadSettlementDay_OK(settlementDay: String) {
@@ -72,6 +86,7 @@ class DetailAllLastMonthViewController: UIViewController,UITableViewDelegate,UIT
     func loadMonthDetails_OK() {
         activityIndicatorView.stopAnimating()
         monthGroupDetailsSets = loadDBModel.monthGroupDetailsSets
+        //変更
         userIDArray = []
         profileImageArray = []
         userNameArray = []
@@ -88,12 +103,19 @@ class DetailAllLastMonthViewController: UIViewController,UITableViewDelegate,UIT
             
             tableView.delegate = self
             tableView.dataSource = self
+            
             self.tableView.reloadData()
         }
     }
     
+}
+
+// MARK: - TableView
+
+extension DetailAllLastMonthViewController: UITableViewDelegate,UITableViewDataSource{
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return userNameArray.count
+        return profileImageArray.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -103,23 +125,19 @@ class DetailAllLastMonthViewController: UIViewController,UITableViewDelegate,UIT
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath) as! DetailCell
         
+        //変更
         cell.profileImage.sd_setImage(with: URL(string: profileImageArray[indexPath.row]), completed: nil)
         cell.paymentLabel.text = String(monthGroupDetailsSets[indexPath.row].paymentAmount)
         cell.userNameLabel.text = userNameArray[indexPath.row]
         cell.dateLabel.text = monthGroupDetailsSets[indexPath.row].paymentDay
         cell.category.text = monthGroupDetailsSets[indexPath.row].category
+        cell.view.layer.cornerRadius = 5
+        cell.view.layer.masksToBounds = false
+        cell.view.layer.shadowOffset = CGSize(width: 1, height: 3)
+        cell.view.layer.shadowOpacity = 0.2
+        cell.view.layer.shadowRadius = 3
         
         return cell
     }
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
     
 }
