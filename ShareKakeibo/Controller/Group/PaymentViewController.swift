@@ -109,7 +109,14 @@ class PaymentViewController: UIViewController{
         paymentDay = dateFormatter.date(from: "\(paymentDayTextField.text!)")!
         
         if priceLabel.text?.isEmpty == false {
-            db.collection(groupID).document().setData(["paymentAmount" : Int(priceLabel.text!)! as Int,"productName" : paymentNameTextField.text! as String,"paymentDay" : paymentDay as Date,"category" : categoryTextField.text! as String,"userID" : userID as String])
+            db.collection("paymentData").document().setData([
+                "paymentAmount" : Int(priceLabel.text!)!,
+                "productName" : paymentNameTextField.text!,
+                "paymentDay" : paymentDay as Date,
+                "category" : categoryTextField.text!,
+                "userID" : userID,
+                "groupID" : groupID
+            ])
             
             dismiss(animated: true, completion: nil)
         }else{

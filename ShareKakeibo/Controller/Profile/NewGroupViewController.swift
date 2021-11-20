@@ -22,8 +22,6 @@ class NewGroupViewController: UIViewController {
     var userName = String()
     var profileImage = String()
     var groupID = String()
-    
-    //追加
     var sortedGroupNotJoinArray = [GroupSets]()
     
     var buttonAnimatedModel = ButtonAnimatedModel(withDuration: 0.1, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, transform: CGAffineTransform(scaleX: 0.95, y: 0.95), alpha: 0.7)
