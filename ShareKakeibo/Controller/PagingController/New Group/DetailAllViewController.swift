@@ -20,9 +20,7 @@ class DetailAllViewController: UIViewController{
     var startDate = Date()
     var endDate = Date()
     var tableView = UITableView()
-    //追加、変更
     var userIDArray = [String]()
-    //追加
     var profileImage = String()
     var profileImageArray = [String]()
     var userNameArray = [String]()
@@ -69,6 +67,12 @@ class DetailAllViewController: UIViewController{
         loadDBModel.loadMonthDetails(groupID: groupID, startDate: startDate, endDate: endDate, userID: nil, activityIndicatorView: activityIndicatorView)
     }
     
+    //    override func viewWillDisappear(_ animated: Bool) {
+    //        super.viewWillDisappear(animated)
+    //
+    //        monthGroupDetailsSets = []
+    //    }
+    
 }
 
 // MARK: - LoadOKDelegate
@@ -79,7 +83,6 @@ extension DetailAllViewController:LoadOKDelegate {
         activityIndicatorView.stopAnimating()
         monthGroupDetailsSets = []
         monthGroupDetailsSets = loadDBModel.monthGroupDetailsSets
-        //変更
         userIDArray = []
         profileImageArray = []
         userNameArray = []
@@ -97,7 +100,6 @@ extension DetailAllViewController:LoadOKDelegate {
         loadDBModel.loadGroupMember(userIDArray: userIDArray) { [self] UserSets in
             self.profileImageArray.append(UserSets.profileImage)
             self.userNameArray.append(UserSets.userName)
-            
             tableView.delegate = self
             tableView.dataSource = self
             self.tableView.reloadData()
@@ -119,7 +121,7 @@ extension DetailAllViewController:UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath) as! DetailCell
-        //変更
+        
         print(monthGroupDetailsSets)
         print(profileImageArray)
         if profileImageArray.count == monthGroupDetailsSets.count{

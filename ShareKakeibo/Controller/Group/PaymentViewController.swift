@@ -110,6 +110,8 @@ class PaymentViewController: UIViewController{
         
         if priceLabel.text?.isEmpty == false {
             db.collection(groupID).document().setData(["paymentAmount" : Int(priceLabel.text!)! as Int,"productName" : paymentNameTextField.text! as String,"paymentDay" : paymentDay as Date,"category" : categoryTextField.text! as String,"userID" : userID as String])
+            
+            dismiss(animated: true, completion: nil)
         }else{
             //空だった場合の処理をお願いします
             //ここに来たのは２回目です。elseの処理がわかりません。お願いします。
@@ -256,4 +258,14 @@ extension PaymentViewController: UITextFieldDelegate{
         return true
     }
     
+}
+
+extension PaymentViewController{
+    override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+        super.dismiss(animated: flag, completion: completion)
+        guard let presentationController = presentationController else {
+            return
+        }
+        presentationController.delegate?.presentationControllerDidDismiss?(presentationController)
+    }
 }

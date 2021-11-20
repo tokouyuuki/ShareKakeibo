@@ -73,6 +73,13 @@ class DetailMyselfViewController: UIViewController {
         loadDBModel.loadMonthDetails(groupID: groupID, startDate: startDate, endDate: endDate, userID: userID, activityIndicatorView: activityIndicatorView)
     }
     
+    //    override func viewDidDisappear(_ animated: Bool) {
+    //        monthMyDetailsSets = []
+    //    }
+    //
+    
+    
+    
 }
 
 // MARK: - LoadOKDelegate,EditOKDelegate
@@ -82,11 +89,9 @@ extension DetailMyselfViewController:LoadOKDelegate,EditOKDelegate{
     func loadMonthDetails_OK() {
         activityIndicatorView.stopAnimating()
         monthMyDetailsSets = loadDBModel.monthMyDetailsSets
-        //変更
         loadDBModel.loadUserInfo(userID: userID, activityIndicatorView: activityIndicatorView)
     }
     
-    //追加
     //自分のユーザーネーム、プロフィール画像を取得完了
     func loadUserInfo_OK(userName: String, profileImage: String, email: String, password: String) {
         self.profileImage = profileImage
@@ -104,7 +109,6 @@ extension DetailMyselfViewController:LoadOKDelegate,EditOKDelegate{
 }
 
 // MARK: - TableView
-
 extension DetailMyselfViewController:UITableViewDelegate,UITableViewDataSource{
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -132,6 +136,7 @@ extension DetailMyselfViewController:UITableViewDelegate,UITableViewDataSource{
         cell.dateLabel.text = monthMyDetailsSets[indexPath.row].paymentDay
         cell.category.text = monthMyDetailsSets[indexPath.row].category
         cell.view.layer.cornerRadius = 5
+        //        cell.view.translatesAutoresizingMaskIntoConstraints = true
         cell.view.layer.masksToBounds = false
         cell.view.layer.shadowOffset = CGSize(width: 1, height: 3)
         cell.view.layer.shadowOpacity = 0.2
@@ -150,9 +155,7 @@ extension DetailMyselfViewController:UITableViewDelegate,UITableViewDataSource{
             self.indexPath = indexPath
             print("***trailingSwipeActionsConfigurationForRowAt***")
             print(self.indexPath)
-            //データ削除
-            //            editDBModel.editMonthDetailsDelete(groupID: groupID, userID: userID, startDate: startDate, endDate: endDate, index: indexPath.row, activityIndicatorView: activityIndicatorView)
-            db.collection(groupID).document(loadDBModel.monthMyDetailsSets[indexPath.row].documentID).delete()
+            db.collection(groupID).document(monthMyDetailsSets[indexPath.row].documentID).delete()
             monthMyDetailsSets.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
             completionHandler(true)

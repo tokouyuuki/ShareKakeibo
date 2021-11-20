@@ -71,6 +71,14 @@ extension DetailAllLastMonthViewController:LoadOKDelegate{
         dateFormatter.dateFormat = "yyyy年MM月dd日"
         dateFormatter.locale = Locale(identifier: "ja_JP")
         dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
+        startDate = dateFormatter.date(from: "\(year)年\(month)月\(settlementDay)日")!
+        if month == "1"{
+            startDate = dateFormatter.date(from: "\(String(Int(year)! - 1))年\("11")月\(settlementDay)日")!
+            endDate = dateFormatter.date(from: "\(String(Int(year)! - 1))年\(12)月\(settlementDay)日")!
+        }else{
+            startDate = dateFormatter.date(from: "\(year)年\(String(Int(month)! - 2))月\(settlementDay)日")!
+            endDate = dateFormatter.date(from: "\(year)年\(String(Int(month)! - 1))月\(settlementDay)日")!
+        }
         if month == "1"{
             startDate = dateFormatter.date(from: "\(String(Int(year)! - 1))年\("11")月\(settlementDay)日")!
             endDate = dateFormatter.date(from: "\(String(Int(year)! - 1))年\(12)月\(settlementDay)日")!
@@ -86,7 +94,6 @@ extension DetailAllLastMonthViewController:LoadOKDelegate{
     func loadMonthDetails_OK() {
         activityIndicatorView.stopAnimating()
         monthGroupDetailsSets = loadDBModel.monthGroupDetailsSets
-        //変更
         userIDArray = []
         profileImageArray = []
         userNameArray = []
@@ -103,7 +110,6 @@ extension DetailAllLastMonthViewController:LoadOKDelegate{
             
             tableView.delegate = self
             tableView.dataSource = self
-            
             self.tableView.reloadData()
         }
     }
@@ -111,7 +117,6 @@ extension DetailAllLastMonthViewController:LoadOKDelegate{
 }
 
 // MARK: - TableView
-
 extension DetailAllLastMonthViewController: UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -125,7 +130,6 @@ extension DetailAllLastMonthViewController: UITableViewDelegate,UITableViewDataS
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath) as! DetailCell
         
-        //変更
         cell.profileImage.sd_setImage(with: URL(string: profileImageArray[indexPath.row]), completed: nil)
         cell.paymentLabel.text = String(monthGroupDetailsSets[indexPath.row].paymentAmount)
         cell.userNameLabel.text = userNameArray[indexPath.row]

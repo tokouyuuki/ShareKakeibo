@@ -121,7 +121,6 @@ extension MonthDataViewController:LoadOKDelegate {
     func loadSettlementDay_OK(settlementDay: String) {
         activityIndicatorView.stopAnimating()
         UserDefaults.standard.setValue(settlementDay, forKey: "settlementDay")
-        
         dateFormatter.dateFormat = "yyyy年MM月dd日"
         dateFormatter.locale = Locale(identifier: "ja_JP")
         dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
@@ -132,6 +131,9 @@ extension MonthDataViewController:LoadOKDelegate {
             startDate = dateFormatter.date(from: "\(year)年\(String(Int(month)! - 1))月\(settlementDay)日")!
             endDate = dateFormatter.date(from: "\(year)年\((month))月\(settlementDay)日")!
         }
+        print("#$&#$%#$%#$%#$%#$%")
+        print(startDate)
+        print(endDate)
         loadDBModel.loadGroupName(groupID: groupID, activityIndicatorView: activityIndicatorView)
     }
     
