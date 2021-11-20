@@ -134,7 +134,7 @@ extension UtilityViewController:LoadOKDelegate{
     //        loadDBModel.loadMonthlyUtilityTransition(groupID: groupID, year: year, settlementDay: settlementDay, startDate: startDate, endDate: endDate, activityIndicatorView: activityIndicatorView)
     //    }
     
-    //１〜１２月の光熱費の推移取得完了
+    //１〜１２月の光熱費と家賃と通信費の推移取得完了
     func loadMonthlyTransition_OK(countArray: [Int]) {
         activityIndicatorView.stopAnimating()
         yAxisValues = countArray

@@ -440,7 +440,7 @@ class LoadDBModel{
     //1〜12月の項目ごとの光熱費と家賃と通信費の推移
     func loadMonthlyUtilityTransition(groupID:String,year:String,settlementDay:String,startDate:Date,endDate:Date,activityIndicatorView:UIActivityIndicatorView){
         
-        db.collection("paymentData").whereField("groupID", isEqualTo: groupID).whereField("paymentDay", isGreaterThanOrEqualTo: startDate).whereField("paymentDay", isLessThan: endDate).whereField("category", isEqualTo: "水道代").whereField("category", isEqualTo: "電気代").whereField("category", isEqualTo: "ガス代").whereField("category", isEqualTo: "家賃").whereField("category", isEqualTo: "通信費").addSnapshotListener { [self] (snapShot, error) in
+        db.collection("paymentData").whereField("groupID", isEqualTo: groupID).whereField("paymentDay", isGreaterThanOrEqualTo: startDate).whereField("paymentDay", isLessThan: endDate).whereField("category", in: ["水道代","電気代","ガス代","家賃","通信費"]).addSnapshotListener { [self] (snapShot, error) in
             countArray = []
             dateFormatter.dateFormat = "yyyy年MM月dd日"
             dateFormatter.locale = Locale(identifier: "ja_JP")
