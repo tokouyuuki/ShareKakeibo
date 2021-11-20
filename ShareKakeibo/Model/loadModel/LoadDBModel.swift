@@ -360,7 +360,6 @@ class LoadDBModel{
         }
     }
     
-    
     //1〜12月の全体の推移
     func loadMonthlyAllTransition(groupID:String,year:String,settlementDay:String,startDate:Date,endDate:Date,activityIndicatorView:UIActivityIndicatorView){
         

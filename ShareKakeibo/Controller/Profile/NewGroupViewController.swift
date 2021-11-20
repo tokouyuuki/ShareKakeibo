@@ -166,6 +166,7 @@ extension NewGroupViewController:LoadOKDelegate, EditOKDelegate{
     //どのグループに参加しているか招待されているかを取得完了
     func loadNotJoinGroup_OK(groupIDArray: [String], notJoinCount: Int) {
         groupNotJoinArray = []
+        sortedGroupNotJoinArray = []
         //招待されているグループの情報を取得完了
         loadDBModel.loadNotJoinGroupInfo(groupIDArray: groupIDArray) { JoinGroupSets in
             print("$$$$$$$$$$$$$$$$")

@@ -26,7 +26,8 @@ class DetailMyselfLastMonthViewController: UIViewController {
     var tableView = UITableView()
     var profileImage = String()
     var userName = String()
-    
+    var indexPath = IndexPath()
+    var settlementDay = String()
     var db = Firestore.firestore()
     
     override func viewDidLoad() {
@@ -54,20 +55,12 @@ class DetailMyselfLastMonthViewController: UIViewController {
         userID = UserDefaults.standard.object(forKey: "userID") as! String
         loadDBModel.loadOKDelegate = self
         editDBModel.editOKDelegate = self
-        loadDBModel.loadSettlementDay(groupID: groupID, activityIndicatorView: activityIndicatorView)
-    }
-    
-}
-
-// MARK: - LoadOKDelegate,EditOKDelegate
-extension DetailMyselfLastMonthViewController:LoadOKDelegate,EditOKDelegate{
-    //決済日取得完了
-    //決済月を求める
-    func loadSettlementDay_OK(settlementDay: String) {
-        activityIndicatorView.stopAnimating()
+        
+        //決済日をuserDefaultから取り出し、決済月を求める
         dateFormatter.dateFormat = "yyyy年MM月dd日"
         dateFormatter.locale = Locale(identifier: "ja_JP")
         dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
+        settlementDay = UserDefaults.standard.object(forKey: "settlementDay") as! String
         if month == "1"{
             startDate = dateFormatter.date(from: "\(String(Int(year)! - 1))年\("11")月\(settlementDay)日")!
             endDate = dateFormatter.date(from: "\(String(Int(year)! - 1))年\(12)月\(settlementDay)日")!
@@ -77,6 +70,11 @@ extension DetailMyselfLastMonthViewController:LoadOKDelegate,EditOKDelegate{
         }
         loadDBModel.loadMonthDetails(groupID: groupID, startDate: startDate, endDate: endDate, userID: userID, activityIndicatorView: activityIndicatorView)
     }
+    
+}
+
+// MARK: - LoadOKDelegate,EditOKDelegate
+extension DetailMyselfLastMonthViewController:LoadOKDelegate,EditOKDelegate{
     
     //自分の明細を取得完了
     func loadMonthDetails_OK() {
@@ -96,17 +94,14 @@ extension DetailMyselfLastMonthViewController:LoadOKDelegate,EditOKDelegate{
         tableView.reloadData()
     }
     
-    //データ削除完了
-    func editMonthDetailsDelete_OK() {
-        monthMyDetailsSets = []
-        monthMyDetailsSets = editDBModel.monthMyDetailsSets
-        tableView.reloadData()
-    }
-    
 }
 
 // MARK: - TableView
 extension DetailMyselfLastMonthViewController:UITableViewDelegate,UITableViewDataSource{
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return monthMyDetailsSets.count
@@ -140,8 +135,9 @@ extension DetailMyselfLastMonthViewController:UITableViewDelegate,UITableViewDat
             (ctxAction, view, completionHandler) in
             tableView.deleteRows(at: [indexPath], with: .automatic)
             //データ削除
-            db.collection(groupID).document(monthMyDetailsSets[indexPath.row].documentID).delete()
+            db.collection("paymentData").document(monthMyDetailsSets[indexPath.row].documentID).delete()
             monthMyDetailsSets.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
             completionHandler(true)
         }
         // 削除ボタンのデザインを設定する

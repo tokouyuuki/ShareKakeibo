@@ -52,7 +52,11 @@ class DetailAllViewController: UIViewController{
         groupID = UserDefaults.standard.object(forKey: "groupID") as! String
         loadDBModel.loadOKDelegate = self
         
+        //!!!!!!!!!!注目!!!!!!!!!!!!!
+        //ストップアニメイトであってますか？
         activityIndicatorView.stopAnimating()
+        
+        //決済日をuserDefaultから取り出し、決済月を求める
         dateFormatter.dateFormat = "yyyy年MM月dd日"
         dateFormatter.locale = Locale(identifier: "ja_JP")
         dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
@@ -122,8 +126,6 @@ extension DetailAllViewController:UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath) as! DetailCell
         
-        print(monthGroupDetailsSets)
-        print(profileImageArray)
         if profileImageArray.count == monthGroupDetailsSets.count{
             cell.profileImage.sd_setImage(with: URL(string: profileImageArray[indexPath.row]), completed: nil)
             cell.paymentLabel.text = String(monthGroupDetailsSets[indexPath.row].paymentAmount)

@@ -27,9 +27,7 @@ class DetailMyselfViewController: UIViewController {
     var profileImage = String()
     var userName = String()
     var indexPath = IndexPath()
-    
     var settlementDay = String()
-    
     var db = Firestore.firestore()
     
     override func viewDidLoad() {
@@ -58,7 +56,10 @@ class DetailMyselfViewController: UIViewController {
         loadDBModel.loadOKDelegate = self
         editDBModel.editOKDelegate = self
         
+        //ここもね！！！！！！！！
         activityIndicatorView.stopAnimating()
+        
+        //決済日をuserDefaultから取り出し、決済月を求める
         dateFormatter.dateFormat = "yyyy年MM月dd日"
         dateFormatter.locale = Locale(identifier: "ja_JP")
         dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
@@ -102,10 +103,6 @@ extension DetailMyselfViewController:LoadOKDelegate,EditOKDelegate{
         tableView.reloadData()
     }
     
-    //データ削除完了
-    func editMonthDetailsDelete_OK() {
-        
-    }
 }
 
 // MARK: - TableView
@@ -116,8 +113,6 @@ extension DetailMyselfViewController:UITableViewDelegate,UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("****numberOfRowsInSection****")
-        print(monthMyDetailsSets.count)
         return monthMyDetailsSets.count
     }
     
@@ -127,10 +122,8 @@ extension DetailMyselfViewController:UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath) as! DetailCell
-        //変更
+        
         cell.profileImage.sd_setImage(with: URL(string: profileImage), completed: nil)
-        print("****cellForRowAt****")
-        print(monthMyDetailsSets.count)
         cell.paymentLabel.text = String(monthMyDetailsSets[indexPath.row].paymentAmount)
         cell.userNameLabel.text = userName
         cell.dateLabel.text = monthMyDetailsSets[indexPath.row].paymentDay
@@ -149,13 +142,11 @@ extension DetailMyselfViewController:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         // 削除のアクションを設定する
-        
         let deleteAction = UIContextualAction(style: .destructive, title:"delete") { [self]
             (ctxAction, view, completionHandler) in
             self.indexPath = indexPath
-            print("***trailingSwipeActionsConfigurationForRowAt***")
-            print(self.indexPath)
-            db.collection(groupID).document(monthMyDetailsSets[indexPath.row].documentID).delete()
+            //データ削除
+            db.collection("paymentData").document(monthMyDetailsSets[indexPath.row].documentID).delete()
             monthMyDetailsSets.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
             completionHandler(true)

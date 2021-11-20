@@ -156,7 +156,7 @@ extension MonthDataViewController:LoadOKDelegate {
         graphModel.setPieCht(piecht: pieChartView, categoryDic: sortedCategoryDic)
         loadDBModel.loadUserIDAndSettlementDic(groupID: groupID, activityIndicatorView: activityIndicatorView)
     }
-    //追加
+    
     //グループに参加しているメンバーを取得完了
     func loadUserIDAndSettlementDic_OK(settlementDic: Dictionary<String, Bool>, userIDArray: [String]) {
         activityIndicatorView.stopAnimating()
