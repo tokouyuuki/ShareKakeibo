@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 struct SettlementSets {
     let paymentAmount:Int?
     let userID:String?

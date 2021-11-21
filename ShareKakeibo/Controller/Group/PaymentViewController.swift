@@ -9,7 +9,7 @@ import UIKit
 import FirebaseFirestore
 
 class PaymentViewController: UIViewController{
-    
+
     
     @IBOutlet weak var paymentConfirmedButton: UIButton!
     @IBOutlet weak var paymentNameTextField: UITextField!
@@ -37,9 +37,12 @@ class PaymentViewController: UIViewController{
     var valueOfPaymentDay = String()
     var today = Int()
     
+    var dateModel = DateModel()
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         priceTextField.delegate = self
         
         paymentConfirmedButton.addTarget(self, action: #selector(touchDown(_:)), for: .touchDown)
@@ -65,7 +68,7 @@ class PaymentViewController: UIViewController{
         priceTextField.inputAccessoryView = toolberOfPrice
         priceTextField.keyboardType = UIKeyboardType.numberPad
         makePickerView()
-        paymentDayTextField.text = dateFormatter.string(from: Date())
+        paymentDayTextField.text = dateModel.changeString(date: Date())
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -79,7 +82,7 @@ class PaymentViewController: UIViewController{
         month = String(date.month!)
         groupID = UserDefaults.standard.object(forKey: "groupID") as! String
         userID = UserDefaults.standard.object(forKey: "userID") as! String
-        
+       
     }
     
     @objc func touchDown(_ sender:UIButton){
@@ -102,11 +105,7 @@ class PaymentViewController: UIViewController{
         paymentConfirmedButton.layer.shadowOpacity = 0.5
         paymentConfirmedButton.layer.shadowRadius = 1
         
-        dateFormatter.dateFormat = "yyyy年MM月dd日"
-        dateFormatter.locale = Locale(identifier: "ja_JP")
-        dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
-        print(paymentDayTextField.text)
-        paymentDay = dateFormatter.date(from: "\(paymentDayTextField.text!)")!
+        paymentDay = (dateModel.changeDate(dateString: "\(paymentDayTextField.text!)"))
         
         if priceLabel.text?.isEmpty == false {
             db.collection("paymentData").document().setData([
@@ -133,63 +132,56 @@ class PaymentViewController: UIViewController{
         textFieldCalcArray = []
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        paymentDayTextField.text = dateFormatter.string(from: pickerViewOfPaymentDay.date)
-        paymentDayTextField.endEditing(true)
-    }
-    
 }
 
 // MARK: - PickerView
 extension PaymentViewController: UIPickerViewDelegate,UIPickerViewDataSource{
     
     func makePickerView(){
-        
-        pickerViewOfCategory.delegate = self
-        pickerViewOfCategory.dataSource = self
-        
-        categoryTextField.inputView = pickerViewOfCategory
-        let toolbarOfCategory = UIToolbar()
-        toolbarOfCategory.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 44)
-        //        let buttonItemOfCategory = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.doneButtonOfCategory))
-        let buttonItemOfCategory = UIBarButtonItem(title: "決定", style: .done, target: self, action: #selector(self.doneButtonOfCategory))
-        toolbarOfCategory.setItems([buttonItemOfCategory], animated: true)
-        categoryTextField.inputAccessoryView = toolbarOfCategory
-        dateFormatter.dateFormat = "yyyy年MM月dd日"
-        dateFormatter.locale = Locale(identifier: "ja_JP")
-        dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
-        pickerViewOfPaymentDay.preferredDatePickerStyle = .wheels
-        pickerViewOfPaymentDay.datePickerMode = .date
-        pickerViewOfPaymentDay.locale = Locale(identifier: "ja_JP")
-        
-        paymentDayTextField.inputView = pickerViewOfPaymentDay
-        let toolbarOfPaymentDay = UIToolbar()
-        toolbarOfPaymentDay.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 44)
-        let buttonItemOfPaymentDay = UIBarButtonItem(title: "決定", style: .done, target: self, action: #selector(self.doneButtonOfPaymentDay))
-        toolbarOfPaymentDay.setItems([buttonItemOfPaymentDay], animated: true)
-        paymentDayTextField.inputAccessoryView = toolbarOfPaymentDay
-        
-        today = getOfToday()
-        print(UserDefaults.standard.object(forKey: "settlementDay"))
-        let settlementDayString = UserDefaults.standard.object(forKey: "settlementDay") as! String
-        let settlementDay = Int(settlementDayString)
-        dateOfselection(today: today, settelement: settlementDay!) { maxDate, minDate in
-            print("\(maxDate):\(minDate)")
-            let maxDate = dateFormatter.date(from: maxDate)
-            let minDate = dateFormatter.date(from: minDate)
-            pickerViewOfPaymentDay.maximumDate = maxDate
-            pickerViewOfPaymentDay.minimumDate = minDate
-        }
-        
-    }
+           pickerViewOfCategory.delegate = self
+           pickerViewOfCategory.dataSource = self
+           
+           //カテゴリーのピッカーの生成
+           categoryTextField.inputView = pickerViewOfCategory
+           let toolbarOfCategory = UIToolbar()
+           toolbarOfCategory.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 44)
+           let buttonItemOfCategory = UIBarButtonItem(title: "決定", style: .done, target: self, action: #selector(self.doneButtonOfCategory))
+           toolbarOfCategory.setItems([buttonItemOfCategory], animated: true)
+           categoryTextField.inputAccessoryView = toolbarOfCategory
+           
+           //支払い日のピッカーを生成
+           pickerViewOfPaymentDay.preferredDatePickerStyle = .wheels
+           pickerViewOfPaymentDay.datePickerMode = .date
+           pickerViewOfPaymentDay.locale = Locale(identifier: "ja_JP")
+           pickerViewOfPaymentDay.addTarget(self, action: #selector(self.dateChanged(_ :)), for: .valueChanged)
+           paymentDayTextField.inputView = pickerViewOfPaymentDay
+           let toolbarOfPaymentDay = UIToolbar()
+           toolbarOfPaymentDay.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 44)
+           let buttonItemOfPaymentDay = UIBarButtonItem(title: "決定", style: .done, target: self, action: #selector(self.doneButtonOfPaymentDay))
+           toolbarOfPaymentDay.setItems([buttonItemOfPaymentDay], animated: true)
+           paymentDayTextField.inputAccessoryView = toolbarOfPaymentDay
+           
+           //支払い日の選択期間を取得＆反映
+           let settlementDayString = UserDefaults.standard.object(forKey: "settlementDay") as! String
+           let settlementDay = Int(settlementDayString)
+           dateModel.getPeriodOfTextField(settelemtDay: settlementDay!, completion: { maxDate, minDate in
+               pickerViewOfPaymentDay.maximumDate = maxDate
+               pickerViewOfPaymentDay.minimumDate = minDate
+           })
+           
+       }
     
     @objc func doneButtonOfCategory(){
         categoryTextField.endEditing(true)
         
     }
     @objc func doneButtonOfPaymentDay(){
-        paymentDayTextField.text = dateFormatter.string(from: pickerViewOfPaymentDay.date)
+        paymentDayTextField.text = dateModel.changeString(date: pickerViewOfPaymentDay.date)
         paymentDayTextField.endEditing(true)
+    }
+    
+    @objc func dateChanged(_ picker: UIDatePicker){
+        paymentDayTextField.text = dateModel.changeString(date: picker.date)
     }
     
     @objc func doneButtonOfPrice(){
@@ -200,36 +192,6 @@ extension PaymentViewController: UIPickerViewDelegate,UIPickerViewDataSource{
         }
         priceLabel.text = "\(textFieldCalcArray.reduce(0){ $0 + $1 })"
         priceTextField.text = ""
-    }
-    
-    func getOfToday() -> Int{
-        let calendar = Calendar(identifier: .gregorian)
-        let date = calendar.dateComponents([.day], from: Date())
-        let today = date.day!
-        return today
-    }
-    
-    func dateOfselection(today: Int,settelement: Int,completion:(String,String) -> ()){
-        var minimumDate = String()
-        var maximumDate = String()
-        let numOfMonth = Int(month)
-        if today <= settelement{
-            maximumDate = "\(year)年\(month)月\(settelement)日"
-            if numOfMonth == 1{
-                minimumDate = "\(year)年12月\(settelement)日"
-            }else{
-                minimumDate = "\(year)年\(numOfMonth! - 1)月\(settelement)日"
-            }
-            completion(maximumDate,minimumDate)
-        }else if today >= settelement{
-            minimumDate = "\(year)年\(month)月\(settelement)日"
-            if numOfMonth == 12{
-                maximumDate = "\(year)年1月\(settelement)日"
-            }else{
-                maximumDate = "\(year)年\(numOfMonth! + 1)月\(settelement)日"
-            }
-            completion(maximumDate,minimumDate)
-        }
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -267,7 +229,7 @@ extension PaymentViewController: UITextFieldDelegate{
     
 }
 
-extension PaymentViewController{
+extension PaymentViewController {
     override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
         super.dismiss(animated: flag, completion: completion)
         guard let presentationController = presentationController else {

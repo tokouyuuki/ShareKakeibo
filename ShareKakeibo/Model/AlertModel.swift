@@ -13,7 +13,7 @@ import FirebaseAuth
 
 class AlertModel{
     
-    //変更_山口
+   //変更_山口
     var loginModel = LoginModel()
     
     func exitAlert(viewController:UIViewController){
@@ -23,7 +23,7 @@ class AlertModel{
         let aleat = UIAlertController(title: "本当に退会しますか？", message: "", preferredStyle: .alert)
         
         let exit = UIAlertAction(title: "退会", style: .default) { (action) in
-            
+          
             db.collection("email").document("roomID").delete() { err in
                 if let err = err {
                     print("Error removing document: \(err)")
@@ -43,7 +43,7 @@ class AlertModel{
         viewController.present(aleat, animated: true, completion: nil)
     }
     
-    
+   
     
     
     func satsueiAlert(viewController:UIViewController){
@@ -79,8 +79,8 @@ class AlertModel{
         CreateImagePicker.present(cameraPicker, animated: true, completion: nil)
         
     }
-    
-    
+   
+   
     
     //auth内データ更新のため変更_山口
     func passWordAlert(viewController:UIViewController,userInfo:[String]){
@@ -108,7 +108,7 @@ class AlertModel{
                 viewController.present(alert, animated: true, completion: nil)
             }else{
                 loginModel.reauthentication(viewController: viewController,userInfoArray: userInfo)
-                //                viewController.performSegue(withIdentifier: "ProfileConfigurationVC", sender: nil)
+//                viewController.performSegue(withIdentifier: "ProfileConfigurationVC", sender: nil)
             }
             
         }

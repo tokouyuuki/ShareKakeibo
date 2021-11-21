@@ -35,6 +35,34 @@ class SendDBModel{
         }
     }
     
+//    func sendChangeProfileImage(data:Data){
+//
+//        var newMetadata = StorageMetadata()
+//        newMetadata = UIImage(data: data)!
+//        let profileImage = image?.jpegData(compressionQuality: 0.1)
+//
+//        newMetadata.cacheControl =
+//        let imageRef = Storage.storage().reference().child("profileImage").child("\(UUID().uuidString + String(Date().timeIntervalSince1970)).jpg")
+//        imageRef.updateMetadata(<#StorageMetadata#>) { mataData, error in
+//            if error != nil{
+//                return
+//            }
+//        }
+//        imageRef.putda
+//        imageRef.putData(profileImage!, metadata: nil) { (mataData, error) in
+//            if error != nil{
+//                return
+//            }
+//            imageRef.downloadURL { (url, error) in
+//                if error != nil{
+//                    return
+//                }
+//                UserDefaults.standard.setValue(url?.absoluteString, forKey: "userImage")
+//                self.sendOKDelegate?.sendImage_OK(url: url!.absoluteString)
+//            }
+//        }
+//    }
+//
     //グループ画像送信
     func sendGroupImage(data:Data){
         let image = UIImage(data: data)

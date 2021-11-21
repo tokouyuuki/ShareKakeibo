@@ -143,7 +143,7 @@ extension GroupConfigurationViewController:UIPickerViewDelegate,UIPickerViewData
     @objc func doneButtonOfpicker(){
         settlementTextField.endEditing(true)
     }
-    
+   
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }

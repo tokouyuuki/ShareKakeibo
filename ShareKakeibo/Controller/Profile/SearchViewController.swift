@@ -26,7 +26,7 @@ class SearchViewController: UIViewController {
     var selectedUserImageArray = [String]() //profile画像のURLが入る
     var userIDArray = [String]()
     var userNameArray = [String]()
-    //    var imageArray = ["person","person.fill","pencil","trash","person"]
+//    var imageArray = ["person","person.fill","pencil","trash","person"]
     var userSearchSets = [UserSearchSets]()
     
     let nothingLabel = UILabel()
@@ -45,7 +45,7 @@ class SearchViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(UINib(nibName: "CollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "CollectionViewCell")
-        
+       
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
@@ -62,7 +62,7 @@ class SearchViewController: UIViewController {
         activityIndicatorView.color = .darkGray
         view.addSubview(activityIndicatorView)
     }
-    
+ 
     @IBAction func decideButton(_ sender: Any) {
         collectionDeligate?.SendArray(selectedUserImageArray: selectedUserImageArray, userIDArray: userIDArray, userNameArray: userNameArray)
         print(selectedUserImageArray)
@@ -74,7 +74,7 @@ class SearchViewController: UIViewController {
         nothingLabel.isHidden = true
         loadDBModel.loadUserSearch(email: searchUserTextField.text!, activityIndicatorView: activityIndicatorView)
     }
-    
+
 }
 // MARK: - CollectionView
 extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
@@ -129,24 +129,24 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
 extension SearchViewController:UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return userSearchSets.count
+            return userSearchSets.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+             
+            let profileImage = cell.contentView.viewWithTag(1) as! UIImageView
+            let userNameLabel = cell.contentView.viewWithTag(2) as! UILabel
+ 
+            profileImage.sd_setImage(with: URL(string: userSearchSets[indexPath.row].profileImage), completed: nil)
+            profileImage.layer.cornerRadius = 30
+            userNameLabel.text = userSearchSets[indexPath.row].userName
         
-        let profileImage = cell.contentView.viewWithTag(1) as! UIImageView
-        let userNameLabel = cell.contentView.viewWithTag(2) as! UILabel
-        
-        profileImage.sd_setImage(with: URL(string: userSearchSets[indexPath.row].profileImage), completed: nil)
-        profileImage.layer.cornerRadius = 30
-        userNameLabel.text = userSearchSets[indexPath.row].userName
-        
-        return cell
+            return cell
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+            return 1
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -163,7 +163,7 @@ extension SearchViewController:UITableViewDelegate,UITableViewDataSource{
         }, completion:  { _ in
             //               self.tableView.isHidden = true
         })
-        
+
         collectionView.reloadData()
     }
     
@@ -197,7 +197,7 @@ extension SearchViewController: LoadOKDelegate{
                 self.tableView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
                 self.tableView.alpha = 1
             }, completion:  { _ in
-                //            self.tableView.isHidden = false
+    //            self.tableView.isHidden = false
                 self.tableViewHeight.constant = CGFloat(self.userSearchSets.count * 74)
                 self.tableView.reloadData()
                 self.activityIndicatorView.stopAnimating()

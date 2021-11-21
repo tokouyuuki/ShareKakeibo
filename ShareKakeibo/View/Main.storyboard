@@ -599,6 +599,22 @@
                                         </view>
                                         <blurEffect style="regular"/>
                                     </visualEffectView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dJO-bs-nfZ">
+                                        <rect key="frame" x="25" y="86.666666666666671" width="40" height="40"/>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="6UW-OL-aAO"/>
+                                            <constraint firstAttribute="width" constant="40" id="NHA-a5-ahL"/>
+                                        </constraints>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal">
+                                            <imageReference key="image" image="arrow.left" catalog="system" renderingMode="template"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="23"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="backButton:" destination="nTS-Ad-zCJ" eventType="touchUpInside" id="7yq-Me-0l3"/>
+                                        </connections>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="609-Rw-0So">
                                         <rect key="frame" x="317" y="81" width="50" height="50"/>
                                         <constraints>
@@ -614,8 +630,8 @@
                                             <action selector="configurationButton:" destination="nTS-Ad-zCJ" eventType="touchUpInside" id="Xgh-pu-lHR"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="GruopName" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="8rV-Ph-yEf">
-                                        <rect key="frame" x="95" y="89" width="200" height="35"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GruopName" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="8rV-Ph-yEf">
+                                        <rect key="frame" x="112.33333333333333" y="89" width="165.33333333333337" height="35"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="165.33000000000001" id="0pq-l6-ccD"/>
                                             <constraint firstAttribute="height" constant="35" id="Gss-0y-Nfa"/>
@@ -630,12 +646,14 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="p9c-4W-aGi" secondAttribute="bottom" id="4W2-3A-6nY"/>
+                                    <constraint firstItem="8rV-Ph-yEf" firstAttribute="centerY" secondItem="dJO-bs-nfZ" secondAttribute="centerY" id="8LH-Wd-RRo"/>
                                     <constraint firstAttribute="trailing" secondItem="p9c-4W-aGi" secondAttribute="trailing" id="EOQ-oN-Ngb"/>
                                     <constraint firstAttribute="trailing" secondItem="609-Rw-0So" secondAttribute="trailing" constant="23" id="Gei-io-tTO"/>
                                     <constraint firstItem="gQD-VY-vC9" firstAttribute="top" secondItem="vtO-Vm-phz" secondAttribute="top" id="Gze-zI-ZxM"/>
                                     <constraint firstItem="p9c-4W-aGi" firstAttribute="leading" secondItem="vtO-Vm-phz" secondAttribute="leading" id="LAF-bZ-N9K"/>
                                     <constraint firstAttribute="height" constant="150" id="MNa-4c-JrR"/>
                                     <constraint firstAttribute="bottom" secondItem="609-Rw-0So" secondAttribute="bottom" constant="19" id="TjT-c4-oyV"/>
+                                    <constraint firstItem="dJO-bs-nfZ" firstAttribute="leading" secondItem="vtO-Vm-phz" secondAttribute="leading" constant="25" id="USY-9I-KJN"/>
                                     <constraint firstItem="gQD-VY-vC9" firstAttribute="leading" secondItem="vtO-Vm-phz" secondAttribute="leading" id="XaT-hI-TwL"/>
                                     <constraint firstItem="8rV-Ph-yEf" firstAttribute="centerX" secondItem="vtO-Vm-phz" secondAttribute="centerX" id="ZR5-RO-kmi"/>
                                     <constraint firstItem="p9c-4W-aGi" firstAttribute="top" secondItem="vtO-Vm-phz" secondAttribute="top" id="fuY-gs-MqT"/>
@@ -679,6 +697,7 @@
                     </tabBarItem>
                     <connections>
                         <outlet property="addPaymentButton" destination="KX8-lh-gVI" id="4j9-6K-dza"/>
+                        <outlet property="backButton" destination="dJO-bs-nfZ" id="5rp-Qb-s4C"/>
                         <outlet property="blurView" destination="p9c-4W-aGi" id="Q8i-Qz-FfN"/>
                         <outlet property="configurationButton" destination="609-Rw-0So" id="QEy-w6-cmo"/>
                         <outlet property="configurationButtonBottomConstraint" destination="TjT-c4-oyV" id="YcL-VN-3hh"/>
@@ -908,9 +927,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <visualEffectView opaque="NO" alpha="0.69999999999999996" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rTx-zY-LZi">
+                            <visualEffectView opaque="NO" alpha="0.69999999999999996" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rTx-zY-LZi">
                                 <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="E43-kF-tI9">
                                     <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1038,6 +1056,10 @@
                         <viewLayoutGuide key="safeArea" id="G08-nV-1yX"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="rTx-zY-LZi" firstAttribute="leading" secondItem="G08-nV-1yX" secondAttribute="leading" id="FM6-zh-5cT"/>
+                            <constraint firstItem="rTx-zY-LZi" firstAttribute="trailing" secondItem="G08-nV-1yX" secondAttribute="trailing" id="KEh-ZR-r07"/>
+                            <constraint firstItem="rTx-zY-LZi" firstAttribute="top" secondItem="q8x-hT-Mxq" secondAttribute="top" id="LRz-vo-EJf"/>
+                            <constraint firstAttribute="bottom" secondItem="rTx-zY-LZi" secondAttribute="bottom" id="fok-vn-r2g"/>
                             <constraint firstItem="bvZ-4E-Hqj" firstAttribute="leading" secondItem="G08-nV-1yX" secondAttribute="leading" id="r37-NB-Rti"/>
                             <constraint firstItem="bvZ-4E-Hqj" firstAttribute="top" secondItem="q8x-hT-Mxq" secondAttribute="top" id="xeN-ii-fGe"/>
                             <constraint firstItem="bvZ-4E-Hqj" firstAttribute="trailing" secondItem="G08-nV-1yX" secondAttribute="trailing" id="zx1-iL-AVz"/>
@@ -2062,6 +2084,7 @@
                         <segue destination="Daq-3H-xth" kind="show" id="8k4-ll-Ynz"/>
                         <segue destination="HPe-ke-Gw7" kind="show" identifier="" id="pDm-Qq-5DK"/>
                         <segue destination="JFl-qm-ywH" kind="show" identifier="" id="vHG-yb-X8U"/>
+                        <segue destination="BYZ-38-t0r" kind="show" id="gYb-um-PEP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FWk-Iy-bKA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -2961,12 +2984,14 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="vw2-EH-iaJ"/>
+        <segue reference="L7o-hf-7BI"/>
         <segue reference="vHG-yb-X8U"/>
         <segue reference="2n4-R5-2Xf"/>
+        <segue reference="gYb-um-PEP"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow" width="48" height="48"/>
+        <image name="arrow.left" catalog="system" width="128" height="98"/>
         <image name="bell" catalog="system" width="128" height="124"/>
         <image name="chevron.backward" catalog="system" width="96" height="128"/>
         <image name="creditcard" catalog="system" width="128" height="88"/>

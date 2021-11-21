@@ -23,11 +23,8 @@ class LastMonthDataViewController: UIViewController {
     var activityIndicatorView = UIActivityIndicatorView()
     var groupID = String()
     var userID = String()
-    let dateFormatter = DateFormatter()
-    var year = String()
-    var month = String()
-    var startDate = Date()
-    var endDate = Date()
+    var dateModel = DateModel()
+    var settlementDayOfInt = Int()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,16 +41,12 @@ class LastMonthDataViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let calendar = Calendar(identifier: .gregorian)
-        let date = calendar.dateComponents([.year,.month], from: Date())
-        year = String(date.year!)
-        month = String(date.month!)
         groupID = UserDefaults.standard.object(forKey: "groupID") as! String
         userID = UserDefaults.standard.object(forKey: "userID") as! String
         loadDBModel.loadOKDelegate = self
         loadDBModel.loadSettlementDay(groupID: groupID, activityIndicatorView: activityIndicatorView)
     }
-    
+  
     
     @IBAction func showDetailButton(_ sender: Any) {
         performSegue(withIdentifier: "DetailLastMonthVC", sender: nil)
@@ -77,17 +70,10 @@ extension LastMonthDataViewController:LoadOKDelegate{
     //先月を求める
     func loadSettlementDay_OK(settlementDay: String) {
         activityIndicatorView.stopAnimating()
-        dateFormatter.dateFormat = "yyyy年MM月dd日"
-        dateFormatter.locale = Locale(identifier: "ja_JP")
-        dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
-        if month == "1"{
-            startDate = dateFormatter.date(from: "\(String(Int(year)! - 1))年\("11")月\(settlementDay)日")!
-            endDate = dateFormatter.date(from: "\(String(Int(year)! - 1))年\(12)月\(settlementDay)日")!
-        }else{
-            startDate = dateFormatter.date(from: "\(year)年\(String(Int(month)! - 2))月\(settlementDay)日")!
-            endDate = dateFormatter.date(from: "\(year)年\(String(Int(month)! - 1))月\(settlementDay)日")!
+        settlementDayOfInt = Int(settlementDay)!
+        dateModel.getPeriodOfLastMonth(settelemtDay: settlementDayOfInt) { maxDate, minDate in
+            loadDBModel.loadCategoryGraphOfTithMonth(groupID: groupID, startDate: minDate, endDate: maxDate, activityIndicatorView: activityIndicatorView)
         }
-        loadDBModel.loadCategoryGraphOfTithMonth(groupID: groupID, startDate: startDate, endDate: endDate, activityIndicatorView: activityIndicatorView)
     }
     
     //追加
@@ -104,7 +90,9 @@ extension LastMonthDataViewController:LoadOKDelegate{
     //追加
     //グループに参加しているメンバーを取得完了
     func loadUserIDAndSettlementDic_OK(settlementDic: Dictionary<String, Bool>, userIDArray: [String]) {
-        loadDBModel.loadMonthPayment(groupID: groupID, userIDArray: userIDArray, startDate: startDate, endDate: endDate)
+        dateModel.getPeriodOfLastMonth(settelemtDay: settlementDayOfInt) { maxDate, minDate in
+            loadDBModel.loadMonthPayment(groupID: groupID, userIDArray: userIDArray, startDate: minDate, endDate: maxDate)
+        }
     }
     
     //変更
@@ -112,7 +100,9 @@ extension LastMonthDataViewController:LoadOKDelegate{
     func loadMonthPayment_OK(groupPaymentOfMonth: Int, paymentAverageOfMonth: Int, userIDArray: [String]) {
         self.groupPaymentOfLastMonth.text = String(groupPaymentOfMonth) + "　円"
         self.paymentAverageOfLastMonth.text = String(paymentAverageOfMonth) + "　円"
-        loadDBModel.loadMonthSettlement(groupID: groupID, userID: userID, startDate: startDate, endDate: endDate)
+        dateModel.getPeriodOfLastMonth(settelemtDay: settlementDayOfInt) { maxDate, minDate in
+            loadDBModel.loadMonthSettlement(groupID: groupID, userID: userID, startDate: minDate, endDate: maxDate)
+        }
     }
     
     //追加

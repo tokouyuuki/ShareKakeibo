@@ -10,6 +10,8 @@ import Parchment
 
 class MonthlyDataViewController: UIViewController {
     
+    var pagingVC = PagingViewController()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -19,17 +21,17 @@ class MonthlyDataViewController: UIViewController {
         let othersVC = OthersViewController()
         
         overAllVC.title = "全体"
-        utilityVC.title = "光熱費"
+        utilityVC.title = "家賃・光熱費・通信費"
         foodVC.title = "食費"
         othersVC.title = "その他"
         
-        let pagingVC = PagingViewController(viewControllers: [
+        pagingVC = PagingViewController(viewControllers: [
             overAllVC,
             utilityVC,
             foodVC,
             othersVC
         ])
-        
+     
         self.addChild(pagingVC)
         self.view.addSubview(pagingVC.view)
         pagingVC.didMove(toParent: self)
@@ -51,6 +53,7 @@ class MonthlyDataViewController: UIViewController {
         pagingVC.menuItemSize = .selfSizing(estimatedWidth: 80, height: 40)
         pagingVC.menuItemSpacing = 10
         pagingVC.menuHorizontalAlignment = .center
+        
         
         foodVC.lineChartsView.translatesAutoresizingMaskIntoConstraints = false
         foodVC.lineChartsView.leadingAnchor.constraint(equalTo: foodVC.view.safeAreaLayoutGuide.leadingAnchor).isActive = true
@@ -78,15 +81,24 @@ class MonthlyDataViewController: UIViewController {
         
     }
     
+//    override func viewWillAppear(_ animated: Bool) {
+////        pagingVC.select(pagingItem: pagingVC., animated: true)
+////        if let first = pagingVC.visibleItems.items.first {
+////            pagingVC.select(pagingItem: first)
+////         }
+//        pagingVC.select(index: 0, animated: true)
+//    }
     
+
     /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+    }
+    */
+
 }
+

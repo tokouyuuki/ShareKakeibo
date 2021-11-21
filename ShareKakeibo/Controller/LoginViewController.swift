@@ -10,8 +10,8 @@ import Firebase
 import FirebaseFirestore
 
 class LoginViewController: UIViewController,LoginOKDelegate {
-    
-    
+  
+
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
@@ -32,7 +32,7 @@ class LoginViewController: UIViewController,LoginOKDelegate {
         
         view.addSubview(activityIndicatorView)
     }
-    
+
     func loginOK(userID: String) {
         if userID != nil{
             let ProfileVC = storyboard?.instantiateViewController(identifier: "ProfileVC") as! ProfileViewController
@@ -49,7 +49,7 @@ class LoginViewController: UIViewController,LoginOKDelegate {
         loginModel.login(emailTextField: emailTextField, passwordTextField: passwordTextField, errorShowLabel: errorShow, activityIndicatorView: activityIndicatorView)
     }
     
-    
+
 }
 
 

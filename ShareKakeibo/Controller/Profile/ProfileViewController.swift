@@ -28,6 +28,7 @@ class ProfileViewController: UIViewController, UIGestureRecognizerDelegate{
     var loadDBModel = LoadDBModel()
     var userID = String()
     var groupID = String()
+    //変更
     var groupJoinArray = [GroupSets]()
     var newGroupCountArray = [GroupSets]()
     
@@ -41,7 +42,7 @@ class ProfileViewController: UIViewController, UIGestureRecognizerDelegate{
     let configurationImageArray = ["person.fill","exit"]
     let configurationLabel = UILabel()
     var swipeView = UIVisualEffectView()
-    
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,22 +99,22 @@ class ProfileViewController: UIViewController, UIGestureRecognizerDelegate{
     }
     
     func getFileNamesFromPreferences() {
-        // Libraryまでのファイルパスを取得
-        let filePath = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask)[0]
-        
-        // filePathにPreferencesを追加
-        let preferences = filePath.appendingPathComponent("Preferences")
-        
-        // Library/Preferences内のファイルのパスを取得
-        guard let fileNames = try? FileManager.default.contentsOfDirectory(at: preferences, includingPropertiesForKeys: nil) else {
-            return
-        }
-        // Library/Preferences内のファイル名を出力
-        fileNames.compactMap { fileName in
-            print(fileName.lastPathComponent)
-        }
-    }
-    
+           // Libraryまでのファイルパスを取得
+           let filePath = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask)[0]
+
+           // filePathにPreferencesを追加
+           let preferences = filePath.appendingPathComponent("Preferences")
+
+           // Library/Preferences内のファイルのパスを取得
+           guard let fileNames = try? FileManager.default.contentsOfDirectory(at: preferences, includingPropertiesForKeys: nil) else {
+               return
+           }
+           // Library/Preferences内のファイル名を出力
+           fileNames.compactMap { fileName in
+               print(fileName.lastPathComponent)
+           }
+       }
+ 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -139,7 +140,7 @@ class ProfileViewController: UIViewController, UIGestureRecognizerDelegate{
         loadDBModel.loadUserInfo(userID: userID, activityIndicatorView: activityIndicatorView)
     }
     
-    
+   
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -152,11 +153,11 @@ class ProfileViewController: UIViewController, UIGestureRecognizerDelegate{
         }
     }
     
-    //    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
-    //        return false
-    //    }
+//    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+//        return false
+//    }
     
-    
+   
     
     @objc func swipeViewTap(_ sender:UITapGestureRecognizer){
         scrollToOriginal()
@@ -166,7 +167,7 @@ class ProfileViewController: UIViewController, UIGestureRecognizerDelegate{
         scrollToPage()
     }
     
-    
+ 
     
     @IBAction func notificationButton(_ sender: Any) {
         let notificationVC = storyboard?.instantiateViewController(withIdentifier: "NotificationVC") as! NotificationViewController
@@ -189,6 +190,7 @@ extension ProfileViewController: LoadOKDelegate{
         profileImageView.sd_setImage(with: URL(string: profileImage), completed: nil)
         userNameLabel.text = userName
         userInfoArray = [userName,email,password]
+        //変更
         loadDBModel.loadJoinGroup(groupID: groupID, userID: userID)
         newGroupCountLabel.isHidden = true
     }
@@ -200,23 +202,24 @@ extension ProfileViewController: LoadOKDelegate{
     }
     
     //不参加のグループの数を取得完了
-    func loadNotJoinGroup_OK(groupIDArray: [String], notJoinCount: Int) {
-        newGroupCountLabel.text = String(notJoinCount)
-        if notJoinCount == 0{
-            newGroupCountLabel.isHidden = true
-        }else if notJoinCount < 10{
-            newGroupCountLabel.isHidden = false
+        func loadNotJoinGroup_OK(groupIDArray: [String], notJoinCount: Int) {
+            print(notJoinCount)
             newGroupCountLabel.text = String(notJoinCount)
-        }else if notJoinCount >= 10{
-            newGroupCountLabel.isHidden = false
-            newGroupCountLabel.text = String(notJoinCount)
-            newGroupCountLabel.frame.size = CGSize(width: 25, height: 20)
+            if notJoinCount == 0{
+                newGroupCountLabel.isHidden = true
+            }else if notJoinCount < 10{
+                newGroupCountLabel.isHidden = false
+                newGroupCountLabel.text = String(notJoinCount)
+            }else if notJoinCount >= 10{
+                newGroupCountLabel.isHidden = false
+                newGroupCountLabel.text = String(notJoinCount)
+                newGroupCountLabel.frame.size = CGSize(width: 25, height: 20)
+            }
+            
+            tableView.delegate = self
+            tableView.dataSource = self
+            tableView.reloadData()
         }
-        
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.reloadData()
-    }
 }
 
 //MARK:- TableView
@@ -291,12 +294,8 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource{
                 do {
                     try auth.signOut()
                     UserDefaults.standard.removePersistentDomain(forName: "com.daigoSwift.Kakeibo.plist")
-                    let window = UIApplication.shared.windows.first { $0.isKeyWindow }
-                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                    let viewController = storyboard.instantiateViewController(identifier: "LoginVC")
-                    let navigationVC = UINavigationController(rootViewController: viewController)
-                    window!.rootViewController = navigationVC
-                    navigationController?.popViewController(animated: true)
+                    let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LoginVC") as! LoginViewController
+                    self.navigationController?.pushViewController(loginVC, animated: true)
                 } catch let error {
                     //                    loginModel?.showError(error, showLabel: errorShow)
                     print(error)

@@ -22,11 +22,11 @@ class NewGroupViewController: UIViewController {
     var userName = String()
     var profileImage = String()
     var groupID = String()
-    var sortedGroupNotJoinArray = [GroupSets]()
     
     var buttonAnimatedModel = ButtonAnimatedModel(withDuration: 0.1, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, transform: CGAffineTransform(scaleX: 0.95, y: 0.95), alpha: 0.7)
     
     var groupNotJoinArray = [GroupSets]()
+    var sortedGroupNotJoinArray = [GroupSets]()
     var activityIndicatorView = UIActivityIndicatorView()
     
     
@@ -53,6 +53,7 @@ class NewGroupViewController: UIViewController {
         loadDBModel.loadOKDelegate = self
         activityIndicatorView.startAnimating()
         loadDBModel.loadNotJoinGroup(userID: userID)
+        
     }
     
     @objc func touchDown(_ sender:UIButton){
@@ -77,15 +78,14 @@ class NewGroupViewController: UIViewController {
         createGroupButton.layer.shadowOpacity = 0.5
         createGroupButton.layer.shadowRadius = 1
     }
-    
+  
     
     @objc func joinButton(_ sender:UIButton){
         buttonAnimatedModel.endAnimation(sender: sender)
         
         let cell = sender.superview?.superview?.superview as! UITableViewCell
         indexPath = tableView.indexPath(for: cell)!
-        
-        groupID = sortedGroupNotJoinArray[indexPath.row].groupID
+        groupID = groupNotJoinArray[indexPath.row].groupID
         UserDefaults.standard.setValue(groupID, forKey: "groupID")
         db.collection("userManagement").document(userID).setData([
             "joinGroupDic": [groupID: true],
@@ -94,7 +94,8 @@ class NewGroupViewController: UIViewController {
             "settlementDic": [userID: false],
             "userIDArray": FieldValue.arrayUnion([userID])
         ],merge: true)
-        performSegue(withIdentifier: "TabBarContoller", sender: nil)
+        
+        navigationController?.popViewController(animated: true)
     }
     
     @objc func rejectButton(_ sender:UIButton){
@@ -104,20 +105,20 @@ class NewGroupViewController: UIViewController {
         indexPath = tableView.indexPath(for: cell)!
         
         editDBModel.editOKDelegate = self
-        groupID = sortedGroupNotJoinArray[indexPath.row].groupID
+        groupID = groupNotJoinArray[indexPath.row].groupID
         editDBModel.editGroupInfoDelete(groupID: groupID, userID: userID, activityIndicatorView: activityIndicatorView)
     }
     
     @IBAction func back(_ sender: Any) {
         navigationController?.popViewController(animated: true)
     }
-    
+
 }
 //MARK:- TabeleView
 extension NewGroupViewController:UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sortedGroupNotJoinArray.count
+        return groupNotJoinArray.count
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -143,7 +144,7 @@ extension NewGroupViewController:UITableViewDelegate, UITableViewDataSource{
         invitationView.layer.shadowOpacity = 0.2
         invitationView.layer.shadowRadius = 3
         
-        groupNameLabel.text = sortedGroupNotJoinArray[indexPath.row].groupName
+        groupNameLabel.text = groupNotJoinArray[indexPath.row].groupName
         
         joinButton.layer.cornerRadius = 3
         joinButton.addTarget(self, action: #selector(joinButton(_:)), for: .touchUpInside)
@@ -165,21 +166,14 @@ extension NewGroupViewController:LoadOKDelegate, EditOKDelegate{
     
     //どのグループに参加しているか招待されているかを取得完了
     func loadNotJoinGroup_OK(groupIDArray: [String], notJoinCount: Int) {
-        groupNotJoinArray = []
-        sortedGroupNotJoinArray = []
-        //招待されているグループの情報を取得完了
-        loadDBModel.loadNotJoinGroupInfo(groupIDArray: groupIDArray) { JoinGroupSets in
-            print("$$$$$$$$$$$$$$$$")
-            print(JoinGroupSets)
-            self.groupNotJoinArray.append(JoinGroupSets)
-            print("%%%%%%%%%%%%%%%%")
-            print(self.groupNotJoinArray)
-            self.sortedGroupNotJoinArray = self.groupNotJoinArray.sorted(by: {($0.create_at! > $1.create_at!)})
-            print("****************")
-            print(self.sortedGroupNotJoinArray)
-            self.tableView.reloadData()
-        }
-    }
+           groupNotJoinArray = []
+           //招待されているグループの情報を取得完了
+           loadDBModel.loadNotJoinGroupInfo(groupIDArray: groupIDArray) { JoinGroupSets in
+               self.groupNotJoinArray.append(JoinGroupSets)
+               self.sortedGroupNotJoinArray = self.groupNotJoinArray.sorted(by: {($0.create_at! > $1.create_at!)})
+               self.tableView.reloadData()
+           }
+       }
     
     func editGroupInfoDelete_OK() {
         groupNotJoinArray.remove(at: indexPath.row)

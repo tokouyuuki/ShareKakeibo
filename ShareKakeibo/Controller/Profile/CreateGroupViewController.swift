@@ -13,7 +13,7 @@ import FirebaseStorage
 
 class CreateGroupViewController: UIViewController{
     
-    
+
     @IBOutlet weak var groupNameTextField: UITextField!
     @IBOutlet weak var settlementTextField: UITextField!
     @IBOutlet weak var searchUserButton: UIButton!
@@ -24,14 +24,16 @@ class CreateGroupViewController: UIViewController{
     
     var sendDBModel = SendDBModel()
     var db = Firestore.firestore()
-    var alertModel = AlertModel()
     
     var selectedUserImageArray = [String]()
     var userIDArray = [String]()
     var userNameArray = [String]()
+    
     var userID = String()
     var userName = String()
     var profileImage = String()
+    
+    var alertModel = AlertModel()
     
     var pickerView = UIPickerView()
     let settlementArray = ["5","10","15","20","25"]
@@ -60,7 +62,7 @@ class CreateGroupViewController: UIViewController{
         makePicker()
         
     }
-    
+
     @objc func touchDown(_ sender:UIButton){
         buttonAnimatedModel.startAnimation(sender: sender)
     }
@@ -72,7 +74,7 @@ class CreateGroupViewController: UIViewController{
     @IBAction func searchUserButton(_ sender: Any) {
         buttonAnimatedModel.endAnimation(sender: sender as! UIButton)
         performSegue(withIdentifier: "searchVC", sender: nil)
-        
+       
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -113,7 +115,7 @@ class CreateGroupViewController: UIViewController{
     @IBAction func groupImageViewButton(_ sender: Any) {
         alertModel.satsueiAlert(viewController: self)
     }
-    
+
 }
 
 //MARK:- UICollectionView
@@ -162,7 +164,7 @@ extension CreateGroupViewController:CropViewControllerDelegate,UIImagePickerCont
         if info[.originalImage] as? UIImage != nil{
             let pickerImage = info[.originalImage] as! UIImage
             let cropController = CropViewController(croppingStyle: .default, image: pickerImage)
-            
+        
             cropController.delegate = self
             cropController.customAspectRatio = groupImageView.frame.size
             //cropBoxのサイズを固定する。
@@ -196,15 +198,20 @@ extension CreateGroupViewController:SendOKDelegate{
         db.collection("groupManagement").document(groupID).setData([
             "groupName": groupNameTextField.text!,
             "groupImage": url,
-            "settlementDay": settlementTextField.text!,"groupID": groupID,
+            "settlementDay": settlementTextField.text!,
+            "groupID": groupID,
             "settlementDic": ["\(userID)": false],
             "userIDArray": [userID],
             "create_at": Date().timeIntervalSince1970
         ])
-        
+
         db.collection("userManagement").document(userID).setData([
             "joinGroupDic" : ["\(groupID)": true]
-        ],merge: true)
+            ],merge: true)
+        
+        print(userIDArray)
+        userIDArray.removeAll(where: {$0 == userID})
+        print(userIDArray)
         
         for usersID in userIDArray{
             db.collection("userManagement").document(usersID).setData([
@@ -234,7 +241,7 @@ extension CreateGroupViewController:UIPickerViewDelegate,UIPickerViewDataSource{
     @objc func doneButtonOfpicker(){
         settlementTextField.endEditing(true)
     }
-    
+   
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }

@@ -82,26 +82,26 @@ class GraphModel: ChartViewDelegate{
         
         for category in categoryDic {
             colors.append(categoryColors[category.key]!)
-            //            dataEntries.append(PieChartDataEntry(value: Double(category.value), label: "\(category.key) :\(category.value)円"))
+//            dataEntries.append(PieChartDataEntry(value: Double(category.value), label: "\(category.key) :\(category.value)円"))
             dataEntries.append(PieChartDataEntry(value: Double(category.value), label: "\(category.key) :\(category.value)円", data: Double(category.value)))
         }
         
         pieChartDataSet = PieChartDataSet(entries: dataEntries, label: "カテゴリー別支出(円)")
-        //        pieChartDataSet.automaticallyDisableSliceSpacing = false
+//        pieChartDataSet.automaticallyDisableSliceSpacing = false
         
         pieChartDataSet.colors = colors
         pieChartDataSet.valueColors = [.clear,.clear,.clear,.clear,.clear,.clear,.clear]
         pieChartDataSet.entryLabelColor = .clear
         pieChartDataSet.valueLineColor = .clear
-        //        pieChartDataSet.yValuePosition = .outsideSlice
+//        pieChartDataSet.yValuePosition = .outsideSlice
         pieChartDataSet.valueLinePart1Length = 0.5
         pieChartDataSet.selectionShift = 6
         pieChartDataSet.sliceSpace = 1.5
         pieChartDataSet.automaticallyDisableSliceSpacing = true
-        //        pieChartDataSet.xValuePosition = .outsideSlice
-        //        pieChartDataSet.valueColors = [.red,.blue,.red,.blue,.red,.blue,.red]
+//        pieChartDataSet.xValuePosition = .outsideSlice
+//        pieChartDataSet.valueColors = [.red,.blue,.red,.blue,.red,.blue,.red]
         
-        //        piecht.transparentCircleColor = .systemYellow
+//        piecht.transparentCircleColor = .systemYellow
         
         piecht.layer.masksToBounds = false
         piecht.layer.cornerRadius = 5
@@ -115,8 +115,8 @@ class GraphModel: ChartViewDelegate{
         piecht.legend.yEntrySpace = 10
         piecht.legend.font = UIFont(descriptor: UIFontDescriptor(), size: 14)
         piecht.legend.textColor = .darkGray
-        //        piecht.legend.
-        //        piecht.drawSlicesUnderHoleEnabled = true
+//        piecht.legend.
+//        piecht.drawSlicesUnderHoleEnabled = true
         piecht.data = PieChartData(dataSet: pieChartDataSet)
         piecht.animate(yAxisDuration: 2)
         piecht.rotationEnabled = false

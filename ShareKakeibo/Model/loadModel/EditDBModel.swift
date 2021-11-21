@@ -11,7 +11,6 @@ import FirebaseFirestore
 
 @objc protocol EditOKDelegate {
     @objc optional func editGroupInfoDelete_OK()
-    @objc optional func editMonthDetailsDelete_OK()
     @objc optional func editUserDelete_OK()
     @objc optional func editUserDelete2_OK()
 }
@@ -22,7 +21,6 @@ class EditDBModel{
     var db = Firestore.firestore()
     var monthMyDetailsSets:[MonthMyDetailsSets] = []
     let dateFormatter = DateFormatter()
-    
     
     //招待を受けているグループで拒否ボタンを押したときのロード
     func editGroupInfoDelete(groupID:String,userID:String,activityIndicatorView:UIActivityIndicatorView){
@@ -49,6 +47,7 @@ class EditDBModel{
                 return
             }
             if let data = snapShot?.data(){
+
                 var settlementDic = data["settlementDic"] as! Dictionary<String,Bool>
                 var userIDArray = data["userIDArray"] as! Array<String>
                 userIDArray.removeAll(where: {$0 == userID})

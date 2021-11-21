@@ -15,10 +15,9 @@ class DetailThisMonthViewController: UIViewController {
     @IBOutlet weak var addPaymentButton: UIButton!
     @IBOutlet weak var headerView: UIView!
     
+    var pagingVC = PagingViewController()
     
     var buttonAnimatedModel = ButtonAnimatedModel(withDuration: 0.1, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, transform: CGAffineTransform(scaleX: 0.95, y: 0.95), alpha: 0.7)
-    
-    var pagingVC = PagingViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,7 +68,6 @@ class DetailThisMonthViewController: UIViewController {
         DetailMyselfVC.tableView.bottomAnchor.constraint(equalTo: DetailMyselfVC.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         DetailMyselfVC.tableView.topAnchor.constraint(equalTo: DetailMyselfVC.view.safeAreaLayoutGuide.topAnchor).isActive = true
         
-        
         addPaymentButton.addTarget(self, action: #selector(touchDown(_:)), for: .touchDown)
         addPaymentButton.addTarget(self, action: #selector(touchUpOutside(_:)), for: .touchUpOutside)
         addPaymentButton.layer.shadowOffset = CGSize(width: 1, height: 1)
@@ -77,7 +75,7 @@ class DetailThisMonthViewController: UIViewController {
         addPaymentButton.layer.shadowRadius = 1
         
         self.view.bringSubviewToFront(addPaymentButton)
-        
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -128,7 +126,7 @@ class DetailThisMonthViewController: UIViewController {
     
 }
 
-extension DetailThisMonthViewController: UIAdaptivePresentationControllerDelegate{
+extension  DetailThisMonthViewController: UIAdaptivePresentationControllerDelegate{
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
         pagingVC.reloadData()
     }

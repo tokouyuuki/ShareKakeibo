@@ -25,6 +25,7 @@ class SettlementViewController: UIViewController{
     var userID = String()
     var year = String()
     var month = String()
+    var day = String()
     let dateFormatter = DateFormatter()
     var startDate = Date()
     var endDate = Date()
@@ -35,12 +36,17 @@ class SettlementViewController: UIViewController{
     var userIDArray = [String]()
     var paymentAverageOfMonth = Int()
     
+    var today = Date()
+    
     var sortedSettlementDic = [Dictionary<String,Bool>.Element]()
     var sortedProfileImageDic = [Dictionary<String,String>.Element]()
     var sortedUserNameDic = [Dictionary<String,String>.Element]()
     var sortedPaymentDic = [Dictionary<String,Int>.Element]()
     
     var buttonAnimatedModel = ButtonAnimatedModel(withDuration: 0.1, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, transform: CGAffineTransform(scaleX: 0.95, y: 0.95), alpha: 0.7)
+    
+    var dateModel = DateModel()
+    var settlementDayOfInt = Int()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,9 +80,15 @@ class SettlementViewController: UIViewController{
         groupID = UserDefaults.standard.object(forKey: "groupID") as! String
         userID = UserDefaults.standard.object(forKey: "userID") as! String
         let calendar = Calendar(identifier: .gregorian)
-        let date = calendar.dateComponents([.year,.month], from: Date())
+        let date = calendar.dateComponents([.year,.month,.day], from: Date())
         year = String(date.year!)
         month = String(date.month!)
+        day = String(date.day!)
+        let yyyyMMdd = "\(year)年\(month)月\(day)日"
+        dateFormatter.dateFormat = "yyyy年MM月dd日"
+        dateFormatter.locale = Locale(identifier: "ja_JP")
+        dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
+        today = dateFormatter.date(from: yyyyMMdd)!
         loadDBModel.loadOKDelegate = self
         loadDBModel.loadSettlementDay(groupID: groupID, activityIndicatorView: activityIndicatorView)
     }
@@ -93,13 +105,7 @@ class SettlementViewController: UIViewController{
     @IBAction func settlementCompletionButton(_ sender: Any) {
         buttonAnimatedModel.endAnimation(sender: sender as! UIButton)
         
-        for (key,value) in sortedSettlementDic{
-            if key == userID && value == true{
-                db.collection("groupManagement").document(groupID).setData(["settlementDic" : [userID:false]],merge: true)
-            }else if key == userID && value == false{
-                db.collection("groupManagement").document(groupID).setData(["settlementDic" : [userID:true]],merge: true)
-            }
-        }
+        db.collection("groupManagement").document(groupID).setData(["settlementDic" : [userID:true]],merge: true)
         loadDBModel.loadUserIDAndSettlementDic(groupID: groupID, activityIndicatorView: activityIndicatorView)
     }
     
@@ -117,23 +123,17 @@ extension SettlementViewController: LoadOKDelegate{
     //決済月を求める
     func loadSettlementDay_OK(settlementDay: String) {
         activityIndicatorView.stopAnimating()
-        dateFormatter.dateFormat = "yyyy年MM月dd日"
-        dateFormatter.locale = Locale(identifier: "ja_JP")
-        dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
-        if month == "12"{
-            startDate = dateFormatter.date(from: "\(year)年\(month)月\(settlementDay)日")!
-            endDate = dateFormatter.date(from: "\(String(Int(year)! + 1))年\("1")月\(settlementDay)日")!
-        }else{
-            startDate = dateFormatter.date(from: "\(year)年\(String(Int(month)! - 1))月\(settlementDay)日")!
-            endDate = dateFormatter.date(from: "\(year)年\((month))月\(settlementDay)日")!
-        }
+        settlementDayOfInt = Int(settlementDay)!
         loadDBModel.loadUserIDAndSettlementDic(groupID: groupID, activityIndicatorView: activityIndicatorView)
     }
     
     //メンバーの決済可否を取得完了
     func loadUserIDAndSettlementDic_OK(settlementDic: Dictionary<String, Bool>, userIDArray: [String]) {
         sortedSettlementDic = settlementDic.sorted(by: {$0.key < $1.key})
-        loadDBModel.loadMonthPayment(groupID: groupID, userIDArray: userIDArray, startDate: startDate, endDate: endDate)
+        dateModel.getPeriodOfLastMonth(settelemtDay: settlementDayOfInt) { maxDate, minDate in
+            
+            loadDBModel.loadMonthPayment(groupID: groupID, userIDArray: userIDArray, startDate: minDate, endDate: maxDate)
+        }
     }
     
     //(グループの合計金額)と(1人当たりの金額)と(支払いに参加したユーザーの数)取得完了
@@ -143,13 +143,23 @@ extension SettlementViewController: LoadOKDelegate{
         self.userIDArray = userIDArray.sorted()
         self.paymentAverageOfMonth = paymentAverageOfMonth
         
-        //各メンバーのプロフィール画像、名前取得完了
+        //各メンバーのプロフィール画像、名前をロード
         loadDBModel.loadGroupMember(userIDArray: userIDArray) { [self] UserSets in
             profileImageDic.updateValue(UserSets.profileImage, forKey: UserSets.userID)
             userNameDic.updateValue(UserSets.userName, forKey: UserSets.userID)
             sortedProfileImageDic = profileImageDic.sorted(by: {$0.key < $1.key})
             sortedUserNameDic = userNameDic.sorted(by: {$0.key < $1.key})
-            loadDBModel.loadMonthSettlement(groupID: groupID, userID: nil, startDate: startDate, endDate: endDate)
+        }
+        
+    }
+    
+    //各メンバーのプロフィール画像、名前取得完了
+    func loadGroupMember_OK() {
+        dateModel.getPeriodOfLastMonth(settelemtDay: settlementDayOfInt) { maxDate, minDate in
+            if today > maxDate{
+                db.collection("groupManagement").document(groupID).setData(["settlementDic" : [userID:false]],merge: true)
+            }
+            loadDBModel.loadMonthSettlement(groupID: groupID, userID: nil, startDate: minDate, endDate: maxDate)
         }
     }
     

@@ -8,10 +8,10 @@
 import UIKit
 
 class NotificationViewController: UIViewController {
-    
-    
+   
+
     @IBOutlet weak var tableView: UITableView!
-    
+
     var loadDBModel = LoadDBModel()
     var userID = String()
     var groupID = String()
@@ -21,7 +21,7 @@ class NotificationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView() //空白のセルの線を消してるよ
@@ -47,11 +47,11 @@ class NotificationViewController: UIViewController {
         activityIndicatorView.startAnimating()
         loadDBModel.loadSettlementNotification(userID: userID, day: String(day), activityIndicatorView: activityIndicatorView)
     }
-    
+  
     @IBAction func back(_ sender: Any) {
         navigationController?.popViewController(animated: true)
     }
-    
+
 }
 
 //MARK:- TabelView

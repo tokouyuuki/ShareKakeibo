@@ -10,10 +10,9 @@ import Parchment
 import Firebase
 import FirebaseFirestore
 
-class DetailMyselfViewController: UIViewController {
+class DetailMyselfLastMonthViewController: UIViewController {
     
     var loadDBModel = LoadDBModel()
-    var editDBModel = EditDBModel()
     var monthMyDetailsSets = [MonthMyDetailsSets]()
     var activityIndicatorView = UIActivityIndicatorView()
     var groupID = String()
@@ -26,9 +25,10 @@ class DetailMyselfViewController: UIViewController {
     var tableView = UITableView()
     var profileImage = String()
     var userName = String()
-    var indexPath = IndexPath()
-    var settlementDay = String()
+    
     var db = Firestore.firestore()
+    
+    var dateModel = DateModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,37 +54,23 @@ class DetailMyselfViewController: UIViewController {
         groupID = UserDefaults.standard.object(forKey: "groupID") as! String
         userID = UserDefaults.standard.object(forKey: "userID") as! String
         loadDBModel.loadOKDelegate = self
-        editDBModel.editOKDelegate = self
-        
-        //ここもね！！！！！！！！
-        activityIndicatorView.stopAnimating()
-        
-        //決済日をuserDefaultから取り出し、決済月を求める
-        dateFormatter.dateFormat = "yyyy年MM月dd日"
-        dateFormatter.locale = Locale(identifier: "ja_JP")
-        dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
-        settlementDay = UserDefaults.standard.object(forKey: "settlementDay") as! String
-        if month == "12"{
-            startDate = dateFormatter.date(from: "\(year)年\(month)月\(settlementDay)日")!
-            endDate = dateFormatter.date(from: "\(String(Int(year)! + 1))年\("1")月\(settlementDay)日")!
-        }else{
-            startDate = dateFormatter.date(from: "\(year)年\(String(Int(month)! - 1))月\(settlementDay)日")!
-            endDate = dateFormatter.date(from: "\(year)年\((month))月\(settlementDay)日")!
-        }
-        loadDBModel.loadMonthDetails(groupID: groupID, startDate: startDate, endDate: endDate, userID: userID, activityIndicatorView: activityIndicatorView)
+        loadDBModel.loadSettlementDay(groupID: groupID, activityIndicatorView: activityIndicatorView)
     }
-    
-    //    override func viewDidDisappear(_ animated: Bool) {
-    //        monthMyDetailsSets = []
-    //    }
-    //
-    
-    
     
 }
 
 // MARK: - LoadOKDelegate,EditOKDelegate
-extension DetailMyselfViewController:LoadOKDelegate,EditOKDelegate{
+
+extension DetailMyselfLastMonthViewController:LoadOKDelegate,EditOKDelegate{
+    //決済日取得完了
+    //決済月を求める
+    func loadSettlementDay_OK(settlementDay: String) {
+        activityIndicatorView.stopAnimating()
+        let settlementDayOfInt = Int(settlementDay)!
+        dateModel.getPeriodOfLastMonth(settelemtDay: settlementDayOfInt) { maxDate, minDate in
+            loadDBModel.loadMonthDetails(groupID: groupID, startDate: minDate, endDate: maxDate, userID: userID, activityIndicatorView: activityIndicatorView)
+        }
+    }
     
     //自分の明細を取得完了
     func loadMonthDetails_OK() {
@@ -97,20 +83,17 @@ extension DetailMyselfViewController:LoadOKDelegate,EditOKDelegate{
     func loadUserInfo_OK(userName: String, profileImage: String, email: String, password: String) {
         self.profileImage = profileImage
         self.userName = userName
+        
         tableView.delegate = self
         tableView.dataSource = self
-        
         tableView.reloadData()
     }
     
 }
 
 // MARK: - TableView
-extension DetailMyselfViewController:UITableViewDelegate,UITableViewDataSource{
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
+
+extension DetailMyselfLastMonthViewController:UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return monthMyDetailsSets.count
@@ -129,7 +112,6 @@ extension DetailMyselfViewController:UITableViewDelegate,UITableViewDataSource{
         cell.dateLabel.text = monthMyDetailsSets[indexPath.row].paymentDay
         cell.category.text = monthMyDetailsSets[indexPath.row].category
         cell.view.layer.cornerRadius = 5
-        //        cell.view.translatesAutoresizingMaskIntoConstraints = true
         cell.view.layer.masksToBounds = false
         cell.view.layer.shadowOffset = CGSize(width: 1, height: 3)
         cell.view.layer.shadowOpacity = 0.2
@@ -138,13 +120,11 @@ extension DetailMyselfViewController:UITableViewDelegate,UITableViewDataSource{
         return cell
     }
     
-    
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         // 削除のアクションを設定する
         let deleteAction = UIContextualAction(style: .destructive, title:"delete") { [self]
             (ctxAction, view, completionHandler) in
-            self.indexPath = indexPath
             //データ削除
             db.collection("paymentData").document(monthMyDetailsSets[indexPath.row].documentID).delete()
             monthMyDetailsSets.remove(at: indexPath.row)
@@ -161,6 +141,7 @@ extension DetailMyselfViewController:UITableViewDelegate,UITableViewDataSource{
         swipeAction.performsFirstActionWithFullSwipe = false
         
         return swipeAction
+        
     }
     
 }

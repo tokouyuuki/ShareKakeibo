@@ -11,35 +11,36 @@ import Parchment
 class DetailLastMonthViewController: UIViewController {
 
     @IBOutlet weak var headerView: UIView!
-
-
+    
+    
     var buttonAnimatedModel = ButtonAnimatedModel(withDuration: 0.1, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, transform: CGAffineTransform(scaleX: 0.95, y: 0.95), alpha: 0.7)
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         let DetailAllLastMonthVC = DetailAllLastMonthViewController()
         let DetailMyselfLastMonthVC = DetailMyselfLastMonthViewController()
-
+        
         DetailAllLastMonthVC.title = "グループ全体"
         DetailMyselfLastMonthVC.title = "個人"
-
+        
         let pagingVC = PagingViewController(viewControllers: [
             DetailAllLastMonthVC,
             DetailMyselfLastMonthVC
         ])
-
-
+        
+        
         self.addChild(pagingVC)
         self.view.addSubview(pagingVC.view)
         pagingVC.didMove(toParent: self)
         pagingVC.contentInteraction = .none
+        
         pagingVC.view.translatesAutoresizingMaskIntoConstraints = false
         pagingVC.view.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         pagingVC.view.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         pagingVC.view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         pagingVC.view.topAnchor.constraint(equalTo: headerView.bottomAnchor).isActive = true
-
+        
         pagingVC.selectedBackgroundColor = .clear
         pagingVC.indicatorColor = UIColor(red: 255 / 255, green: 190 / 255, blue: 115 / 255, alpha: 1.0)
         pagingVC.textColor = .darkGray
@@ -52,34 +53,35 @@ class DetailLastMonthViewController: UIViewController {
         pagingVC.menuItemSize = .selfSizing(estimatedWidth: 100, height: 40)
         pagingVC.menuItemSpacing = 80
         pagingVC.menuHorizontalAlignment = .center
-
+        pagingVC.select(index: 0)
+        
         DetailAllLastMonthVC.tableView.translatesAutoresizingMaskIntoConstraints = false
         DetailAllLastMonthVC.tableView.leadingAnchor.constraint(equalTo: DetailAllLastMonthVC.view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         DetailAllLastMonthVC.tableView.trailingAnchor.constraint(equalTo: DetailAllLastMonthVC.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         DetailAllLastMonthVC.tableView.bottomAnchor.constraint(equalTo: DetailAllLastMonthVC.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         DetailAllLastMonthVC.tableView.topAnchor.constraint(equalTo: DetailAllLastMonthVC.view.safeAreaLayoutGuide.topAnchor).isActive = true
-
+        
         DetailMyselfLastMonthVC.tableView.translatesAutoresizingMaskIntoConstraints = false
         DetailMyselfLastMonthVC.tableView.leadingAnchor.constraint(equalTo: DetailMyselfLastMonthVC.view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         DetailMyselfLastMonthVC.tableView.trailingAnchor.constraint(equalTo: DetailMyselfLastMonthVC.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         DetailMyselfLastMonthVC.tableView.bottomAnchor.constraint(equalTo: DetailMyselfLastMonthVC.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         DetailMyselfLastMonthVC.tableView.topAnchor.constraint(equalTo: DetailMyselfLastMonthVC.view.safeAreaLayoutGuide.topAnchor).isActive = true
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
     }
-
-
+    
+    
     /*
      // MARK: - Navigation
-
+     
      // In a storyboard-based application, you will often want to do a little preparation before navigation
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
      // Get the new view controller using segue.destination.
      // Pass the selected object to the new view controller.
      }
      */
-
+    
 }

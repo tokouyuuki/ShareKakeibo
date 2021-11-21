@@ -19,10 +19,10 @@ import UIKit
 
 class LoginModel{
     
-    
+
     let auth = Auth.auth()
     var loginOKDelegate:LoginOKDelegate?
-    
+
     
     func login(emailTextField:UITextField,passwordTextField:UITextField,errorShowLabel:UILabel,activityIndicatorView:UIActivityIndicatorView){
         
@@ -60,7 +60,7 @@ class LoginModel{
             
         }
         
-        
+     
     }
     
     func register(email:String,password:String,check:String,errorShowLabel:UILabel,activityIndicatorView:UIActivityIndicatorView){
@@ -107,27 +107,27 @@ class LoginModel{
         }
         
         auth.currentUser?.updateEmail(to: emailTextField.text!, completion: { [self] error in
-            if error != nil{
-                print(error.debugDescription)
-                self.showError(error, showLabel: errorShowLabel)
-            }else{
-                errorShowLabel.text = "メールアドレスを変更しました"
-                loginOKDelegate?.upDateOK?(value: emailTextField.text!)
-            }
-        })
-    }
+                if error != nil{
+                    print(error.debugDescription)
+                    self.showError(error, showLabel: errorShowLabel)
+                }else{
+                    errorShowLabel.text = "メールアドレスを変更しました"
+                    loginOKDelegate?.upDateOK?(value: emailTextField.text!)
+                }
+            })
+        }
     
     
     func updateUserDataOfPassword(passwordTextField:UITextField, errorShowLabel:UILabel){
         auth.currentUser?.updatePassword(to: passwordTextField.text!, completion: { [self] error in
-            if error != nil{
-                self.showError(error, showLabel: errorShowLabel)
-            }else{
-                errorShowLabel.text = "パスワードを変更しました"
-                loginOKDelegate?.upDateOK?(value: passwordTextField.text!)
-            }
-        })
-    }
+                if error != nil{
+                    self.showError(error, showLabel: errorShowLabel)
+                }else{
+                    errorShowLabel.text = "パスワードを変更しました"
+                    loginOKDelegate?.upDateOK?(value: passwordTextField.text!)
+                }
+            })
+        }
     
     func showError(_ errorOrNil: Error?,showLabel:UILabel){
         
@@ -148,9 +148,9 @@ class LoginModel{
                 print(error.debugDescription)
                 return
             }else{
-                //                let ProfileConfigurationVC = viewController.storyboard?.instantiateViewController(identifier: "ProfileConfigurationVC") as! ProfileConfigurationViewController
-                //                ProfileConfigurationVC.userInfoArray = userInfoArray
-                //                print(userInfoArray)
+//                let ProfileConfigurationVC = viewController.storyboard?.instantiateViewController(identifier: "ProfileConfigurationVC") as! ProfileConfigurationViewController
+//                ProfileConfigurationVC.userInfoArray = userInfoArray
+//                print(userInfoArray)
                 viewController.performSegue(withIdentifier: "ProfileConfigurationVC", sender: nil)
                 
             }

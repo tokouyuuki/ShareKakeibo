@@ -44,7 +44,6 @@ class ProfileConfigurationViewController: UIViewController {
         saveButton.layer.cornerRadius = 5
         saveButton.addTarget(self, action: #selector(touchDown(_:)), for: .touchDown)
         saveButton.addTarget(self, action: #selector(touchUpOutside(_:)), for: .touchUpOutside)
-        
         loginModel.loginOKDelegate = self
     }
     
@@ -63,13 +62,11 @@ class ProfileConfigurationViewController: UIViewController {
             warningLabel.text = "必須入力です"
         }else if receiveDataName == "userName"{
             db.collection("userManagement").document(userID).updateData(["\(receiveDataName)" : "\(textField.text!)"])
-            self.navigationController?.popViewController(animated: true)
+            changeData()
         }else if receiveDataName == "password"{
             loginModel.updateUserDataOfPassword(passwordTextField: textField, errorShowLabel: warningLabel)
-            self.navigationController?.popViewController(animated: true)
         }else if receiveDataName == "email"{
             loginModel.updateUserDataOfEmail(emailTextField: textField, errorShowLabel: warningLabel)
-            self.navigationController?.popViewController(animated: true)
         }
     }
     
@@ -93,6 +90,10 @@ extension ProfileConfigurationViewController: LoginOKDelegate{
     
     func upDateOK(value: String) {
         db.collection("userManagement").document(userID).updateData(["\(receiveDataName)" : "\(value)"])
+        changeData()
+    }
+    
+    func changeData(){
         if receiveDataName == "userName"{
             userInfoArray[0] = textField.text!
         }else if receiveDataName == "email"{
@@ -104,5 +105,4 @@ extension ProfileConfigurationViewController: LoginOKDelegate{
         delivery?.delivery(value: userInfoArray)
         navigationController?.popViewController(animated: true)
     }
-    
 }

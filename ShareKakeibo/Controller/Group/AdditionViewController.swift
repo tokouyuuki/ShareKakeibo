@@ -13,7 +13,7 @@ import FirebaseStorage
 
 
 class AdditionViewController: UIViewController {
-    
+
     
     @IBOutlet weak var invitationButton: UIButton!
     @IBOutlet weak var searchUserTextField: UITextField!
@@ -25,7 +25,7 @@ class AdditionViewController: UIViewController {
     var selectedUserImageArray = [String]() //profile画像のURLが入る
     var userIDArray = [String]()
     var userNameArray = [String]()
-    //    var imageArray = ["person","person.fill","pencil","trash","person"]
+//    var imageArray = ["person","person.fill","pencil","trash","person"]
     var userSearchSets = [UserSearchSets]()
     var db = Firestore.firestore()
     
@@ -44,7 +44,7 @@ class AdditionViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(UINib(nibName: "CollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "CollectionViewCell")
-        
+       
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
@@ -53,7 +53,7 @@ class AdditionViewController: UIViewController {
         tableView.layer.shadowOffset = CGSize(width: 0, height: 1)
         tableView.layer.shadowOpacity = 0.5
         tableView.layer.shadowRadius = 1
-        //        tableView.isHidden = true
+//        tableView.isHidden = true
         tableView.transform = CGAffineTransform(scaleX: 0, y: 0)
         loadDBModel.loadOKDelegate = self
         
@@ -66,6 +66,12 @@ class AdditionViewController: UIViewController {
     
     @IBAction func invitationButton(_ sender: Any) {
         let groupID = UserDefaults.standard.object(forKey: "groupID") as! String
+        let userID = UserDefaults.standard.object(forKey: "userID") as! String
+
+        print(userIDArray)
+        userIDArray.removeAll(where: {$0 == userID})
+        print(userIDArray)
+        
         for usersID in userIDArray{
             db.collection("userManagement").document(usersID).setData(["joinGroupDic":["\(groupID)": false]], merge: true)
         }
@@ -84,14 +90,14 @@ class AdditionViewController: UIViewController {
     
     
     /*
-     // MARK: - Navigation
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
+    // MARK: - Navigation
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+    }
+    */
+
 }
 // MARK: - CollectionView
 extension AdditionViewController: UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
@@ -139,7 +145,7 @@ extension AdditionViewController: UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        
+         
         let profileImage = cell.contentView.viewWithTag(1) as! UIImageView
         let userNameLabel = cell.contentView.viewWithTag(2) as! UILabel
         
@@ -155,7 +161,7 @@ extension AdditionViewController: UITableViewDelegate,UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath
         
         nothingLabel.isHidden = true
         selectedUserImageArray.append(userSearchSets[indexPath.row].profileImage)
@@ -203,7 +209,7 @@ extension AdditionViewController:LoadOKDelegate{
                 self.tableView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
                 self.tableView.alpha = 1
             }, completion:  { _ in
-                //            self.tableView.isHidden = false
+    //            self.tableView.isHidden = false
                 self.tableViewHeight.constant = CGFloat(self.userSearchSets.count * 74)
                 self.tableView.reloadData()
                 self.activityIndicatorView.stopAnimating()

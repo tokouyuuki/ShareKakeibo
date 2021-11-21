@@ -13,7 +13,7 @@ import FirebaseFirestore
 import FirebaseStorage
 
 class ProfileDetailViewController: UIViewController,EditOKDelegate{
-    
+
     
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var tableView: UITableView!
@@ -23,7 +23,7 @@ class ProfileDetailViewController: UIViewController,EditOKDelegate{
     var password = String()
     var email = String()
     
-    //    var receiveImage = UIImage()
+//    var receiveImage = UIImage()
     var nameArray = ["名前","メールアドレス","パスワード"]
     var dataNameArray = ["userName","email","password"]
     var userInfoArray = [String]()
@@ -36,6 +36,8 @@ class ProfileDetailViewController: UIViewController,EditOKDelegate{
     var editDBModel = EditDBModel()
     var db = Firestore.firestore()
     
+    var profileImageData:Data?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,9 +49,10 @@ class ProfileDetailViewController: UIViewController,EditOKDelegate{
         tableView.tableFooterView = UIView() //空白のセルの線を消してるよ
         
         editDBModel.editOKDelegate = self
+        sendDBModel.sendOKDelegate = self
         
         userID = UserDefaults.standard.object(forKey: "userID") as! String
-        
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,7 +72,7 @@ class ProfileDetailViewController: UIViewController,EditOKDelegate{
         ProfileConfigurationVC.userID = userID
         ProfileConfigurationVC.userInfoArray = userInfoArray
     }
-    
+
     @IBAction func profileImageView(_ sender: UITapGestureRecognizer) {
         alertModel.satsueiAlert(viewController: self)
     }
@@ -79,19 +82,22 @@ class ProfileDetailViewController: UIViewController,EditOKDelegate{
     }
     
     @IBAction func back(_ sender: Any) {
+        if profileImageData != nil{
+            sendDBModel.sendProfileImage(data: profileImageData!)
+        }
         navigationController?.popViewController(animated: true)
     }
-    
+
     /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+    }
+    */
+
 }
 
 // MARK: - TableView
@@ -148,7 +154,7 @@ extension ProfileDetailViewController:UIImagePickerControllerDelegate,UINavigati
         if info[.originalImage] as? UIImage != nil{
             let pickerImage = info[.originalImage] as! UIImage
             let cropController = CropViewController(croppingStyle: .default, image: pickerImage)
-            
+        
             cropController.delegate = self
             cropController.customAspectRatio = profileImageView.frame.size
             //cropBoxのサイズを固定する。
@@ -167,8 +173,7 @@ extension ProfileDetailViewController:UIImagePickerControllerDelegate,UINavigati
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
         //トリミング編集が終えたら、呼び出される。
         self.profileImageView.image = image
-        let data = image.jpegData(compressionQuality: 1.0)
-        sendDBModel.sendProfileImage(data: data!)
+        profileImageData = image.jpegData(compressionQuality: 1.0)!
         cropViewController.dismiss(animated: true, completion: nil)
     }
     
