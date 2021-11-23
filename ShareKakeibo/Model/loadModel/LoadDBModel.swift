@@ -307,6 +307,7 @@ class LoadDBModel{
                         self.monthGroupDetailsSets.append(groupNewData)
                     }
                 }
+                self.monthGroupDetailsSets.reverse()
                 self.loadOKDelegate?.loadMonthDetails_OK?()
             }
         }else if userID != nil{
@@ -333,6 +334,7 @@ class LoadDBModel{
                         self.monthMyDetailsSets.append(myNewData)
                     }
                 }
+                self.monthMyDetailsSets.reverse()
                 self.loadOKDelegate?.loadMonthDetails_OK?()
             }
         }

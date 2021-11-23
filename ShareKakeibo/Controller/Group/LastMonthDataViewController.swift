@@ -89,6 +89,7 @@ extension LastMonthDataViewController:LoadOKDelegate{
     func loadMonthPayment_OK(groupPaymentOfMonth: Int, paymentAverageOfMonth: Int, userIDArray: [String]) {
         self.groupPaymentOfLastMonth.text = changeCommaModel.getComma(num: groupPaymentOfMonth) + " 円"
         self.paymentAverageOfLastMonth.text = changeCommaModel.getComma(num: paymentAverageOfMonth) + " 円"
+        self.userPaymentLastMonth.text = "　円"
         dateModel.getPeriodOfLastMonth(settelemtDay: settlementDayOfInt) { maxDate, minDate in
             loadDBModel.loadMonthSettlement(groupID: groupID, userID: userID, startDate: minDate, endDate: maxDate, activityIndicatorView: activityIndicatorView)
         }

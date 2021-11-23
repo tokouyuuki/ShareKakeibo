@@ -176,6 +176,7 @@ extension MonthDataViewController:LoadOKDelegate {
     func loadMonthPayment_OK(groupPaymentOfMonth: Int, paymentAverageOfMonth: Int, userIDArray: [String]) {
         self.groupPaymentOfThisMonth.text = changeCommaModel.getComma(num: groupPaymentOfMonth) + "　円"
         self.paymentAverageOfTithMonth.text = changeCommaModel.getComma(num: paymentAverageOfMonth) + "　円"
+        self.userPaymentThisMonth.text = "　円"
         dateModel.getPeriodOfThisMonth(settelemtDay: settlementDayOfInt) { maxDate, minDate in
             loadDBModel.loadMonthSettlement(groupID: groupID, userID: userID, startDate: minDate, endDate: maxDate, activityIndicatorView: activityIndicatorView)
         }

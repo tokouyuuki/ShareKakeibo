@@ -7,32 +7,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "AFA1A683-E0E1-4351-BF3A-599EF5682BDE"
+            uuid = "87A146EF-4AAD-406D-96AE-6322BB3A563E"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ShareKakeibo/Model/loadModel/SendDBModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "45"
-            endingLineNumber = "45"
-            landmarkName = "sendChangeProfileImage(data:activityIndicatorView:)"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
+            landmarkName = "sendProfileImage(data:activityIndicatorView:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "021BADA3-7245-42B6-9913-4964F0047E91"
+            uuid = "0A941EF7-8587-447F-966C-73DCA448276A"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ShareKakeibo/Controller/Profile/ProfileDetailViewController.swift"
+            filePath = "ShareKakeibo/Controller/Group/GroupConfigurationViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86"
-            landmarkName = "back(_:)"
+            startingLineNumber = "170"
+            endingLineNumber = "170"
+            landmarkName = "cropViewController(_:didCropToImage:withRect:angle:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -84,6 +84,10 @@ class SearchViewController: UIViewController {
     }
     
     @IBAction func searchUserButton(_ sender: Any) {
+        if searchUserTextField.text == ""{
+            nothingLabel.isHidden = false
+            return
+        }
         activityIndicatorView.startAnimating()
         nothingLabel.isHidden = true
         loadDBModel.loadUserSearch(email: searchUserTextField.text!, activityIndicatorView: activityIndicatorView)

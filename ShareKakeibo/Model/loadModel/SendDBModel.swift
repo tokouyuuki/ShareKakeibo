@@ -23,7 +23,8 @@ class SendDBModel{
         let image = UIImage(data: data)
         let profileImage = image?.jpegData(compressionQuality: 0.1)
         let imageRef = Storage.storage().reference().child("profileImage").child("\(UUID().uuidString + String(Date().timeIntervalSince1970)).jpg")
-        profileStoregePath = "\(UUID().uuidString + String(Date().timeIntervalSince1970)).jpg"
+        profileStoregePath = imageRef.fullPath
+        profileStoregePath = String(profileStoregePath.dropFirst(13))
         UserDefaults.standard.setValue(profileStoregePath, forKey: "profileStoregePath")
         imageRef.putData(profileImage!, metadata: nil) { (mataData, error) in
             if error != nil{
@@ -45,7 +46,7 @@ class SendDBModel{
     func sendChangeProfileImage(data:Data,activityIndicatorView:UIActivityIndicatorView){
         let image = UIImage(data: data)
         let profileImage = image?.jpegData(compressionQuality: 0.1)
-        profileStoregePath = UserDefaults.standard.object(forKey: "storegePath") as! String
+        profileStoregePath = UserDefaults.standard.object(forKey: "profileStoregePath") as! String
         let imageRef = Storage.storage().reference().child("profileImage").child(profileStoregePath)
         imageRef.putData(profileImage!, metadata: nil) { (mataData, error) in
             if error != nil{
@@ -68,7 +69,8 @@ class SendDBModel{
         let image = UIImage(data: data)
         let profileImage = image?.jpegData(compressionQuality: 0.1)
         let imageRef = Storage.storage().reference().child("groupImage").child("\(UUID().uuidString + String(Date().timeIntervalSince1970)).jpg")
-        groupStoregePath = "\(UUID().uuidString + String(Date().timeIntervalSince1970)).jpg"
+        groupStoregePath = imageRef.fullPath
+        groupStoregePath = String(groupStoregePath.dropFirst(11))
         UserDefaults.standard.setValue(groupStoregePath, forKey: "groupStoregePath")
         imageRef.putData(profileImage!, metadata: nil) { (mataData, error) in
             if error != nil{
