@@ -9,11 +9,12 @@ import UIKit
 import Parchment
 
 class DetailLastMonthViewController: UIViewController {
-
+    
+    
     @IBOutlet weak var headerView: UIView!
     
-    
     var buttonAnimatedModel = ButtonAnimatedModel(withDuration: 0.1, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, transform: CGAffineTransform(scaleX: 0.95, y: 0.95), alpha: 0.7)
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +29,6 @@ class DetailLastMonthViewController: UIViewController {
             DetailAllLastMonthVC,
             DetailMyselfLastMonthVC
         ])
-        
         
         self.addChild(pagingVC)
         self.view.addSubview(pagingVC.view)
@@ -67,21 +67,6 @@ class DetailLastMonthViewController: UIViewController {
         DetailMyselfLastMonthVC.tableView.bottomAnchor.constraint(equalTo: DetailMyselfLastMonthVC.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         DetailMyselfLastMonthVC.tableView.topAnchor.constraint(equalTo: DetailMyselfLastMonthVC.view.safeAreaLayoutGuide.topAnchor).isActive = true
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-    }
-    
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
+ 
     
 }

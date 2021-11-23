@@ -30,6 +30,7 @@ class RegisterViewController: UIViewController,LoginOKDelegate,SendOKDelegate {
     
     var activityIndicatorView = UIActivityIndicatorView()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -37,6 +38,9 @@ class RegisterViewController: UIViewController,LoginOKDelegate,SendOKDelegate {
         profileImageView.layer.cornerRadius = 108
         loginModel.loginOKDelegate = self
         sendDBModel.sendOKDelegate = self
+        
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
         
         activityIndicatorView.center = view.center
         activityIndicatorView.style = .large
@@ -54,7 +58,7 @@ class RegisterViewController: UIViewController,LoginOKDelegate,SendOKDelegate {
         self.userID = userID
         
         let data = profileImageView.image?.jpegData(compressionQuality: 1.0)
-        sendDBModel.sendProfileImage(data: data!)
+        sendDBModel.sendProfileImage(data: data!, activityIndicatorView: activityIndicatorView)
     }
     
     func sendImage_OK(url: String) {
@@ -86,6 +90,7 @@ class RegisterViewController: UIViewController,LoginOKDelegate,SendOKDelegate {
         alertModel.satsueiAlert(viewController: self)
     }
     
+    
 }
 
 //MARK:- ImagePicker
@@ -116,6 +121,17 @@ extension RegisterViewController: UIImagePickerControllerDelegate,UINavigationCo
         //トリミング編集が終えたら、呼び出される。
         self.profileImageView.image = image
         cropViewController.dismiss(animated: true, completion: nil)
+    }
+    
+}
+
+//MARK:- UITextFieldDelegate
+
+extension RegisterViewController: UITextFieldDelegate{
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
     
 }

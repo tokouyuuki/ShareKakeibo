@@ -13,7 +13,7 @@ import FirebaseStorage
 
 
 class AdditionViewController: UIViewController {
-
+    
     
     @IBOutlet weak var invitationButton: UIButton!
     @IBOutlet weak var searchUserTextField: UITextField!
@@ -25,7 +25,7 @@ class AdditionViewController: UIViewController {
     var selectedUserImageArray = [String]() //profile画像のURLが入る
     var userIDArray = [String]()
     var userNameArray = [String]()
-//    var imageArray = ["person","person.fill","pencil","trash","person"]
+    //    var imageArray = ["person","person.fill","pencil","trash","person"]
     var userSearchSets = [UserSearchSets]()
     var db = Firestore.firestore()
     
@@ -44,7 +44,7 @@ class AdditionViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(UINib(nibName: "CollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "CollectionViewCell")
-       
+        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
@@ -53,9 +53,22 @@ class AdditionViewController: UIViewController {
         tableView.layer.shadowOffset = CGSize(width: 0, height: 1)
         tableView.layer.shadowOpacity = 0.5
         tableView.layer.shadowRadius = 1
-//        tableView.isHidden = true
+        //        tableView.isHidden = true
         tableView.transform = CGAffineTransform(scaleX: 0, y: 0)
+        
         loadDBModel.loadOKDelegate = self
+        
+        searchUserTextField.delegate = self
+        
+        view.addSubview(nothingLabel)
+        nothingLabel.translatesAutoresizingMaskIntoConstraints = false
+        nothingLabel.text = "検索結果がありません"
+        nothingLabel.textAlignment = .center
+        nothingLabel.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        nothingLabel.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 50).isActive = true
+        nothingLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        nothingLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        nothingLabel.isHidden = true
         
         activityIndicatorView.center = view.center
         activityIndicatorView.style = .large
@@ -63,11 +76,10 @@ class AdditionViewController: UIViewController {
         view.addSubview(activityIndicatorView)
     }
     
-    
     @IBAction func invitationButton(_ sender: Any) {
         let groupID = UserDefaults.standard.object(forKey: "groupID") as! String
         let userID = UserDefaults.standard.object(forKey: "userID") as! String
-
+        
         print(userIDArray)
         userIDArray.removeAll(where: {$0 == userID})
         print(userIDArray)
@@ -82,25 +94,18 @@ class AdditionViewController: UIViewController {
         activityIndicatorView.startAnimating()
         nothingLabel.isHidden = true
         loadDBModel.loadUserSearch(email: searchUserTextField.text!, activityIndicatorView: activityIndicatorView)
+        searchUserTextField.text = ""
     }
     
     @IBAction func back(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
-    
-    
-    /*
-    // MARK: - Navigation
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
+    
 }
 // MARK: - CollectionView
 extension AdditionViewController: UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
+    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return selectedUserImageArray.count
@@ -134,10 +139,12 @@ extension AdditionViewController: UICollectionViewDelegate, UICollectionViewData
         return CGSize(width: 100, height: 100)
     }
     
+    
 }
 
 // MARK: - TableView
 extension AdditionViewController: UITableViewDelegate,UITableViewDataSource{
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return userSearchSets.count
@@ -145,7 +152,7 @@ extension AdditionViewController: UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-         
+        
         let profileImage = cell.contentView.viewWithTag(1) as! UIImageView
         let userNameLabel = cell.contentView.viewWithTag(2) as! UILabel
         
@@ -161,7 +168,7 @@ extension AdditionViewController: UITableViewDelegate,UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath
+        //        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath
         
         nothingLabel.isHidden = true
         selectedUserImageArray.append(userSearchSets[indexPath.row].profileImage)
@@ -169,12 +176,20 @@ extension AdditionViewController: UITableViewDelegate,UITableViewDataSource{
         userNameArray.append(userSearchSets[indexPath.row].userName)
         userSearchSets.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .automatic)
-        UIView.animate(withDuration: 0.3, animations: {
-            self.tableView.transform = CGAffineTransform(scaleX: 0, y: 0)
-            self.tableView.alpha = 0
-        }, completion:  { _ in
-            //               self.tableView.isHidden = true
-        })
+        if userSearchSets.count == 0{
+            UIView.animate(withDuration: 0.3, animations: {
+                self.tableView.transform = CGAffineTransform(scaleX: 0, y: 0)
+                self.tableView.alpha = 0
+            }, completion:  { _ in
+                self.tableViewHeight.constant = CGFloat(self.userSearchSets.count * 74)
+            })
+        }else{
+            UIView.animate(withDuration: 0.3, animations: {
+                
+            }, completion:  { _ in
+                self.tableViewHeight.constant = CGFloat(self.userSearchSets.count * 74)
+            })
+        }
         collectionView.reloadData()
     }
     
@@ -182,24 +197,23 @@ extension AdditionViewController: UITableViewDelegate,UITableViewDataSource{
         return 74
     }
     
+    
 }
 
 // MARK: - LoadOKDeegate
 extension AdditionViewController:LoadOKDelegate{
     
+    
     func loadUserSearch_OK() {
+        var loadUserSearchSets = loadDBModel.userSearchSets
+        for userID in userIDArray{
+            loadUserSearchSets.removeAll(where: {$0.userID == userID})
+        }
+        userSearchSets = loadUserSearchSets
         
-        self.userSearchSets = loadDBModel.userSearchSets
         if userSearchSets.count == 0{
-            view.addSubview(nothingLabel)
             nothingLabel.isHidden = false
-            nothingLabel.translatesAutoresizingMaskIntoConstraints = false
-            nothingLabel.text = "検索結果がありません"
-            nothingLabel.textAlignment = .center
-            nothingLabel.heightAnchor.constraint(equalToConstant: 60).isActive = true
-            nothingLabel.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 50).isActive = true
-            nothingLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-            nothingLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+            
             self.tableViewHeight.constant = CGFloat(self.userSearchSets.count * 74)
             tableView.reloadData()
             activityIndicatorView.stopAnimating()
@@ -209,12 +223,71 @@ extension AdditionViewController:LoadOKDelegate{
                 self.tableView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
                 self.tableView.alpha = 1
             }, completion:  { _ in
-    //            self.tableView.isHidden = false
+                //            self.tableView.isHidden = false
                 self.tableViewHeight.constant = CGFloat(self.userSearchSets.count * 74)
                 self.tableView.reloadData()
                 self.activityIndicatorView.stopAnimating()
             })
         }
     }
+    
+    
+}
+
+// MARK: - UITextFieldDelegate
+extension AdditionViewController:UITextFieldDelegate{
+    
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        print(searchUserTextField.text)
+        print(textField.text)
+        print(string)
+        print(textField.text! + string)
+        print("")
+        if string == "" && textField.text != ""{
+            if textField.text?.count == 1{
+                
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.tableView.transform = CGAffineTransform(scaleX: 0, y: 0)
+                    self.tableView.alpha = 0
+                }, completion:  { _ in
+                    self.userSearchSets = []
+                    self.nothingLabel.isHidden = false
+                    self.tableView.reloadData()
+                    self.tableViewHeight.constant = CGFloat(self.userSearchSets.count * 74)
+                })
+                
+            }else{
+                var removeText = textField.text
+                removeText?.removeLast()
+                print(removeText)
+                loadDBModel.loadUserSearch(email: removeText!, activityIndicatorView: activityIndicatorView)
+            }
+        }else if string != "" && textField.text != ""{
+            loadDBModel.loadUserSearch(email: textField.text! + string, activityIndicatorView: activityIndicatorView)
+        }else if string != "" && textField.text == ""{
+            loadDBModel.loadUserSearch(email: string, activityIndicatorView: activityIndicatorView)
+        }else if string == "" && textField.text == ""{
+            
+            UIView.animate(withDuration: 0.3, animations: {
+                self.tableView.transform = CGAffineTransform(scaleX: 0, y: 0)
+                self.tableView.alpha = 0
+            }, completion:  { _ in
+                self.userSearchSets = []
+                self.nothingLabel.isHidden = false
+                self.tableView.reloadData()
+                self.tableViewHeight.constant = CGFloat(self.userSearchSets.count * 74)
+            })
+            
+        }
+        
+        return true
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
     
 }

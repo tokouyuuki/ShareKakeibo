@@ -30,6 +30,9 @@ class LoginViewController: UIViewController,LoginOKDelegate {
         activityIndicatorView.style = .large
         activityIndicatorView.color = .darkGray
         
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
+        
         view.addSubview(activityIndicatorView)
     }
 
@@ -49,7 +52,18 @@ class LoginViewController: UIViewController,LoginOKDelegate {
         loginModel.login(emailTextField: emailTextField, passwordTextField: passwordTextField, errorShowLabel: errorShow, activityIndicatorView: activityIndicatorView)
     }
     
+    
+}
 
+//MARK:- UITextFieldDelegate
+
+extension LoginViewController: UITextFieldDelegate{
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
 }
 
 

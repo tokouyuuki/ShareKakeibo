@@ -17,6 +17,7 @@ class SettlementViewController: UIViewController{
     @IBOutlet weak var settlementCompletionButton: UIButton!
     @IBOutlet weak var checkDetailButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var lastMonthLabel: UILabel!
     
     var loadDBModel = LoadDBModel()
     var db = Firestore.firestore()
@@ -25,7 +26,6 @@ class SettlementViewController: UIViewController{
     var userID = String()
     var year = String()
     var month = String()
-    var day = String()
     let dateFormatter = DateFormatter()
     var startDate = Date()
     var endDate = Date()
@@ -36,8 +36,7 @@ class SettlementViewController: UIViewController{
     var userIDArray = [String]()
     var paymentAverageOfMonth = Int()
     
-    var today = Date()
-    
+    var settlementDic = [String:Bool]()
     var sortedSettlementDic = [Dictionary<String,Bool>.Element]()
     var sortedProfileImageDic = [Dictionary<String,String>.Element]()
     var sortedUserNameDic = [Dictionary<String,String>.Element]()
@@ -47,6 +46,8 @@ class SettlementViewController: UIViewController{
     
     var dateModel = DateModel()
     var settlementDayOfInt = Int()
+    var changeCommaModel = ChangeCommaModel()
+        
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,22 +81,19 @@ class SettlementViewController: UIViewController{
         groupID = UserDefaults.standard.object(forKey: "groupID") as! String
         userID = UserDefaults.standard.object(forKey: "userID") as! String
         let calendar = Calendar(identifier: .gregorian)
-        let date = calendar.dateComponents([.year,.month,.day], from: Date())
+        let date = calendar.dateComponents([.year,.month], from: Date())
         year = String(date.year!)
         month = String(date.month!)
-        day = String(date.day!)
-        let yyyyMMdd = "\(year)年\(month)月\(day)日"
-        dateFormatter.dateFormat = "yyyy年MM月dd日"
-        dateFormatter.locale = Locale(identifier: "ja_JP")
-        dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
-        today = dateFormatter.date(from: yyyyMMdd)!
         loadDBModel.loadOKDelegate = self
+        activityIndicatorView.startAnimating()
         loadDBModel.loadSettlementDay(groupID: groupID, activityIndicatorView: activityIndicatorView)
     }
     
     
     @objc func touchDown(_ sender:UIButton){
-        buttonAnimatedModel.startAnimation(sender: sender)
+        if settlementDic[userID] == false{
+            buttonAnimatedModel.startAnimation(sender: sender)
+        }
     }
     
     @objc func touchUpOutside(_ sender:UIButton){
@@ -103,7 +101,7 @@ class SettlementViewController: UIViewController{
     }
     
     @IBAction func settlementCompletionButton(_ sender: Any) {
-        buttonAnimatedModel.endAnimation(sender: sender as! UIButton)
+        settlementCompletionButton.backgroundColor = .red
         
         db.collection("groupManagement").document(groupID).setData(["settlementDic" : [userID:true]],merge: true)
         loadDBModel.loadUserIDAndSettlementDic(groupID: groupID, activityIndicatorView: activityIndicatorView)
@@ -114,6 +112,7 @@ class SettlementViewController: UIViewController{
         performSegue(withIdentifier: "lastMonthDataVC", sender: nil)
     }
     
+    
 }
 
 // MARK: - LoadOKDelegate
@@ -122,17 +121,33 @@ extension SettlementViewController: LoadOKDelegate{
     //決済日取得完了
     //決済月を求める
     func loadSettlementDay_OK(settlementDay: String) {
-        activityIndicatorView.stopAnimating()
         settlementDayOfInt = Int(settlementDay)!
         loadDBModel.loadUserIDAndSettlementDic(groupID: groupID, activityIndicatorView: activityIndicatorView)
     }
     
     //メンバーの決済可否を取得完了
     func loadUserIDAndSettlementDic_OK(settlementDic: Dictionary<String, Bool>, userIDArray: [String]) {
+        self.settlementDic = settlementDic
+        if settlementDic[userID] == true{
+            buttonAnimatedModel.startAnimation(sender: settlementCompletionButton)
+            settlementCompletionButton.backgroundColor = .red
+            settlementCompletionButton.setTitle("支払いor受け取り済み", for: .normal)
+        }else{
+            buttonAnimatedModel.endAnimation(sender: settlementCompletionButton)
+            settlementCompletionButton.backgroundColor = UIColor(red: 255 / 255, green: 190 / 255, blue: 115 / 255, alpha: 1.0)
+            settlementCompletionButton.setTitle("支払いor受け取り済みにする", for: .normal)
+        }
+        
         sortedSettlementDic = settlementDic.sorted(by: {$0.key < $1.key})
         dateModel.getPeriodOfLastMonth(settelemtDay: settlementDayOfInt) { maxDate, minDate in
-            
-            loadDBModel.loadMonthPayment(groupID: groupID, userIDArray: userIDArray, startDate: minDate, endDate: maxDate)
+            dateFormatter.dateFormat = "MM/dd"
+            dateFormatter.locale = Locale(identifier: "ja_JP")
+            dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
+            let maxdd = Calendar.current.date(byAdding: .day, value: -1, to: maxDate)
+            let maxDateFormatter = dateFormatter.string(from: maxdd!)
+            let minDateFormatter = dateFormatter.string(from: minDate)
+            lastMonthLabel.text = "\(minDateFormatter)〜\(maxDateFormatter)の\n決済が確定しました"
+            loadDBModel.loadMonthPayment(groupID: groupID, userIDArray: userIDArray, startDate: minDate, endDate: maxDate, activityIndicatorView: activityIndicatorView)
         }
     }
     
@@ -143,8 +158,8 @@ extension SettlementViewController: LoadOKDelegate{
         self.userIDArray = userIDArray.sorted()
         self.paymentAverageOfMonth = paymentAverageOfMonth
         
-        //各メンバーのプロフィール画像、名前をロード
-        loadDBModel.loadGroupMember(userIDArray: userIDArray) { [self] UserSets in
+        //各メンバーのプロフィール画像、名前取得完了
+        loadDBModel.loadGroupMember(userIDArray: userIDArray, activityIndicatorView: activityIndicatorView) { [self] UserSets in
             profileImageDic.updateValue(UserSets.profileImage, forKey: UserSets.userID)
             userNameDic.updateValue(UserSets.userName, forKey: UserSets.userID)
             sortedProfileImageDic = profileImageDic.sorted(by: {$0.key < $1.key})
@@ -153,13 +168,9 @@ extension SettlementViewController: LoadOKDelegate{
         
     }
     
-    //各メンバーのプロフィール画像、名前取得完了
     func loadGroupMember_OK() {
         dateModel.getPeriodOfLastMonth(settelemtDay: settlementDayOfInt) { maxDate, minDate in
-            if today > maxDate{
-                db.collection("groupManagement").document(groupID).setData(["settlementDic" : [userID:false]],merge: true)
-            }
-            loadDBModel.loadMonthSettlement(groupID: groupID, userID: nil, startDate: minDate, endDate: maxDate)
+            loadDBModel.loadMonthSettlement(groupID: groupID, userID: nil, startDate: minDate, endDate: maxDate, activityIndicatorView: activityIndicatorView)
         }
     }
     
@@ -190,18 +201,24 @@ extension SettlementViewController: LoadOKDelegate{
         var userPayment = paymentDic[userID]!
         userPayment = paymentAverageOfMonth - userPayment
         if userPayment < 0{
-            userPaymentOfLastMonth.text = "あなたは" + String(userPayment * -1) + "の受け取りがあります"
+            let receivePrice = changeCommaModel.getComma(num: userPayment * -1) + "円"
+            userPaymentOfLastMonth.text = "あなたは " + receivePrice + " の受け取りがあります"
         }else{
-            userPaymentOfLastMonth.text = "あなたは" + String(userPayment) + "の支払いがあります"
+            let paymentPrice = changeCommaModel.getComma(num: userPayment) + "円"
+            userPaymentOfLastMonth.text = "あなたは " + paymentPrice + " の支払いがあります"
         }
         tableView.delegate = self
         tableView.dataSource = self
         tableView.reloadData()
+        activityIndicatorView.stopAnimating()
     }
+    
+    
 }
 
 // MARK: - TableView
 extension SettlementViewController: UITableViewDelegate,UITableViewDataSource{
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return sortedSettlementDic.count
@@ -224,10 +241,14 @@ extension SettlementViewController: UITableViewDelegate,UITableViewDataSource{
         let checkSettlementLabel = cell?.contentView.viewWithTag(4) as! UILabel
         let howMuchLabel = cell?.contentView.viewWithTag(5) as! UILabel
         
+        cell?.selectionStyle = .none
+        
         profileImage.layer.cornerRadius = 30
         profileImage.sd_setImage(with: URL(string: sortedProfileImageDic[indexPath.row].value), completed: nil)
         userNameLabel.text = sortedUserNameDic[indexPath.row].value
         
+        checkSettlementLabel.layer.masksToBounds = false
+        checkSettlementLabel.clipsToBounds = true
         checkSettlementLabel.layer.cornerRadius = 5
         
         if sortedSettlementDic[indexPath.row].value == true{
@@ -239,9 +260,9 @@ extension SettlementViewController: UITableViewDelegate,UITableViewDataSource{
         }
         
         if howMuchArray[indexPath.row] < 0{
-            howMuchLabel.text = String(howMuchArray[indexPath.row] * -1 ) + "の受取"
+            howMuchLabel.text = changeCommaModel.getComma(num: howMuchArray[indexPath.row] * -1) + "　円" + "の受取"
         }else{
-            howMuchLabel.text = String(howMuchArray[indexPath.row]) + "の支払"
+            howMuchLabel.text = changeCommaModel.getComma(num: howMuchArray[indexPath.row]) + "　円" + "の支払"
         }
         cellView.layer.cornerRadius = 5
         cellView.layer.masksToBounds = false
@@ -252,4 +273,6 @@ extension SettlementViewController: UITableViewDelegate,UITableViewDataSource{
         
         return cell!
     }
+    
+    
 }

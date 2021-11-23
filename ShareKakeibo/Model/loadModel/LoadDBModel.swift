@@ -13,6 +13,7 @@ import FirebaseFirestore
     @objc optional func loadUserSearch_OK()
     @objc optional func loadJoinGroup_OK()
     @objc optional func loadNotJoinGroup_OK(groupIDArray:[String],notJoinCount:Int)
+    @objc optional func loadNotJoinGroupInfo_OK(check: Int)
     @objc optional func loadGroupName_OK(groupName:String,groupImage:String)
     @objc optional func loadSettlementNotification_OK()
     @objc optional func loadSettlementDay_OK(settlementDay:String)
@@ -51,14 +52,37 @@ class LoadDBModel{
             if let userName = data!["userName"] as? String,let profileImage = data!["profileImage"] as? String,let email = data!["email"] as? String,let password = data!["password"] as? String{
                 self.loadOKDelegate?.loadUserInfo_OK?(userName: userName, profileImage: profileImage, email: email, password: password)
             }
-            activityIndicatorView.stopAnimating()
         }
     }
     
+//    //メールアドレスで検索するメソッド。メールアドレスと一致するユーザー情報を取得。
+//    func loadUserSearch(email:String,activityIndicatorView:UIActivityIndicatorView){
+//        db.collection("userManagement").whereField("email", isEqualTo: email).addSnapshotListener { (snapShot, error) in
+//
+//            self.userSearchSets = []
+//            if error != nil{
+//                activityIndicatorView.stopAnimating()
+//                return
+//            }
+//            if let snapShotDoc = snapShot?.documents{
+//                for doc in snapShotDoc{
+//                    let data = doc.data()
+//                    let userName = data["userName"] as! String
+//                    let profileImage = data["profileImage"] as! String
+//                    let userID = data["userID"] as! String
+//                    let newData = UserSearchSets(userName: userName, profileImage: profileImage, userID: userID)
+//                    self.userSearchSets.append(newData)
+//                }
+//            }
+//            self.loadOKDelegate?.loadUserSearch_OK?()
+//        }
+//    }
+    
     //メールアドレスで検索するメソッド。メールアドレスと一致するユーザー情報を取得。
     func loadUserSearch(email:String,activityIndicatorView:UIActivityIndicatorView){
-        db.collection("userManagement").whereField("email", isEqualTo: email).addSnapshotListener { (snapShot, error) in
+        db.collection("userManagement").order(by: "email").start(at: [email]).end(at: [email + "\u{f8ff}"]).getDocuments() { (snapShot, error) in
             
+            print(email)
             self.userSearchSets = []
             if error != nil{
                 activityIndicatorView.stopAnimating()
@@ -78,12 +102,14 @@ class LoadDBModel{
         }
     }
     
+    
     //参加しているグループの情報を取得するロード
-    func loadJoinGroup(groupID:String,userID:String){
+    func loadJoinGroup(groupID:String,userID:String,activityIndicatorView:UIActivityIndicatorView){
         db.collection("groupManagement").whereField("userIDArray", arrayContains: userID).order(by: "create_at").addSnapshotListener { (snapShot, error) in
             self.groupSets = []
             if error != nil{
                 print(error.debugDescription)
+                activityIndicatorView.stopAnimating()
                 return
             }
             if let snapShotDoc = snapShot?.documents{
@@ -102,12 +128,13 @@ class LoadDBModel{
     }
     
     //招待されているグループの数を取得するロード
-    func loadNotJoinGroup(userID:String){
+    func loadNotJoinGroup(userID:String,activityIndicatorView:UIActivityIndicatorView){
         db.collection("userManagement").document(userID).addSnapshotListener { (snapShot, error) in
             
             var groupIDArray = [String]()
             var notJoinCount = 0
             if error != nil{
+                activityIndicatorView.stopAnimating()
                 return
             }
             if let data = snapShot?.data(){
@@ -125,11 +152,15 @@ class LoadDBModel{
     }
     
     //招待されているグループの情報を取得するロード
-    func loadNotJoinGroupInfo(groupIDArray:[String],completion:@escaping(GroupSets)->()){
+    func loadNotJoinGroupInfo(groupIDArray:[String],activityIndicatorView:UIActivityIndicatorView,completion:@escaping(GroupSets)->()){
+        
+        var count = 0
+
         for groupID in groupIDArray{
             db.collection("groupManagement").document(groupID).addSnapshotListener { (sanpShot, error) in
-                
+                count += 1
                 if error != nil{
+                    activityIndicatorView.stopAnimating()
                     return
                 }
                 if let data = sanpShot?.data(){
@@ -140,8 +171,12 @@ class LoadDBModel{
                     let newData = GroupSets(groupName: groupName, groupImage: groupImage, groupID: groupID, create_at: create_at)
                     completion(newData)
                 }
+                if groupIDArray.count == count{
+                    self.loadOKDelegate?.loadNotJoinGroupInfo_OK?(check: 1)
+                }
             }
         }
+        self.loadOKDelegate?.loadNotJoinGroupInfo_OK?(check: 0)
         
     }
     
@@ -220,13 +255,14 @@ class LoadDBModel{
     }
     
     //グループに所属する人の名前とプロフィール画像を取得するロード
-    func loadGroupMember(userIDArray:[String],completion:@escaping(UserSets)->()){
+    func loadGroupMember(userIDArray:[String],activityIndicatorView:UIActivityIndicatorView,completion:@escaping(UserSets)->()){
         var count = 0
         for userID in userIDArray{
             
             db.collection("userManagement").document(userID).addSnapshotListener { (snapShot, error) in
                 count += 1
                 if error != nil{
+                    activityIndicatorView.stopAnimating()
                     return
                 }
                 if let data = snapShot?.data(){
@@ -672,12 +708,13 @@ class LoadDBModel{
     }
     
     //(グループの合計金額)と(1人当たりの金額)と(支払いに参加したユーザー)をロード
-    func loadMonthPayment(groupID:String,userIDArray:[String],startDate:Date,endDate:Date){
+    func loadMonthPayment(groupID:String,userIDArray:[String],startDate:Date,endDate:Date,activityIndicatorView:UIActivityIndicatorView){
         db.collection("paymentData").whereField("groupID", isEqualTo: groupID).whereField("paymentDay", isGreaterThanOrEqualTo: startDate).whereField("paymentDay", isLessThan: endDate).addSnapshotListener { (snapShot, error) in
             
             var groupPaymentOfMonth = 0
             var paymentAverageOfMonth = 0
             if error != nil{
+                activityIndicatorView.stopAnimating()
                 return
             }
             if let snapShotDoc = snapShot?.documents{
@@ -700,12 +737,13 @@ class LoadDBModel{
     
     //グループの支払状況のロード
     //各メンバーの支払い金額を取得するロード
-    func loadMonthSettlement(groupID:String,userID:String?,startDate:Date,endDate:Date){
+    func loadMonthSettlement(groupID:String,userID:String?,startDate:Date,endDate:Date,activityIndicatorView:UIActivityIndicatorView){
         if userID == nil{
             db.collection("paymentData").whereField("groupID", isEqualTo: groupID).whereField("paymentDay", isGreaterThanOrEqualTo: startDate).whereField("paymentDay", isLessThan: endDate).addSnapshotListener { (snapShot, error) in
                 
                 self.settlementSets = []
                 if error != nil{
+                    activityIndicatorView.stopAnimating()
                     return
                 }
                 if let snapShotDoc = snapShot?.documents{
@@ -718,6 +756,7 @@ class LoadDBModel{
                     }
                     self.loadOKDelegate?.loadMonthSettlement_OK?()
                 }
+                self.loadOKDelegate?.loadMonthSettlement_OK?()
             }
         }else{
             db.collection("paymentData").whereField("groupID", isEqualTo: groupID).whereField("userID", isEqualTo: userID!).whereField("paymentDay", isGreaterThanOrEqualTo: startDate).whereField("paymentDay", isLessThan: endDate).addSnapshotListener { (snapShot, error) in
@@ -726,6 +765,7 @@ class LoadDBModel{
                 var myTotalPay = 0
                 if error != nil{
                     print(error.debugDescription)
+                    activityIndicatorView.stopAnimating()
                     return
                 }
                 if let snapShotDoc = snapShot?.documents{
@@ -739,7 +779,6 @@ class LoadDBModel{
                     self.settlementSets.append(newData)
                     self.loadOKDelegate?.loadMonthSettlement_OK?()
                 }
-                
             }
         }
     }

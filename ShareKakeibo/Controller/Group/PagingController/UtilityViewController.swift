@@ -9,7 +9,8 @@ import UIKit
 import Charts
 
 class UtilityViewController: UIViewController {
-
+    
+    
     var graphModel = GraphModel()
     var yAxisValues = [Int]()
     var loadDBModel = LoadDBModel()
@@ -27,6 +28,7 @@ class UtilityViewController: UIViewController {
     let lastYearButton = UIButton()
     var settlementDay = String()
     var yearCount = 0
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,7 +83,7 @@ class UtilityViewController: UIViewController {
         month = date.month!
         groupID = UserDefaults.standard.object(forKey: "groupID") as! String
         loadDBModel.loadOKDelegate = self
-//        loadDBModel.loadSettlementDay(groupID: groupID, activityIndicatorView: activityIndicatorView)
+        //        loadDBModel.loadSettlementDay(groupID: groupID, activityIndicatorView: activityIndicatorView)
         
         activityIndicatorView.startAnimating()
         dateFormatter.dateFormat = "yyyy年MM月dd日"
@@ -114,32 +116,19 @@ class UtilityViewController: UIViewController {
         print(endDate)
         loadDBModel.loadMonthlyUtilityTransition(groupID: groupID, year: year, settlementDay: settlementDay, startDate: startDate, endDate: endDate, activityIndicatorView: activityIndicatorView)
     }
-
+    
+    
 }
 
 // MARK: - LoadOKDelegate
 extension UtilityViewController:LoadOKDelegate{
-    //決済日取得完了
-    //今年の期間を定める
-//    func loadSettlementDay_OK(settlementDay: String) {
-//        activityIndicatorView.stopAnimating()
-//        dateFormatter.dateFormat = "yyyy年MM月dd日"
-//        dateFormatter.locale = Locale(identifier: "ja_JP")
-//        dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
-//
-//        self.settlementDay = settlementDay
-//        startDate = dateFormatter.date(from: "\(Int(year)! - 1)年\("12")月\(settlementDay)日")!
-//        endDate = dateFormatter.date(from: "\(year)年\("12")月\(settlementDay)日")!
-//        yearLabel.text = "\(year)年"
-//        loadDBModel.loadMonthlyUtilityTransition(groupID: groupID, year: year, settlementDay: settlementDay, startDate: startDate, endDate: endDate, activityIndicatorView: activityIndicatorView)
-//    }
     
     //１〜１２月の光熱費の推移取得完了
     func loadMonthlyTransition_OK(countArray: [Int]) {
-        activityIndicatorView.stopAnimating()
         yAxisValues = countArray
         lineChartsView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
         graphModel.setLineCht(linechart: lineChartsView, yAxisValues: yAxisValues,thisMonth: month)
+        activityIndicatorView.stopAnimating()
     }
     
 }

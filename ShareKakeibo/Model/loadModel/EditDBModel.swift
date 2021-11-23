@@ -47,7 +47,6 @@ class EditDBModel{
                 return
             }
             if let data = snapShot?.data(){
-
                 var settlementDic = data["settlementDic"] as! Dictionary<String,Bool>
                 var userIDArray = data["userIDArray"] as! Array<String>
                 userIDArray.removeAll(where: {$0 == userID})

@@ -9,6 +9,7 @@ import Parchment
 
 class DetailAllLastMonthViewController: UIViewController {
     
+    
     var loadDBModel = LoadDBModel()
     var monthGroupDetailsSets = [MonthGroupDetailsSets]()
     var activityIndicatorView = UIActivityIndicatorView()
@@ -24,7 +25,8 @@ class DetailAllLastMonthViewController: UIViewController {
     var userNameArray = [String]()
     var settlementDay = String()
     var dateModel = DateModel()
-
+    var changeCommaModel = ChangeCommaModel()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,39 +50,30 @@ class DetailAllLastMonthViewController: UIViewController {
         year = String(date.year!)
         month = String(date.month!)
         groupID = UserDefaults.standard.object(forKey: "groupID") as! String
-        loadDBModel.loadOKDelegate = self
+        settlementDay = UserDefaults.standard.object(forKey: "settlementDay") as! String
         
         dateFormatter.dateFormat = "yyyy年MM月dd日"
         dateFormatter.locale = Locale(identifier: "ja_JP")
         dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
         //決済日をuserDefaultから取り出し、決済月を求める
-        self.settlementDay = UserDefaults.standard.object(forKey: "settlementDay") as! String
         let settlementDayOfInt = Int(settlementDay)!
+        loadDBModel.loadOKDelegate = self
+        activityIndicatorView.startAnimating()
         dateModel.getPeriodOfLastMonth(settelemtDay: settlementDayOfInt) { maxDate, minDate in
             loadDBModel.loadMonthDetails(groupID: groupID, startDate: minDate, endDate: maxDate, userID: nil, activityIndicatorView: activityIndicatorView)
         }
-        
     }
     
-    
-    /*
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
     
 }
 
 // MARK: - LoadOKDelegate
 extension DetailAllLastMonthViewController:LoadOKDelegate{
     
+    
     //全体の明細を取得完了
     //全体の明細を取得完了
     func loadMonthDetails_OK() {
-        activityIndicatorView.stopAnimating()
         monthGroupDetailsSets = loadDBModel.monthGroupDetailsSets
         userIDArray = []
         profileImageArray = []
@@ -93,26 +86,29 @@ extension DetailAllLastMonthViewController:LoadOKDelegate{
             tableView.delegate = self
             tableView.dataSource = self
             self.tableView.reloadData()
+            activityIndicatorView.stopAnimating()
         }
         
-        //明細に表示するユーザーネームとプロフィール画像をロード
-        loadDBModel.loadGroupMember(userIDArray: userIDArray) { [self] UserSets in
+        //明細に表示するユーザーネームとプロフィール画像取得
+        loadDBModel.loadGroupMember(userIDArray: userIDArray, activityIndicatorView: activityIndicatorView) { [self] UserSets in
             self.profileImageArray.append(UserSets.profileImage)
             self.userNameArray.append(UserSets.userName)
         }
     }
     
-    //明細に表示するユーザーネームとプロフィール画像取得
     func loadGroupMember_OK() {
         tableView.delegate = self
         tableView.dataSource = self
         self.tableView.reloadData()
+        activityIndicatorView.stopAnimating()
     }
+    
     
 }
 
 // MARK: - TableView
 extension DetailAllLastMonthViewController: UITableViewDelegate,UITableViewDataSource{
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return profileImageArray.count
@@ -127,10 +123,12 @@ extension DetailAllLastMonthViewController: UITableViewDelegate,UITableViewDataS
         
         if profileImageArray.count == monthGroupDetailsSets.count{
             cell.profileImage.sd_setImage(with: URL(string: profileImageArray[indexPath.row]), completed: nil)
-            cell.paymentLabel.text = String(monthGroupDetailsSets[indexPath.row].paymentAmount)
+            cell.paymentLabel.text = changeCommaModel.getComma(num: monthGroupDetailsSets[indexPath.row].paymentAmount) + " 円"
             cell.userNameLabel.text = userNameArray[indexPath.row]
             cell.dateLabel.text = monthGroupDetailsSets[indexPath.row].paymentDay
             cell.category.text = monthGroupDetailsSets[indexPath.row].category
+            cell.productNameLabel.text = monthGroupDetailsSets[indexPath.row].productName
+            
             cell.view.layer.cornerRadius = 5
             cell.view.layer.masksToBounds = false
             cell.view.layer.shadowOffset = CGSize(width: 1, height: 3)
@@ -142,5 +140,6 @@ extension DetailAllLastMonthViewController: UITableViewDelegate,UITableViewDataS
             return cell
         }
     }
+    
     
 }

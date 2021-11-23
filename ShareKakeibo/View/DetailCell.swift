@@ -15,6 +15,7 @@ class DetailCell: UITableViewCell {
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var category: UILabel!
+    @IBOutlet weak var productNameLabel: UILabel!
     
     
     override func awakeFromNib() {

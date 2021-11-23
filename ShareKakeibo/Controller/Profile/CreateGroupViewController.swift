@@ -13,7 +13,7 @@ import FirebaseStorage
 
 class CreateGroupViewController: UIViewController{
     
-
+    
     @IBOutlet weak var groupNameTextField: UITextField!
     @IBOutlet weak var settlementTextField: UITextField!
     @IBOutlet weak var searchUserButton: UIButton!
@@ -24,21 +24,20 @@ class CreateGroupViewController: UIViewController{
     
     var sendDBModel = SendDBModel()
     var db = Firestore.firestore()
-    
     var selectedUserImageArray = [String]()
     var userIDArray = [String]()
     var userNameArray = [String]()
-    
     var userID = String()
     var userName = String()
     var profileImage = String()
-    
     var alertModel = AlertModel()
-    
     var pickerView = UIPickerView()
     let settlementArray = ["5","10","15","20","25"]
     
     var buttonAnimatedModel = ButtonAnimatedModel(withDuration: 0.1, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, transform: CGAffineTransform(scaleX: 0.95, y: 0.95), alpha: 0.7)
+    
+    var activityIndicatorView = UIActivityIndicatorView()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,10 +58,16 @@ class CreateGroupViewController: UIViewController{
         layout.scrollDirection = .horizontal
         collectionView.collectionViewLayout = layout
         
-        makePicker()
+        activityIndicatorView.center = view.center
+        activityIndicatorView.style = .large
+        activityIndicatorView.color = .darkGray
+        view.addSubview(activityIndicatorView)
         
+        warningLabel.text = ""
+        
+        makePicker()
     }
-
+    
     @objc func touchDown(_ sender:UIButton){
         buttonAnimatedModel.startAnimation(sender: sender)
     }
@@ -74,7 +79,7 @@ class CreateGroupViewController: UIViewController{
     @IBAction func searchUserButton(_ sender: Any) {
         buttonAnimatedModel.endAnimation(sender: sender as! UIButton)
         performSegue(withIdentifier: "searchVC", sender: nil)
-       
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -88,8 +93,10 @@ class CreateGroupViewController: UIViewController{
     
     @IBAction func createGroupButton(_ sender: Any) {
         buttonAnimatedModel.endAnimation(sender: sender as! UIButton)
+        activityIndicatorView.startAnimating()
         if groupNameTextField.text == "" || settlementTextField.text == ""{
             warningLabel.text = "グループ名と決済日は必須入力です"
+            activityIndicatorView.stopAnimating()
         }else{
             userID = UserDefaults.standard.object(forKey: "userID") as! String
             userName = UserDefaults.standard.object(forKey: "userName") as! String
@@ -100,7 +107,7 @@ class CreateGroupViewController: UIViewController{
             }
             sendDBModel.sendOKDelegate = self
             let data = groupImageView.image?.jpegData(compressionQuality: 1.0)
-            sendDBModel.sendGroupImage(data: data!)
+            sendDBModel.sendGroupImage(data: data!, activityIndicatorView: activityIndicatorView)
         }
     }
     
@@ -115,11 +122,13 @@ class CreateGroupViewController: UIViewController{
     @IBAction func groupImageViewButton(_ sender: Any) {
         alertModel.satsueiAlert(viewController: self)
     }
-
+    
+    
 }
 
 //MARK:- UICollectionView
 extension CreateGroupViewController:UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
+    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 100, height: 100)
@@ -154,17 +163,18 @@ extension CreateGroupViewController:UICollectionViewDelegate, UICollectionViewDa
         collectionView.deleteItems(at: [IndexPath(item: indexPath!.row, section: 0)])
     }
     
+    
 }
 
 //MARK:- ImagePicker
 extension CreateGroupViewController:CropViewControllerDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate{
-    
+
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         if info[.originalImage] as? UIImage != nil{
             let pickerImage = info[.originalImage] as! UIImage
             let cropController = CropViewController(croppingStyle: .default, image: pickerImage)
-        
+            
             cropController.delegate = self
             cropController.customAspectRatio = groupImageView.frame.size
             //cropBoxのサイズを固定する。
@@ -204,10 +214,10 @@ extension CreateGroupViewController:SendOKDelegate{
             "userIDArray": [userID],
             "create_at": Date().timeIntervalSince1970
         ])
-
+        
         db.collection("userManagement").document(userID).setData([
             "joinGroupDic" : ["\(groupID)": true]
-            ],merge: true)
+        ],merge: true)
         
         print(userIDArray)
         userIDArray.removeAll(where: {$0 == userID})
@@ -219,6 +229,7 @@ extension CreateGroupViewController:SendOKDelegate{
             ], merge: true)
         }
         
+        activityIndicatorView.stopAnimating()
         navigationController?.popViewController(animated: true)
     }
     
@@ -241,7 +252,7 @@ extension CreateGroupViewController:UIPickerViewDelegate,UIPickerViewDataSource{
     @objc func doneButtonOfpicker(){
         settlementTextField.endEditing(true)
     }
-   
+    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -261,6 +272,7 @@ extension CreateGroupViewController:UIPickerViewDelegate,UIPickerViewDataSource{
 //MARK:- CollectionDelegate
 
 extension CreateGroupViewController:CollectionDeligate{
+    
     func SendArray(selectedUserImageArray: [String], userIDArray: [String], userNameArray: [String]) {
         print(selectedUserImageArray)
         print(userIDArray)

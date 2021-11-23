@@ -9,6 +9,7 @@ import SDWebImage
 
 class DetailAllViewController: UIViewController{
     
+    
     var loadDBModel = LoadDBModel()
     var monthGroupDetailsSets = [MonthGroupDetailsSets]()
     var activityIndicatorView = UIActivityIndicatorView()
@@ -26,6 +27,8 @@ class DetailAllViewController: UIViewController{
     
     var settlementDay = String()
     var dateModel = DateModel()
+    var changeCommaModel = ChangeCommaModel()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,33 +53,28 @@ class DetailAllViewController: UIViewController{
         year = String(date.year!)
         month = String(date.month!)
         groupID = UserDefaults.standard.object(forKey: "groupID") as! String
-        loadDBModel.loadOKDelegate = self
-        
-        activityIndicatorView.startAnimating()
+        settlementDay = UserDefaults.standard.object(forKey: "settlementDay") as! String
         
         //決済日をuserDefaultから取り出し、決済月を求める
-        self.settlementDay = UserDefaults.standard.object(forKey: "settlementDay") as! String
         let settlementDayOfInt = Int(settlementDay)!
+        loadDBModel.loadOKDelegate = self
+        activityIndicatorView.startAnimating()
+
         dateModel.getPeriodOfThisMonth(settelemtDay: settlementDayOfInt) { maxDate, minDate in
             loadDBModel.loadMonthDetails(groupID: groupID, startDate: minDate, endDate: maxDate, userID: nil, activityIndicatorView: activityIndicatorView)
         }
         
     }
-    
-    //    override func viewWillDisappear(_ animated: Bool) {
-    //        super.viewWillDisappear(animated)
-    //
-    //        monthGroupDetailsSets = []
-    //    }
+  
     
 }
 
 // MARK: - LoadOKDelegate
 extension DetailAllViewController:LoadOKDelegate {
     
+    
     //全体の明細を取得完了
     func loadMonthDetails_OK() {
-        activityIndicatorView.stopAnimating()
         monthGroupDetailsSets = []
         monthGroupDetailsSets = loadDBModel.monthGroupDetailsSets
         userIDArray = []
@@ -90,26 +88,29 @@ extension DetailAllViewController:LoadOKDelegate {
             tableView.delegate = self
             tableView.dataSource = self
             self.tableView.reloadData()
+            activityIndicatorView.stopAnimating()
         }
         
-        //明細に表示するユーザーネームとプロフィール画像をロード
-        loadDBModel.loadGroupMember(userIDArray: userIDArray) { [self] UserSets in
+        //明細に表示するユーザーネームとプロフィール画像取得
+        loadDBModel.loadGroupMember(userIDArray: userIDArray, activityIndicatorView: activityIndicatorView) { [self] UserSets in
             self.profileImageArray.append(UserSets.profileImage)
             self.userNameArray.append(UserSets.userName)
         }
     }
     
-    //明細に表示するユーザーネームとプロフィール画像取得
     func loadGroupMember_OK() {
         tableView.delegate = self
         tableView.dataSource = self
         self.tableView.reloadData()
+        activityIndicatorView.stopAnimating()
     }
+    
     
 }
 
 // MARK: - TableView
 extension DetailAllViewController:UITableViewDelegate, UITableViewDataSource{
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return profileImageArray.count
@@ -124,10 +125,13 @@ extension DetailAllViewController:UITableViewDelegate, UITableViewDataSource{
         
         if profileImageArray.count == monthGroupDetailsSets.count{
             cell.profileImage.sd_setImage(with: URL(string: profileImageArray[indexPath.row]), completed: nil)
-            cell.paymentLabel.text = String(monthGroupDetailsSets[indexPath.row].paymentAmount)
+            cell.paymentLabel.text = changeCommaModel.getComma(num: monthGroupDetailsSets[indexPath.row].paymentAmount) + " 円"
             cell.userNameLabel.text = userNameArray[indexPath.row]
             cell.dateLabel.text = monthGroupDetailsSets[indexPath.row].paymentDay
             cell.category.text = monthGroupDetailsSets[indexPath.row].category
+            cell.productNameLabel.text = monthGroupDetailsSets[indexPath.row].productName
+            
+            
             cell.view.layer.cornerRadius = 5
             cell.view.layer.masksToBounds = false
             cell.view.layer.shadowOffset = CGSize(width: 1, height: 3)
@@ -139,5 +143,6 @@ extension DetailAllViewController:UITableViewDelegate, UITableViewDataSource{
             return cell
         }
     }
+    
     
 }

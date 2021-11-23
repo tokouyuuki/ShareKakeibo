@@ -7,39 +7,28 @@
 //
 import Foundation
 import UIKit
-import Firebase
 import Photos
-import FirebaseAuth
 
 class AlertModel{
     
    //変更_山口
     var loginModel = LoginModel()
+    var editDBModel = EditDBModel()
     
-    func exitAlert(viewController:UIViewController){
-        
-        let db = Firestore.firestore()
+    func exitAlert(viewController:UIViewController,groupID: String, userID: String, activityIndicatorView: UIActivityIndicatorView){
         
         let aleat = UIAlertController(title: "本当に退会しますか？", message: "", preferredStyle: .alert)
         
         let exit = UIAlertAction(title: "退会", style: .default) { (action) in
-          
-            db.collection("email").document("roomID").delete() { err in
-                if let err = err {
-                    print("Error removing document: \(err)")
-                } else {
-                    print("Document successfully removed!")
-                }
-            }
+            self.editDBModel.editOKDelegate = (viewController as! EditOKDelegate)
+            self.editDBModel.editUserDelete(groupID: groupID, userID: userID, activityIndicatorView: activityIndicatorView)
         }
-        aleat.addAction(exit)
-        
         let cancel = UIAlertAction(title: "キャンセル", style: .cancel) { (acrion) in
             
         }
         
+        aleat.addAction(exit)
         aleat.addAction(cancel)
-        
         viewController.present(aleat, animated: true, completion: nil)
     }
     
@@ -50,17 +39,14 @@ class AlertModel{
         
         let alert = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
         let camera = UIAlertAction(title: "カメラで撮影", style: .default) { (action) in
-            
             self.createImagePicker(sourceType: .camera, CreateImagePicker: viewController)
-            
         }
-        
         let album = UIAlertAction(title: "アルバムから選択", style: .default) { (action) in
             self.createImagePicker(sourceType: .photoLibrary, CreateImagePicker: viewController)
         }
         let cancel = UIAlertAction(title: "キャンセル", style: .cancel) { (acrion) in
-            
         }
+        
         alert.addAction(cancel)
         alert.addAction(camera)
         alert.addAction(album)
@@ -108,7 +94,6 @@ class AlertModel{
                 viewController.present(alert, animated: true, completion: nil)
             }else{
                 loginModel.reauthentication(viewController: viewController,userInfoArray: userInfo)
-//                viewController.performSegue(withIdentifier: "ProfileConfigurationVC", sender: nil)
             }
             
         }
@@ -118,7 +103,6 @@ class AlertModel{
         alert.addAction(cancelAction)
         nilAlert.addAction(cancelAction)
         viewController.present(passWordAlert, animated: true, completion: nil)
-        
         
     }
     

@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseFirestore
+import SDWebImage
 
 class NewGroupViewController: UIViewController {
     
@@ -29,7 +30,6 @@ class NewGroupViewController: UIViewController {
     var sortedGroupNotJoinArray = [GroupSets]()
     var activityIndicatorView = UIActivityIndicatorView()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -42,6 +42,11 @@ class NewGroupViewController: UIViewController {
         createGroupButton.layer.shadowOffset = CGSize(width: 1, height: 1)
         createGroupButton.layer.shadowOpacity = 0.5
         createGroupButton.layer.shadowRadius = 1
+        
+        activityIndicatorView.center = view.center
+        activityIndicatorView.style = .large
+        activityIndicatorView.color = .darkGray
+        view.addSubview(activityIndicatorView)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -52,7 +57,7 @@ class NewGroupViewController: UIViewController {
         profileImage = UserDefaults.standard.object(forKey: "profileImage") as! String
         loadDBModel.loadOKDelegate = self
         activityIndicatorView.startAnimating()
-        loadDBModel.loadNotJoinGroup(userID: userID)
+        loadDBModel.loadNotJoinGroup(userID: userID, activityIndicatorView: activityIndicatorView)
         
     }
     
@@ -94,7 +99,6 @@ class NewGroupViewController: UIViewController {
             "settlementDic": [userID: false],
             "userIDArray": FieldValue.arrayUnion([userID])
         ],merge: true)
-        
         navigationController?.popViewController(animated: true)
     }
     
@@ -113,9 +117,11 @@ class NewGroupViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
 
+    
 }
 //MARK:- TabeleView
 extension NewGroupViewController:UITableViewDelegate, UITableViewDataSource{
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return groupNotJoinArray.count
@@ -135,6 +141,7 @@ extension NewGroupViewController:UITableViewDelegate, UITableViewDataSource{
         let groupNameLabel = cell.contentView.viewWithTag(2) as! UILabel
         let joinButton = cell.contentView.viewWithTag(3) as! UIButton
         let rejectButton = cell.contentView.viewWithTag(4) as! UIButton
+        let groupImageView = cell.contentView.viewWithTag(5) as! UIImageView
         
         cell.selectionStyle = .none //セルのハイライトを消している
         
@@ -145,6 +152,8 @@ extension NewGroupViewController:UITableViewDelegate, UITableViewDataSource{
         invitationView.layer.shadowRadius = 3
         
         groupNameLabel.text = groupNotJoinArray[indexPath.row].groupName
+        groupImageView.sd_setImage(with: URL(string: groupNotJoinArray[indexPath.row].groupImage), completed: nil)
+        groupImageView.layer.cornerRadius = 30
         
         joinButton.layer.cornerRadius = 3
         joinButton.addTarget(self, action: #selector(joinButton(_:)), for: .touchUpInside)
@@ -159,6 +168,7 @@ extension NewGroupViewController:UITableViewDelegate, UITableViewDataSource{
         return cell
     }
     
+    
 }
 
 //MARK:- LoadOKDelegate,EditOKDelegate
@@ -168,12 +178,20 @@ extension NewGroupViewController:LoadOKDelegate, EditOKDelegate{
     func loadNotJoinGroup_OK(groupIDArray: [String], notJoinCount: Int) {
            groupNotJoinArray = []
            //招待されているグループの情報を取得完了
-           loadDBModel.loadNotJoinGroupInfo(groupIDArray: groupIDArray) { JoinGroupSets in
+        loadDBModel.loadNotJoinGroupInfo(groupIDArray: groupIDArray, activityIndicatorView: activityIndicatorView) { JoinGroupSets in
                self.groupNotJoinArray.append(JoinGroupSets)
                self.sortedGroupNotJoinArray = self.groupNotJoinArray.sorted(by: {($0.create_at! > $1.create_at!)})
-               self.tableView.reloadData()
            }
        }
+  
+    func loadNotJoinGroupInfo_OK(check: Int) {
+        if check == 1{
+            self.tableView.reloadData()
+            activityIndicatorView.stopAnimating()
+        }else{
+            activityIndicatorView.stopAnimating()
+        }
+    }
     
     func editGroupInfoDelete_OK() {
         groupNotJoinArray.remove(at: indexPath.row)

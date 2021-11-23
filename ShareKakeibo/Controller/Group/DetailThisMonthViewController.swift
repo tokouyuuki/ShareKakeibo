@@ -14,10 +14,14 @@ class DetailThisMonthViewController: UIViewController {
     
     @IBOutlet weak var addPaymentButton: UIButton!
     @IBOutlet weak var headerView: UIView!
+    @IBOutlet weak var detailThisMonthLabel: UILabel!
     
     var pagingVC = PagingViewController()
     
     var buttonAnimatedModel = ButtonAnimatedModel(withDuration: 0.1, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, transform: CGAffineTransform(scaleX: 0.95, y: 0.95), alpha: 0.7)
+    
+    var dateModel = DateModel()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,11 +79,24 @@ class DetailThisMonthViewController: UIViewController {
         addPaymentButton.layer.shadowRadius = 1
         
         self.view.bringSubviewToFront(addPaymentButton)
-
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        let settlementDay = UserDefaults.standard.object(forKey: "settlementDay") as! String
+        
+        dateModel.getPeriodOfThisMonth(settelemtDay: Int(settlementDay)!) { maxDate, minDate in
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MM/dd"
+            dateFormatter.locale = Locale(identifier: "ja_JP")
+            dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
+            let maxdd = Calendar.current.date(byAdding: .day, value: -1, to: maxDate)
+            let maxDateFormatter = dateFormatter.string(from: maxdd!)
+            let minDateFormatter = dateFormatter.string(from: minDate)
+            detailThisMonthLabel.text = "\(minDateFormatter)〜\(maxDateFormatter)の明細"
+        }
         
     }
     
@@ -112,22 +129,14 @@ class DetailThisMonthViewController: UIViewController {
         addPaymentButton.layer.shadowRadius = 1
     }
     
-    
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
 }
 
+//MARK:- UIAdaptivePresentationControllerDelegate
+
 extension  DetailThisMonthViewController: UIAdaptivePresentationControllerDelegate{
+    
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
         pagingVC.reloadData()
     }
+    
 }

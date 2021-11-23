@@ -10,6 +10,7 @@ import CropViewController
 import Firebase
 import FirebaseFirestore
 import FirebaseStorage
+import SDWebImage
 
 class GroupConfigurationViewController: UIViewController{
     
@@ -26,10 +27,13 @@ class GroupConfigurationViewController: UIViewController{
     var selectedUserImageArray = [String]()
     var groupID = String()
     
+    var activityIndicatorView = UIActivityIndicatorView()
+    
     var buttonAnimatedModel = ButtonAnimatedModel(withDuration: 0.1, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, transform: CGAffineTransform(scaleX: 0.95, y: 0.95), alpha: 0.7)
     
     var pickerView = UIPickerView()
     let settlementArray = ["5","10","15","20","25",]
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +43,41 @@ class GroupConfigurationViewController: UIViewController{
         changeGroupButton.addTarget(self, action: #selector(touchUpOutside(_:)), for: .touchUpOutside)
         
         groupID = UserDefaults.standard.object(forKey: "groupID") as! String
+        
+        activityIndicatorView.center = view.center
+        activityIndicatorView.style = .large
+        activityIndicatorView.color = .darkGray
+        view.addSubview(activityIndicatorView)
+        
+        warningLabel.text = ""
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if #available(iOS 13.0, *) {
+            presentingViewController?.beginAppearanceTransition(false, animated: animated)
+        }
+        super.viewWillAppear(animated)
+        
+        let groupImage = UserDefaults.standard.object(forKey: "groupImage") as! String
+        groupNameTextField.text = (UserDefaults.standard.object(forKey: "groupName") as! String)
+        settlementTextField.text = (UserDefaults.standard.object(forKey: "settlementDay") as! String)
+        groupImageView.sd_setImage(with: URL(string: groupImage), completed: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if #available(iOS 13.0, *) {
+            
+            presentingViewController?.beginAppearanceTransition(true, animated: animated)
+            presentingViewController?.endAppearanceTransition()
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if #available(iOS 13.0, *) {
+            presentingViewController?.endAppearanceTransition()
+        }
     }
     
     @objc func touchDown(_ sender:UIButton){
@@ -55,17 +94,23 @@ class GroupConfigurationViewController: UIViewController{
     
     @IBAction func changeGroupButton(_ sender: Any) {
         buttonAnimatedModel.endAnimation(sender: sender as! UIButton)
+        activityIndicatorView.startAnimating()
+        
         if groupNameTextField.text == "" || settlementTextField.text == ""{
             warningLabel.text = "グループ名と決済日は必須入力です"
+            activityIndicatorView.stopAnimating()
         }else{
             db.collection("groupManagement").document(groupID).updateData(
                 ["groupName": groupNameTextField.text!,"settlementDay": settlementTextField.text!])
+            activityIndicatorView.stopAnimating()
+            dismiss(animated: true, completion: nil)
         }
         
         if groupImageView.image != nil{
+            activityIndicatorView.startAnimating()
             sendDBModel.sendOKDelegate = self
             let data = groupImageView.image?.jpegData(compressionQuality: 1.0)
-            sendDBModel.sendGroupImage(data: data!)
+            sendDBModel.sendChangeGroupImage(data: data!, activityIndicatorView: activityIndicatorView)
         }
     }
     
@@ -81,20 +126,25 @@ class GroupConfigurationViewController: UIViewController{
         alertModel.satsueiAlert(viewController: self)
     }
     
+    
 }
 
 // MARK: - SendOKDelegate
 extension GroupConfigurationViewController:SendOKDelegate{
     
+    
     func sendImage_OK(url: String) {
         db.collection("groupManagement").document(groupID).updateData(
             ["groupImage": url])
+        activityIndicatorView.stopAnimating()
     }
+    
     
 }
 
 // MARK: - ImagePicker
 extension GroupConfigurationViewController:UIImagePickerControllerDelegate,UINavigationControllerDelegate,CropViewControllerDelegate{
+    
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
@@ -123,10 +173,12 @@ extension GroupConfigurationViewController:UIImagePickerControllerDelegate,UINav
         cropViewController.dismiss(animated: true, completion: nil)
     }
     
+    
 }
 
 // MARK: - PickerView
 extension GroupConfigurationViewController:UIPickerViewDelegate,UIPickerViewDataSource{
+    
     
     func makePicker(){
         pickerView.dataSource = self
@@ -143,19 +195,23 @@ extension GroupConfigurationViewController:UIPickerViewDelegate,UIPickerViewData
     @objc func doneButtonOfpicker(){
         settlementTextField.endEditing(true)
     }
-   
+    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
+    
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return settlementArray.count
     }
+    
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         settlementTextField.text = settlementArray[row]
         return settlementArray[row]
     }
+    
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         settlementTextField.text = settlementArray[row]
     }
+    
     
 }

@@ -34,6 +34,7 @@ class GraphModel: ChartViewDelegate{
     
     var pieChartDataSet = PieChartDataSet()
     var categoryDic = [Dictionary<String, Int>.Element]()
+    var changeCommaModel = ChangeCommaModel()
     
     func setLineCht(linechart: LineChartView,yAxisValues: [Int],thisMonth: Int) {
         
@@ -46,6 +47,7 @@ class GraphModel: ChartViewDelegate{
         
         let formatter = ChartFormatter()
         linechart.xAxis.valueFormatter = formatter
+        linechart.extraRightOffset = 30
         linechart.xAxis.labelCount = 12 //labelCountはChartDataEntryと同じ数だけ入れます。
         linechart.xAxis.granularity = 1.0 //granularityは1.0で固定
         linechart.xAxis.gridColor = .clear
@@ -83,7 +85,8 @@ class GraphModel: ChartViewDelegate{
         for category in categoryDic {
             colors.append(categoryColors[category.key]!)
 //            dataEntries.append(PieChartDataEntry(value: Double(category.value), label: "\(category.key) :\(category.value)円"))
-            dataEntries.append(PieChartDataEntry(value: Double(category.value), label: "\(category.key) :\(category.value)円", data: Double(category.value)))
+            let price = changeCommaModel.getComma(num: category.value)
+            dataEntries.append(PieChartDataEntry(value: Double(category.value), label: "\(category.key) :\(price)", data: Double(category.value)))
         }
         
         pieChartDataSet = PieChartDataSet(entries: dataEntries, label: "カテゴリー別支出(円)")

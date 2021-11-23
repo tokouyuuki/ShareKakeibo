@@ -24,11 +24,11 @@ class ProfileViewController: UIViewController, UIGestureRecognizerDelegate{
     @IBOutlet weak var profileView: UIView! //profileImageViewの後ろの白いビュー
     @IBOutlet weak var profileOrangeView: UIView!//profileImageViewの後ろのオレンジのビュー
     @IBOutlet weak var newGroupCountLabel: UILabel!
+    @IBOutlet weak var notificationCountLabel: UILabel!
     
     var loadDBModel = LoadDBModel()
     var userID = String()
     var groupID = String()
-    //変更
     var groupJoinArray = [GroupSets]()
     var newGroupCountArray = [GroupSets]()
     
@@ -94,6 +94,9 @@ class ProfileViewController: UIViewController, UIGestureRecognizerDelegate{
         newGroupCountLabel.clipsToBounds = true
         newGroupCountLabel.layer.cornerRadius = 10
         
+        notificationCountLabel.clipsToBounds = true
+        notificationCountLabel.layer.cornerRadius = 10
+        
         getFileNamesFromPreferences()
         
     }
@@ -140,8 +143,6 @@ class ProfileViewController: UIViewController, UIGestureRecognizerDelegate{
         loadDBModel.loadUserInfo(userID: userID, activityIndicatorView: activityIndicatorView)
     }
     
-   
-    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -157,8 +158,6 @@ class ProfileViewController: UIViewController, UIGestureRecognizerDelegate{
 //        return false
 //    }
     
-   
-    
     @objc func swipeViewTap(_ sender:UITapGestureRecognizer){
         scrollToOriginal()
     }
@@ -166,8 +165,6 @@ class ProfileViewController: UIViewController, UIGestureRecognizerDelegate{
     @IBAction func configurationButton(_ sender: Any) {
         scrollToPage()
     }
-    
- 
     
     @IBAction func notificationButton(_ sender: Any) {
         let notificationVC = storyboard?.instantiateViewController(withIdentifier: "NotificationVC") as! NotificationViewController
@@ -179,26 +176,25 @@ class ProfileViewController: UIViewController, UIGestureRecognizerDelegate{
         navigationController?.pushViewController(newGroupVC, animated: true)
     }
     
+    
 }
 //MARK:- LoadOKDelegate
 extension ProfileViewController: LoadOKDelegate{
     
     func loadUserInfo_OK(userName: String, profileImage: String, email: String, password: String) {
-        activityIndicatorView.stopAnimating()
         UserDefaults.standard.setValue(userName, forKey: "userName")
         UserDefaults.standard.setValue(profileImage, forKey: "profileImage")
         profileImageView.sd_setImage(with: URL(string: profileImage), completed: nil)
         userNameLabel.text = userName
         userInfoArray = [userName,email,password]
-        //変更
-        loadDBModel.loadJoinGroup(groupID: groupID, userID: userID)
+        loadDBModel.loadJoinGroup(groupID: groupID, userID: userID, activityIndicatorView: activityIndicatorView)
         newGroupCountLabel.isHidden = true
     }
     
     //参加しているグループの情報を取得完了
     func loadJoinGroup_OK() {
         groupJoinArray = loadDBModel.groupSets
-        loadDBModel.loadNotJoinGroup(userID: userID)
+        loadDBModel.loadNotJoinGroup(userID: userID, activityIndicatorView: activityIndicatorView)
     }
     
     //不参加のグループの数を取得完了
@@ -219,11 +215,14 @@ extension ProfileViewController: LoadOKDelegate{
             tableView.delegate = self
             tableView.dataSource = self
             tableView.reloadData()
+            activityIndicatorView.stopAnimating()
         }
+    
 }
 
 //MARK:- TableView
 extension ProfileViewController: UITableViewDelegate, UITableViewDataSource{
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView.tag == 0{
@@ -297,7 +296,6 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource{
                     let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LoginVC") as! LoginViewController
                     self.navigationController?.pushViewController(loginVC, animated: true)
                 } catch let error {
-                    //                    loginModel?.showError(error, showLabel: errorShow)
                     print(error)
                     let alert = UIAlertController(title: "エラーです", message: "", preferredStyle: .alert)
                     let cancelAction = UIAlertAction(title: "キャンセル", style: .cancel, handler: nil)
@@ -315,6 +313,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource{
             UserDefaults.standard.setValue(groupID, forKey: "groupID")
         }
     }
+    
     
 }
 
