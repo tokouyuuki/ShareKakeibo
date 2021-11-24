@@ -92,8 +92,8 @@ class SendDBModel{
     func sendChangeGroupImage(data:Data,activityIndicatorView:UIActivityIndicatorView){
         let image = UIImage(data: data)
         let profileImage = image?.jpegData(compressionQuality: 0.1)
-        groupStoregePath = UserDefaults.standard.object(forKey: "groupStoregePath") as! String
-        let imageRef = Storage.storage().reference().child("groupImage").child(groupStoregePath)
+//        groupStoregePath = UserDefaults.standard.object(forKey: "groupStoregePath") as! String
+        let imageRef = Storage.storage().reference().child("groupImage").child("FC08D8A1-D730-45C2-81A7-E6C055A5919E1637679802.0452409.jpg")
         imageRef.putData(profileImage!, metadata: nil) { (mataData, error) in
             if error != nil{
                 activityIndicatorView.stopAnimating()

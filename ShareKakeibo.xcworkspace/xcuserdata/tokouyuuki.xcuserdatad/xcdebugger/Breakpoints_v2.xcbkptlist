@@ -23,16 +23,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "0A941EF7-8587-447F-966C-73DCA448276A"
+            uuid = "8781F6AF-512A-4789-A7CF-05D734A5C95D"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ShareKakeibo/Controller/Group/GroupConfigurationViewController.swift"
+            filePath = "ShareKakeibo/Controller/Group/PagingController/DetailController/DetailAllViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "170"
-            endingLineNumber = "170"
-            landmarkName = "cropViewController(_:didCropToImage:withRect:angle:)"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
+            landmarkName = "refresh()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

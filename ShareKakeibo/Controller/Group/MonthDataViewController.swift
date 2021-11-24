@@ -70,8 +70,19 @@ class MonthDataViewController: UIViewController{
         groupNameLabel.layer.shadowOpacity = 0.7
         groupNameLabel.layer.shadowRadius = 1
         
+        let containerView = UIView(frame: CGRect(x: 0, y: 100, width: scrollView.bounds.width, height: 60))
+        let refreshControl = UIRefreshControl()
+        scrollView.addSubview(containerView) // １.
+        containerView.addSubview(refreshControl)
+        self.view.bringSubviewToFront(containerView)
         scrollView.delegate = self
         scrollView.contentInsetAdjustmentBehavior = .never
+        scrollView.refreshControl = refreshControl
+        
+        scrollView.setContentOffset(CGPoint(x: 0, y: scrollView.contentOffset.y - 100), animated: true)
+        scrollView.refreshControl?.beginRefreshing()
+        scrollView.refreshControl?.sendActions(for: .valueChanged)
+        scrollView.refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
         blurView.alpha = 0.3
         
         activityIndicatorView.center = view.center
@@ -176,7 +187,6 @@ extension MonthDataViewController:LoadOKDelegate {
     func loadMonthPayment_OK(groupPaymentOfMonth: Int, paymentAverageOfMonth: Int, userIDArray: [String]) {
         self.groupPaymentOfThisMonth.text = changeCommaModel.getComma(num: groupPaymentOfMonth) + "　円"
         self.paymentAverageOfTithMonth.text = changeCommaModel.getComma(num: paymentAverageOfMonth) + "　円"
-        self.userPaymentThisMonth.text = "　円"
         dateModel.getPeriodOfThisMonth(settelemtDay: settlementDayOfInt) { maxDate, minDate in
             loadDBModel.loadMonthSettlement(groupID: groupID, userID: userID, startDate: minDate, endDate: maxDate, activityIndicatorView: activityIndicatorView)
         }
@@ -191,7 +201,7 @@ extension MonthDataViewController:LoadOKDelegate {
     
 }
 
-// MARK: - UIScrollViewDelegate
+// MARK: - ScrollView
 extension MonthDataViewController:UIScrollViewDelegate{
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -207,6 +217,14 @@ extension MonthDataViewController:UIScrollViewDelegate{
         }
     }
     
+    @objc func refresh() {
+        
+        dateModel.getPeriodOfThisMonth(settelemtDay: settlementDayOfInt) { maxDate, minDate in
+            loadDBModel.loadCategoryGraphOfTithMonth(groupID: groupID, startDate: minDate, endDate: maxDate, activityIndicatorView: activityIndicatorView)
+        }
+        scrollView.refreshControl?.endRefreshing()
+    }
+    
 }
 
 // MARK: - GoToVcDelegate
@@ -220,4 +238,11 @@ extension MonthDataViewController:GoToVcDelegate{
         }
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "GroupConfigurationVC"{
+            let GroupConfigurationVC = segue.destination as! GroupConfigurationViewController
+            GroupConfigurationVC.groupImage = groupImageView.image!
+        }
+    }
+
 }

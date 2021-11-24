@@ -4,13 +4,11 @@
 //
 //  Created by 近藤大伍 on 2021/10/15.
 //
-
 import UIKit
 import CropViewController
 import Firebase
 import FirebaseFirestore
 import FirebaseStorage
-import SDWebImage
 
 class GroupConfigurationViewController: UIViewController{
     
@@ -26,13 +24,14 @@ class GroupConfigurationViewController: UIViewController{
     var alertModel = AlertModel()
     var selectedUserImageArray = [String]()
     var groupID = String()
+    var groupImage = UIImage()
     
     var activityIndicatorView = UIActivityIndicatorView()
     
     var buttonAnimatedModel = ButtonAnimatedModel(withDuration: 0.1, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, transform: CGAffineTransform(scaleX: 0.95, y: 0.95), alpha: 0.7)
     
     var pickerView = UIPickerView()
-    let settlementArray = ["5","10","15","20","25",]
+    let settlementArray = ["5","10","15","20","25"]
     
     
     override func viewDidLoad() {
@@ -50,6 +49,9 @@ class GroupConfigurationViewController: UIViewController{
         view.addSubview(activityIndicatorView)
         
         warningLabel.text = ""
+        groupImageView.image = groupImage
+        
+        makePicker()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -58,10 +60,9 @@ class GroupConfigurationViewController: UIViewController{
         }
         super.viewWillAppear(animated)
         
-        let groupImage = UserDefaults.standard.object(forKey: "groupImage") as! String
         groupNameTextField.text = (UserDefaults.standard.object(forKey: "groupName") as! String)
         settlementTextField.text = (UserDefaults.standard.object(forKey: "settlementDay") as! String)
-        groupImageView.sd_setImage(with: URL(string: groupImage), completed: nil)
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -93,12 +94,20 @@ class GroupConfigurationViewController: UIViewController{
     }
     
     @IBAction func changeGroupButton(_ sender: Any) {
+        
         buttonAnimatedModel.endAnimation(sender: sender as! UIButton)
         activityIndicatorView.startAnimating()
         
         if groupNameTextField.text == "" || settlementTextField.text == ""{
             warningLabel.text = "グループ名と決済日は必須入力です"
             activityIndicatorView.stopAnimating()
+        }
+        
+        if groupImageView.image != groupImage{
+            activityIndicatorView.startAnimating()
+            sendDBModel.sendOKDelegate = self
+            let data = groupImageView.image?.jpegData(compressionQuality: 1.0)
+            sendDBModel.sendChangeGroupImage(data: data!, activityIndicatorView: activityIndicatorView)
         }else{
             db.collection("groupManagement").document(groupID).updateData(
                 ["groupName": groupNameTextField.text!,"settlementDay": settlementTextField.text!])
@@ -106,12 +115,6 @@ class GroupConfigurationViewController: UIViewController{
             dismiss(animated: true, completion: nil)
         }
         
-        if groupImageView.image != nil{
-            activityIndicatorView.startAnimating()
-            sendDBModel.sendOKDelegate = self
-            let data = groupImageView.image?.jpegData(compressionQuality: 1.0)
-            sendDBModel.sendChangeGroupImage(data: data!, activityIndicatorView: activityIndicatorView)
-        }
     }
     
     @IBAction func back(_ sender: Any) {
@@ -134,8 +137,12 @@ extension GroupConfigurationViewController:SendOKDelegate{
     
     
     func sendImage_OK(url: String) {
-        db.collection("groupManagement").document(groupID).updateData(
-            ["groupImage": url])
+        db.collection("groupManagement").document(groupID).updateData([
+            "groupImage": url,
+             "groupName": groupNameTextField.text!,
+             "settlementDay": settlementTextField.text!
+            ])
+        dismiss(animated: true, completion: nil)
         activityIndicatorView.stopAnimating()
     }
     
@@ -168,7 +175,7 @@ extension GroupConfigurationViewController:UIImagePickerControllerDelegate,UINav
     }
     
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
-        //トリミング編集が終えたら、呼び出される。
+        
         self.groupImageView.image = image
         cropViewController.dismiss(animated: true, completion: nil)
     }

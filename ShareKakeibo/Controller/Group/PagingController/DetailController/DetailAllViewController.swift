@@ -59,13 +59,33 @@ class DetailAllViewController: UIViewController{
         let settlementDayOfInt = Int(settlementDay)!
         loadDBModel.loadOKDelegate = self
         activityIndicatorView.startAnimating()
+        
+        tableView.refreshControl = UIRefreshControl()
+        tableView.refreshControl?.attributedTitle = NSAttributedString(string: "笑笑笑笑笑")
+        
+        let index: Int = 26
+        let rowHeight: CGFloat = 60
+        let offset = CGPoint(x: 0, y: rowHeight * CGFloat(index))
+        tableView.estimatedRowHeight = 60
+        tableView.setContentOffset(offset, animated: true)
+        tableView.refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
 
         dateModel.getPeriodOfThisMonth(settelemtDay: settlementDayOfInt) { maxDate, minDate in
             loadDBModel.loadMonthDetails(groupID: groupID, startDate: minDate, endDate: maxDate, userID: nil, activityIndicatorView: activityIndicatorView)
         }
-        
+
     }
-  
+    
+    @objc func refresh() {
+        let settlementDayOfInt = Int(settlementDay)!
+        
+        
+        dateModel.getPeriodOfThisMonth(settelemtDay: settlementDayOfInt) { maxDate, minDate in
+            loadDBModel.loadMonthDetails(groupID: groupID, startDate: minDate, endDate: maxDate, userID: nil, activityIndicatorView: activityIndicatorView)
+        }
+        tableView.refreshControl?.endRefreshing()
+    }
+    
     
 }
 
