@@ -28,6 +28,8 @@ class MonthDataViewController: UIViewController{
     @IBOutlet weak var configurationButtonBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var blurView: UIVisualEffectView!
     @IBOutlet weak var pieChartView: PieChartView!
+    @IBOutlet weak var headerView: UIView!
+    @IBOutlet weak var headerIndicator: UIActivityIndicatorView!
     
     var graphModel = GraphModel()
     var loadDBModel = LoadDBModel()
@@ -70,21 +72,22 @@ class MonthDataViewController: UIViewController{
         groupNameLabel.layer.shadowOpacity = 0.7
         groupNameLabel.layer.shadowRadius = 1
         
-        let containerView = UIView(frame: CGRect(x: 0, y: 100, width: scrollView.bounds.width, height: 60))
         let refreshControl = UIRefreshControl()
-        scrollView.addSubview(containerView) // １.
-        containerView.addSubview(refreshControl)
-        self.view.bringSubviewToFront(containerView)
+
+        self.view.bringSubviewToFront(refreshControl)
+        refreshControl.tintColor = .black
         scrollView.delegate = self
         scrollView.contentInsetAdjustmentBehavior = .never
         scrollView.refreshControl = refreshControl
-        
-        scrollView.setContentOffset(CGPoint(x: 0, y: scrollView.contentOffset.y - 100), animated: true)
-        scrollView.refreshControl?.beginRefreshing()
-        scrollView.refreshControl?.sendActions(for: .valueChanged)
+
         scrollView.refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
         blurView.alpha = 0.3
+        self.extendedLayoutIncludesOpaqueBars = true
         
+        headerIndicator.style = .medium
+        headerIndicator.color = .white
+        headerIndicator.isHidden = true
+
         activityIndicatorView.center = view.center
         activityIndicatorView.style = .large
         activityIndicatorView.color = .darkGray
@@ -215,12 +218,20 @@ extension MonthDataViewController:UIScrollViewDelegate{
         }else{
             blurView.alpha = 0.3
         }
+
     }
     
     @objc func refresh() {
-        
+   
         dateModel.getPeriodOfThisMonth(settelemtDay: settlementDayOfInt) { maxDate, minDate in
             loadDBModel.loadCategoryGraphOfTithMonth(groupID: groupID, startDate: minDate, endDate: maxDate, activityIndicatorView: activityIndicatorView)
+            headerIndicator.isHidden = false
+            headerIndicator.startAnimating()
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+            self.headerIndicator.isHidden = true
+            self.headerIndicator.stopAnimating()
         }
         scrollView.refreshControl?.endRefreshing()
     }
@@ -244,5 +255,7 @@ extension MonthDataViewController:GoToVcDelegate{
             GroupConfigurationVC.groupImage = groupImageView.image!
         }
     }
-
+    
 }
+
+

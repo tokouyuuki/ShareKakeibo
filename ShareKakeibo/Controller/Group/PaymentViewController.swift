@@ -73,6 +73,9 @@ class PaymentViewController: UIViewController{
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        if #available(iOS 13.0, *) {
+            presentingViewController?.beginAppearanceTransition(false, animated: animated)
+        }
         super.viewWillAppear(animated)
         
         priceLabel.text = ""
@@ -84,6 +87,22 @@ class PaymentViewController: UIViewController{
         groupID = UserDefaults.standard.object(forKey: "groupID") as! String
         userID = UserDefaults.standard.object(forKey: "userID") as! String
         
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if #available(iOS 13.0, *) {
+            
+            presentingViewController?.beginAppearanceTransition(true, animated: animated)
+            presentingViewController?.endAppearanceTransition()
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if #available(iOS 13.0, *) {
+            presentingViewController?.endAppearanceTransition()
+        }
     }
     
     @objc func touchDown(_ sender:UIButton){

@@ -9,21 +9,23 @@ import Firebase
 import FirebaseFirestore
 
 @objc protocol LoadOKDelegate {
-    @objc optional func loadUserInfo_OK(userName:String,profileImage:String,email:String,password:String)
-    @objc optional func loadUserSearch_OK()
-    @objc optional func loadJoinGroup_OK()
-    @objc optional func loadNotJoinGroup_OK(groupIDArray:[String],notJoinCount:Int)
-    @objc optional func loadNotJoinGroupInfo_OK(check: Int)
-    @objc optional func loadGroupName_OK(groupName:String,groupImage:String)
-    @objc optional func loadSettlementNotification_OK()
-    @objc optional func loadSettlementDay_OK(settlementDay:String)
-    @objc optional func loadUserIDAndSettlementDic_OK(settlementDic:Dictionary<String,Bool>,userIDArray:[String])
-    @objc optional func loadGroupMember_OK()
-    @objc optional func loadMonthDetails_OK()
-    @objc optional func loadCategoryGraphOfTithMonth_OK(categoryDic:Dictionary<String,Int>)
-    @objc optional func loadMonthlyTransition_OK(countArray:[Int])
-    @objc optional func loadMonthPayment_OK(groupPaymentOfMonth:Int,paymentAverageOfMonth:Int,userIDArray:[String])
-    @objc optional func loadMonthSettlement_OK()
+    @objc optional func loadUserInfo_OK(check:Int,error:Error?,userName:String?,profileImage:String?,email:String?,password:String?)
+    @objc optional func loadUserSearch_OK(check:Int,error:Error?)
+    @objc optional func loadJoinGroup_OK(check:Int,error:Error?)
+    @objc optional func loadNotJoinGroup_OK(check:Int,error:Error?,groupIDArray:[String]?,notJoinCount:Int)
+    @objc optional func loadNotJoinGroupInfo_OK(check:Int,error:Error?)
+    //変更③＜start＞-------------------------------------------
+    @objc optional func loadGroupName_OK(check:Int,error:Error?,groupName:String?,groupImage:String?,nextSettlementDay: Date?)
+    //変更③＜end＞---------------------------------------------
+    @objc optional func loadSettlementNotification_OK(check:Int,error:Error?)
+    @objc optional func loadSettlementDay_OK(check:Int,error:Error?,settlementDay:String?)
+    @objc optional func loadUserIDAndSettlementDic_OK(check:Int,error:Error?,settlementDic:Dictionary<String,Bool>?,userIDArray:[String]?)
+    @objc optional func loadGroupMember_OK(check:Int,error:Error?)
+    @objc optional func loadMonthDetails_OK(check:Int,error:Error?)
+    @objc optional func loadCategoryGraphOfTithMonth_OK(check:Int,error:Error?,categoryDic:Dictionary<String,Int>?)
+    @objc optional func loadMonthlyTransition_OK(check:Int,error:Error?,countArray:[Int]?)
+    @objc optional func loadMonthPayment_OK(check:Int,error:Error?,groupPaymentOfMonth:Int,paymentAverageOfMonth:Int,userIDArray:[String]?)
+    @objc optional func loadMonthSettlement_OK(check:Int,error:Error?)
 }
 
 class LoadDBModel{
@@ -42,50 +44,29 @@ class LoadDBModel{
     
     //userの情報を取得するメソッド
     func loadUserInfo(userID:String,activityIndicatorView:UIActivityIndicatorView){
-        db.collection("userManagement").document(userID).addSnapshotListener { (snapShot, error) in
+        db.collection("userManagement").document(userID).addSnapshotListener { [self] (snapShot, error) in
             
             if error != nil{
                 activityIndicatorView.stopAnimating()
+                loadOKDelegate?.loadUserInfo_OK?(check: 0, error: error, userName: nil, profileImage: nil, email: nil, password: nil)
                 return
             }
             let data = snapShot?.data()
             if let userName = data!["userName"] as? String,let profileImage = data!["profileImage"] as? String,let email = data!["email"] as? String,let password = data!["password"] as? String{
-                self.loadOKDelegate?.loadUserInfo_OK?(userName: userName, profileImage: profileImage, email: email, password: password)
+                loadOKDelegate?.loadUserInfo_OK?(check: 1, error: nil, userName: userName, profileImage: profileImage, email: email, password: password)
             }
         }
     }
     
-//    //メールアドレスで検索するメソッド。メールアドレスと一致するユーザー情報を取得。
-//    func loadUserSearch(email:String,activityIndicatorView:UIActivityIndicatorView){
-//        db.collection("userManagement").whereField("email", isEqualTo: email).addSnapshotListener { (snapShot, error) in
-//
-//            self.userSearchSets = []
-//            if error != nil{
-//                activityIndicatorView.stopAnimating()
-//                return
-//            }
-//            if let snapShotDoc = snapShot?.documents{
-//                for doc in snapShotDoc{
-//                    let data = doc.data()
-//                    let userName = data["userName"] as! String
-//                    let profileImage = data["profileImage"] as! String
-//                    let userID = data["userID"] as! String
-//                    let newData = UserSearchSets(userName: userName, profileImage: profileImage, userID: userID)
-//                    self.userSearchSets.append(newData)
-//                }
-//            }
-//            self.loadOKDelegate?.loadUserSearch_OK?()
-//        }
-//    }
-    
     //メールアドレスで検索するメソッド。メールアドレスと一致するユーザー情報を取得。
     func loadUserSearch(email:String,activityIndicatorView:UIActivityIndicatorView){
-        db.collection("userManagement").order(by: "email").start(at: [email]).end(at: [email + "\u{f8ff}"]).getDocuments() { (snapShot, error) in
+        db.collection("userManagement").order(by: "email").start(at: [email]).end(at: [email + "\u{f8ff}"]).getDocuments() { [self] (snapShot, error) in
             
             print(email)
             self.userSearchSets = []
             if error != nil{
                 activityIndicatorView.stopAnimating()
+                loadOKDelegate?.loadUserSearch_OK?(check: 0, error: error)
                 return
             }
             if let snapShotDoc = snapShot?.documents{
@@ -98,18 +79,18 @@ class LoadDBModel{
                     self.userSearchSets.append(newData)
                 }
             }
-            self.loadOKDelegate?.loadUserSearch_OK?()
+            loadOKDelegate?.loadUserSearch_OK?(check: 1, error: nil)
         }
     }
     
     
     //参加しているグループの情報を取得するロード
     func loadJoinGroup(groupID:String,userID:String,activityIndicatorView:UIActivityIndicatorView){
-        db.collection("groupManagement").whereField("userIDArray", arrayContains: userID).order(by: "create_at").addSnapshotListener { (snapShot, error) in
+        db.collection("groupManagement").whereField("userIDArray", arrayContains: userID).order(by: "create_at").addSnapshotListener { [self] (snapShot, error) in
             self.groupSets = []
             if error != nil{
-                print(error.debugDescription)
                 activityIndicatorView.stopAnimating()
+                loadOKDelegate?.loadJoinGroup_OK?(check: 0, error: error)
                 return
             }
             if let snapShotDoc = snapShot?.documents{
@@ -122,19 +103,20 @@ class LoadDBModel{
                     self.groupSets.append(newData)
                 }
             }
-            self.groupSets.reverse()
-            self.loadOKDelegate?.loadJoinGroup_OK?()
+            groupSets.reverse()
+            loadOKDelegate?.loadJoinGroup_OK?(check: 1, error: nil)
         }
     }
     
     //招待されているグループの数を取得するロード
     func loadNotJoinGroup(userID:String,activityIndicatorView:UIActivityIndicatorView){
-        db.collection("userManagement").document(userID).addSnapshotListener { (snapShot, error) in
+        db.collection("userManagement").document(userID).addSnapshotListener { [self] (snapShot, error) in
             
             var groupIDArray = [String]()
             var notJoinCount = 0
             if error != nil{
                 activityIndicatorView.stopAnimating()
+                loadOKDelegate?.loadNotJoinGroup_OK?(check: 0, error: error, groupIDArray: nil, notJoinCount: 0)
                 return
             }
             if let data = snapShot?.data(){
@@ -147,7 +129,7 @@ class LoadDBModel{
                     }
                 }
             }
-            self.loadOKDelegate?.loadNotJoinGroup_OK?(groupIDArray: groupIDArray, notJoinCount: notJoinCount)
+            loadOKDelegate?.loadNotJoinGroup_OK?(check: 1, error: nil, groupIDArray: groupIDArray, notJoinCount: notJoinCount)
         }
     }
     
@@ -157,10 +139,11 @@ class LoadDBModel{
         var count = 0
 
         for groupID in groupIDArray{
-            db.collection("groupManagement").document(groupID).addSnapshotListener { (sanpShot, error) in
+            db.collection("groupManagement").document(groupID).getDocument { [self] (sanpShot, error) in
                 count += 1
                 if error != nil{
                     activityIndicatorView.stopAnimating()
+                    loadOKDelegate?.loadNotJoinGroupInfo_OK?(check: 0, error: error)
                     return
                 }
                 if let data = sanpShot?.data(){
@@ -172,37 +155,43 @@ class LoadDBModel{
                     completion(newData)
                 }
                 if groupIDArray.count == count{
-                    self.loadOKDelegate?.loadNotJoinGroupInfo_OK?(check: 1)
+                    loadOKDelegate?.loadNotJoinGroupInfo_OK?(check: 1, error: nil)
                 }
             }
         }
-        self.loadOKDelegate?.loadNotJoinGroupInfo_OK?(check: 0)
+        loadOKDelegate?.loadNotJoinGroupInfo_OK?(check: 1, error: nil)
         
     }
     
     //グループ名、グループ画像を取得するロード。
     func loadGroupName(groupID:String,activityIndicatorView:UIActivityIndicatorView){
-        db.collection("groupManagement").document(groupID).addSnapshotListener { (snapShot, error) in
+        db.collection("groupManagement").document(groupID).addSnapshotListener { [self] (snapShot, error) in
             
             if error != nil{
                 activityIndicatorView.stopAnimating()
+                loadOKDelegate?.loadGroupName_OK?(check: 0, error: error, groupName: nil, groupImage: nil, nextSettlementDay: nil)
                 return
             }
             if let data = snapShot?.data(){
                 let groupName = data["groupName"] as! String
                 let groupImage = data["groupImage"] as! String
-                self.loadOKDelegate?.loadGroupName_OK?(groupName: groupName, groupImage: groupImage)
+                //変更③＜start＞------------------------------------------
+                let timestamp = data["nextSettlementDay"] as! Timestamp
+                let nextSettlementDay = timestamp.dateValue()
+                loadOKDelegate?.loadGroupName_OK?(check: 1, error: nil, groupName: groupName, groupImage: groupImage, nextSettlementDay: nextSettlementDay)
+                //変更③＜end＞--------------------------------------------
             }
         }
     }
     
     //決済日を取得し決済通知するロード
     func loadSettlementNotification(userID:String,day:String,activityIndicatorView:UIActivityIndicatorView){
-        db.collection("groupManagement").whereField("userIDArray", arrayContains: userID).addSnapshotListener { (snapShot, error) in
+        db.collection("groupManagement").whereField("userIDArray", arrayContains: userID).addSnapshotListener { [self] (snapShot, error) in
             
             self.notificationSets = []
             if error != nil{
                 activityIndicatorView.stopAnimating()
+                loadOKDelegate?.loadSettlementNotification_OK?(check: 0, error: error)
                 return
             }
             if let snapShotDoc = snapShot?.documents{
@@ -217,40 +206,40 @@ class LoadDBModel{
                     }
                 }
             }
-            self.loadOKDelegate?.loadSettlementNotification_OK?()
+            loadOKDelegate?.loadSettlementNotification_OK?(check: 1, error: nil)
         }
     }
     
     //決済日を取得するロード
     func loadSettlementDay(groupID:String,activityIndicatorView:UIActivityIndicatorView){
-        db.collection("groupManagement").document(groupID).getDocument { (snapShot, error) in
+        db.collection("groupManagement").document(groupID).getDocument { [self] (snapShot, error) in
             
             if error != nil{
                 activityIndicatorView.stopAnimating()
+                loadOKDelegate?.loadSettlementDay_OK?(check: 0, error: error, settlementDay: nil)
                 return
             }
             if let data = snapShot?.data(){
                 let settlementDay = data["settlementDay"] as! String
-                self.loadOKDelegate?.loadSettlementDay_OK?(settlementDay: settlementDay)
+                loadOKDelegate?.loadSettlementDay_OK?(check: 1, error: nil, settlementDay: settlementDay)
             }
-            activityIndicatorView.stopAnimating()
         }
     }
     
     //グループに所属する人のuserIDと決済可否を取得するロード
     func loadUserIDAndSettlementDic(groupID:String,activityIndicatorView:UIActivityIndicatorView){
-        db.collection("groupManagement").document(groupID).getDocument { (snapShot, error) in
+        db.collection("groupManagement").document(groupID).getDocument { [self] (snapShot, error) in
             
             if error != nil{
                 activityIndicatorView.stopAnimating()
+                loadOKDelegate?.loadUserIDAndSettlementDic_OK?(check: 0, error: error, settlementDic: nil, userIDArray: nil)
                 return
             }
             if let data = snapShot?.data(){
                 let settlementDic = data["settlementDic"] as! Dictionary<String,Bool>
                 let userIDArray = data["userIDArray"] as! Array<String>
-                self.loadOKDelegate?.loadUserIDAndSettlementDic_OK?(settlementDic: settlementDic, userIDArray: userIDArray)
+                loadOKDelegate?.loadUserIDAndSettlementDic_OK?(check: 1, error: nil, settlementDic: settlementDic, userIDArray: userIDArray)
             }
-            activityIndicatorView.stopAnimating()
         }
     }
     
@@ -259,10 +248,11 @@ class LoadDBModel{
         var count = 0
         for userID in userIDArray{
             
-            db.collection("userManagement").document(userID).addSnapshotListener { (snapShot, error) in
+            db.collection("userManagement").document(userID).addSnapshotListener { [self] (snapShot, error) in
                 count += 1
                 if error != nil{
                     activityIndicatorView.stopAnimating()
+                    loadOKDelegate?.loadGroupMember_OK?(check: 0, error: error)
                     return
                 }
                 if let data = snapShot?.data(){
@@ -272,7 +262,7 @@ class LoadDBModel{
                     completion(newData)
                 }
                 if count == userIDArray.count{
-                    self.loadOKDelegate?.loadGroupMember_OK?()
+                    loadOKDelegate?.loadGroupMember_OK?(check: 1, error: error)
                 }
             }
         }
@@ -286,11 +276,12 @@ class LoadDBModel{
         self.dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
         if userID == nil{
             //全体の明細のロード(月分)
-            db.collection("paymentData").whereField("groupID", isEqualTo: groupID).whereField("paymentDay", isGreaterThanOrEqualTo: startDate).whereField("paymentDay", isLessThan: endDate).order(by: "paymentDay").getDocuments { (snapShot, error) in
+            db.collection("paymentData").whereField("groupID", isEqualTo: groupID).whereField("paymentDay", isGreaterThanOrEqualTo: startDate).whereField("paymentDay", isLessThan: endDate).order(by: "paymentDay").getDocuments { [self] (snapShot, error) in
                 
                 self.monthGroupDetailsSets = []
                 if error != nil{
                     activityIndicatorView.stopAnimating()
+                    loadOKDelegate?.loadMonthDetails_OK?(check: 0, error: error)
                     return
                 }
                 if let snapShotDoc = snapShot?.documents{
@@ -307,16 +298,17 @@ class LoadDBModel{
                         self.monthGroupDetailsSets.append(groupNewData)
                     }
                 }
-                self.monthGroupDetailsSets.reverse()
-                self.loadOKDelegate?.loadMonthDetails_OK?()
+                monthGroupDetailsSets.reverse()
+                loadOKDelegate?.loadMonthDetails_OK?(check: 1, error: nil)
             }
         }else if userID != nil{
             //自分の明細のロード(月分)
-            db.collection("paymentData").whereField("groupID", isEqualTo: groupID).whereField("userID", isEqualTo: userID!).whereField("paymentDay", isGreaterThanOrEqualTo: startDate).whereField("paymentDay", isLessThan: endDate).order(by: "paymentDay").addSnapshotListener { (snapShot, error) in
+            db.collection("paymentData").whereField("groupID", isEqualTo: groupID).whereField("userID", isEqualTo: userID!).whereField("paymentDay", isGreaterThanOrEqualTo: startDate).whereField("paymentDay", isLessThan: endDate).order(by: "paymentDay").addSnapshotListener { [self] (snapShot, error) in
                 
                 self.monthMyDetailsSets = []
                 if error != nil{
                     activityIndicatorView.stopAnimating()
+                    loadOKDelegate?.loadMonthDetails_OK?(check: 0, error: nil)
                     return
                 }
                 if let snapShotDoc = snapShot?.documents{
@@ -334,8 +326,8 @@ class LoadDBModel{
                         self.monthMyDetailsSets.append(myNewData)
                     }
                 }
-                self.monthMyDetailsSets.reverse()
-                self.loadOKDelegate?.loadMonthDetails_OK?()
+                monthMyDetailsSets.reverse()
+                loadOKDelegate?.loadMonthDetails_OK?(check: 1, error: nil)
             }
         }
     }
@@ -343,7 +335,7 @@ class LoadDBModel{
     //カテゴリ別の合計金額金額
     func loadCategoryGraphOfTithMonth(groupID:String,startDate:Date,endDate:Date,activityIndicatorView:UIActivityIndicatorView){
         
-        db.collection("paymentData").whereField("groupID", isEqualTo: groupID).whereField("paymentDay", isGreaterThanOrEqualTo: startDate).whereField("paymentDay", isLessThan: endDate).getDocuments { (snapShot, error) in
+        db.collection("paymentData").whereField("groupID", isEqualTo: groupID).whereField("paymentDay", isGreaterThanOrEqualTo: startDate).whereField("paymentDay", isLessThan: endDate).getDocuments { [self] (snapShot, error) in
             
             var foodCount = 0
             var waterCount = 0
@@ -357,6 +349,7 @@ class LoadDBModel{
             
             if error != nil{
                 activityIndicatorView.stopAnimating()
+                loadOKDelegate?.loadCategoryGraphOfTithMonth_OK?(check: 0, error: error, categoryDic: nil)
                 return
             }
             
@@ -398,7 +391,7 @@ class LoadDBModel{
                     }
                 }
             }
-            self.loadOKDelegate?.loadCategoryGraphOfTithMonth_OK?(categoryDic: categoryDic)
+            loadOKDelegate?.loadCategoryGraphOfTithMonth_OK?(check: 1, error: nil, categoryDic: categoryDic)
         }
     }
     
@@ -439,6 +432,7 @@ class LoadDBModel{
             
             if error != nil{
                 activityIndicatorView.stopAnimating()
+                loadOKDelegate?.loadMonthlyTransition_OK?(check: 0, error: error, countArray: nil)
                 return
             }
             if let snapShotDoc = snapShot?.documents{
@@ -475,7 +469,7 @@ class LoadDBModel{
                 }
             }
             countArray = [januaryCount,februaryCount,marchCount,aprilCount,mayCount,juneCount,julyCount,augustCount,septemberCount,octoberCount,novemberCount,decemberCount]
-            loadOKDelegate?.loadMonthlyTransition_OK?(countArray: countArray)
+            loadOKDelegate?.loadMonthlyTransition_OK?(check: 1, error: nil, countArray: countArray)
         }
     }
     
@@ -515,6 +509,7 @@ class LoadDBModel{
             
             if error != nil{
                 activityIndicatorView.stopAnimating()
+                loadOKDelegate?.loadMonthlyTransition_OK?(check: 0, error: error, countArray: nil)
                 return
             }
             if let snapShotDoc = snapShot?.documents{
@@ -551,7 +546,7 @@ class LoadDBModel{
                 }
             }
             countArray = [januaryCount,februaryCount,marchCount,aprilCount,mayCount,juneCount,julyCount,augustCount,septemberCount,octoberCount,novemberCount,decemberCount]
-            loadOKDelegate?.loadMonthlyTransition_OK?(countArray: countArray)
+            loadOKDelegate?.loadMonthlyTransition_OK?(check: 1, error: nil, countArray: countArray)
         }
     }
     
@@ -592,6 +587,7 @@ class LoadDBModel{
             
             if error != nil{
                 activityIndicatorView.stopAnimating()
+                loadOKDelegate?.loadMonthlyTransition_OK?(check: 0, error: error, countArray: nil)
                 return
             }
             if let snapShotDoc = snapShot?.documents{
@@ -628,7 +624,7 @@ class LoadDBModel{
                 }
             }
             countArray = [januaryCount,februaryCount,marchCount,aprilCount,mayCount,juneCount,julyCount,augustCount,septemberCount,octoberCount,novemberCount,decemberCount]
-            loadOKDelegate?.loadMonthlyTransition_OK?(countArray: countArray)
+            loadOKDelegate?.loadMonthlyTransition_OK?(check: 1, error: nil, countArray: countArray)
         }
     }
     
@@ -669,6 +665,7 @@ class LoadDBModel{
             
             if error != nil{
                 activityIndicatorView.stopAnimating()
+                loadOKDelegate?.loadMonthlyTransition_OK?(check: 0, error: error, countArray: nil)
                 return
             }
             if let snapShotDoc = snapShot?.documents{
@@ -705,18 +702,19 @@ class LoadDBModel{
                 }
             }
             countArray = [januaryCount,februaryCount,marchCount,aprilCount,mayCount,juneCount,julyCount,augustCount,septemberCount,octoberCount,novemberCount,decemberCount]
-            loadOKDelegate?.loadMonthlyTransition_OK?(countArray: countArray)
+            loadOKDelegate?.loadMonthlyTransition_OK?(check: 1, error: nil, countArray: countArray)
         }
     }
     
     //(グループの合計金額)と(1人当たりの金額)と(支払いに参加したユーザー)をロード
     func loadMonthPayment(groupID:String,userIDArray:[String],startDate:Date,endDate:Date,activityIndicatorView:UIActivityIndicatorView){
-        db.collection("paymentData").whereField("groupID", isEqualTo: groupID).whereField("paymentDay", isGreaterThanOrEqualTo: startDate).whereField("paymentDay", isLessThan: endDate).getDocuments { (snapShot, error) in
+        db.collection("paymentData").whereField("groupID", isEqualTo: groupID).whereField("paymentDay", isGreaterThanOrEqualTo: startDate).whereField("paymentDay", isLessThan: endDate).getDocuments { [self] (snapShot, error) in
             
             var groupPaymentOfMonth = 0
             var paymentAverageOfMonth = 0
             if error != nil{
                 activityIndicatorView.stopAnimating()
+                loadOKDelegate?.loadMonthPayment_OK?(check: 0, error: error, groupPaymentOfMonth: 0, paymentAverageOfMonth: 0, userIDArray: nil)
                 return
             }
             if let snapShotDoc = snapShot?.documents{
@@ -726,11 +724,11 @@ class LoadDBModel{
                     groupPaymentOfMonth = groupPaymentOfMonth + paymentAmount
                 }
                 if userIDArray.count == 0{
-                    self.loadOKDelegate?.loadMonthPayment_OK?(groupPaymentOfMonth: groupPaymentOfMonth, paymentAverageOfMonth: paymentAverageOfMonth, userIDArray: userIDArray)
+                    loadOKDelegate?.loadMonthPayment_OK?(check: 1, error: nil, groupPaymentOfMonth: groupPaymentOfMonth, paymentAverageOfMonth: paymentAverageOfMonth, userIDArray: userIDArray)
                 }else{
                     let numberOfPeople = userIDArray.count
                     paymentAverageOfMonth = groupPaymentOfMonth / numberOfPeople
-                    self.loadOKDelegate?.loadMonthPayment_OK?(groupPaymentOfMonth: groupPaymentOfMonth, paymentAverageOfMonth: paymentAverageOfMonth, userIDArray: userIDArray)
+                    loadOKDelegate?.loadMonthPayment_OK?(check: 1, error: nil, groupPaymentOfMonth: groupPaymentOfMonth, paymentAverageOfMonth: paymentAverageOfMonth, userIDArray: userIDArray)
                 }
                 
             }
@@ -741,11 +739,12 @@ class LoadDBModel{
     //各メンバーの支払い金額を取得するロード
     func loadMonthSettlement(groupID:String,userID:String?,startDate:Date,endDate:Date,activityIndicatorView:UIActivityIndicatorView){
         if userID == nil{
-            db.collection("paymentData").whereField("groupID", isEqualTo: groupID).whereField("paymentDay", isGreaterThanOrEqualTo: startDate).whereField("paymentDay", isLessThan: endDate).getDocuments { (snapShot, error) in
+            db.collection("paymentData").whereField("groupID", isEqualTo: groupID).whereField("paymentDay", isGreaterThanOrEqualTo: startDate).whereField("paymentDay", isLessThan: endDate).getDocuments { [self] (snapShot, error) in
                 
                 self.settlementSets = []
                 if error != nil{
                     activityIndicatorView.stopAnimating()
+                    loadOKDelegate?.loadMonthSettlement_OK?(check: 0, error: error)
                     return
                 }
                 if let snapShotDoc = snapShot?.documents{
@@ -754,20 +753,20 @@ class LoadDBModel{
                         let paymentAmount = data["paymentAmount"] as! Int
                         let userID = data["userID"] as! String
                         let newData = SettlementSets(paymentAmount: paymentAmount, userID: userID)
-                        self.settlementSets.append(newData)
+                        settlementSets.append(newData)
                     }
-                    self.loadOKDelegate?.loadMonthSettlement_OK?()
+                    loadOKDelegate?.loadMonthSettlement_OK?(check: 1, error: nil)
                 }
-                self.loadOKDelegate?.loadMonthSettlement_OK?()
+                loadOKDelegate?.loadMonthSettlement_OK?(check: 1, error: nil)
             }
         }else{
-            db.collection("paymentData").whereField("groupID", isEqualTo: groupID).whereField("userID", isEqualTo: userID!).whereField("paymentDay", isGreaterThanOrEqualTo: startDate).whereField("paymentDay", isLessThan: endDate).getDocuments { (snapShot, error) in
+            db.collection("paymentData").whereField("groupID", isEqualTo: groupID).whereField("userID", isEqualTo: userID!).whereField("paymentDay", isGreaterThanOrEqualTo: startDate).whereField("paymentDay", isLessThan: endDate).getDocuments { [self] (snapShot, error) in
                 
                 self.settlementSets = []
                 var myTotalPay = 0
                 if error != nil{
-                    print(error.debugDescription)
                     activityIndicatorView.stopAnimating()
+                    loadOKDelegate?.loadMonthSettlement_OK?(check: 0, error: error)
                     return
                 }
                 if let snapShotDoc = snapShot?.documents{
@@ -778,8 +777,8 @@ class LoadDBModel{
                         myTotalPay = myTotalPay + paymentAmount
                     }
                     let newData = SettlementSets(paymentAmount: myTotalPay, userID: nil)
-                    self.settlementSets.append(newData)
-                    self.loadOKDelegate?.loadMonthSettlement_OK?()
+                    settlementSets.append(newData)
+                    loadOKDelegate?.loadMonthSettlement_OK?(check: 1, error: nil)
                 }
             }
         }

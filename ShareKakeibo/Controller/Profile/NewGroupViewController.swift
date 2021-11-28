@@ -83,7 +83,7 @@ class NewGroupViewController: UIViewController {
         createGroupButton.layer.shadowOpacity = 0.5
         createGroupButton.layer.shadowRadius = 1
     }
-  
+    
     
     @objc func joinButton(_ sender:UIButton){
         buttonAnimatedModel.endAnimation(sender: sender)
@@ -116,7 +116,7 @@ class NewGroupViewController: UIViewController {
     @IBAction func back(_ sender: Any) {
         navigationController?.popViewController(animated: true)
     }
-
+    
     
 }
 //MARK:- TabeleView
@@ -176,14 +176,16 @@ extension NewGroupViewController:LoadOKDelegate, EditOKDelegate{
     
     //どのグループに参加しているか招待されているかを取得完了
     func loadNotJoinGroup_OK(groupIDArray: [String], notJoinCount: Int) {
-           groupNotJoinArray = []
-           //招待されているグループの情報を取得完了
+        print("&&&&&&&&&グループID、不参加グループの詳細&&&&&&&&")
+        print(groupIDArray)
+        groupNotJoinArray = []
+        //招待されているグループの情報を取得完了
         loadDBModel.loadNotJoinGroupInfo(groupIDArray: groupIDArray, activityIndicatorView: activityIndicatorView) { JoinGroupSets in
-               self.groupNotJoinArray.append(JoinGroupSets)
-               self.sortedGroupNotJoinArray = self.groupNotJoinArray.sorted(by: {($0.create_at! > $1.create_at!)})
-           }
-       }
-  
+            self.groupNotJoinArray.append(JoinGroupSets)
+            self.sortedGroupNotJoinArray = self.groupNotJoinArray.sorted(by: {($0.create_at! > $1.create_at!)})
+        }
+    }
+    
     func loadNotJoinGroupInfo_OK(check: Int) {
         if check == 1{
             self.tableView.reloadData()
