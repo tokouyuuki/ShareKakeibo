@@ -1,15 +1,22 @@
 # ShareKakeibo
 
-## Overview
-• It is a household account book application specialized for people who share a house, written in Swift.  
+## 概要
+•Swiftで書かれた、家を共有する人々に特化した家計簿のアプリケーションです。
+•毎月の支払い額を自動計算する機能を搭載しています。
+•月々のお支払い状況や金額をカテゴリ別にグラフで表示する機能を搭載しています。
+•グループを作成して招待することができます。そのグループと情報を共有することもできます。
+•決済日を設定し、決済日が到来するとプッシュ通知でお知らせします。また、グループ内のユーザーが「有料」か「未払い」かを知ることができる機能を搭載しています。
+<!-- • It is a household account book application specialized for people who share a house, written in Swift.  
 • It is equipped with a function that automatically calculates your payment amount every month.  
 • It is equipped with a function to display monthly payment transitions and amounts by category using graphs.  
 • You can create groups and invite them. You can also share information with that group.  
-• We will set a settlement date and notify you with a push notification when the settlement date arrives. In addition, it is equipped with a function that allows users in the group to know whether it is "paid" or "unpaid".  
+• We will set a settlement date and notify you with a push notification when the settlement date arrives. In addition, it is equipped with a function that allows users in the group to know whether it is "paid" or "unpaid".   -->
 
 
 ## Description
-Many of the currently released share household account book apps are a little difficult to use because they have many functions. This Share Kakeibo app is easy to use because it has simple functions.  
+現在リリースされている共有家計簿アプリの多くは、多くの機能を備えているため、少し使いにくいアプリです。<br>
+このシェア家計簿アプリは、機能がシンプルなので使いやすいです。
+<!-- Many of the currently released share household account book apps are a little difficult to use because they have many functions. This Share Kakeibo app is easy to use because it has simple functions.   -->
 
 
 <!-- ## Demo
