@@ -31,6 +31,7 @@ class MonthDataViewController: UIViewController{
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var headerIndicator: UIActivityIndicatorView!
     
+    var alertModel = AlertModel()
     var graphModel = GraphModel()
     var loadDBModel = LoadDBModel()
     var activityIndicatorView = UIActivityIndicatorView()
@@ -48,6 +49,7 @@ class MonthDataViewController: UIViewController{
     
     var dateModel = DateModel()
     var settlementDayOfInt = Int()
+    var newNextSettlementDay = Date()
     
     
     override func viewDidLoad() {
@@ -73,13 +75,13 @@ class MonthDataViewController: UIViewController{
         groupNameLabel.layer.shadowRadius = 1
         
         let refreshControl = UIRefreshControl()
-
+        
         self.view.bringSubviewToFront(refreshControl)
         refreshControl.tintColor = .black
         scrollView.delegate = self
         scrollView.contentInsetAdjustmentBehavior = .never
         scrollView.refreshControl = refreshControl
-
+        
         scrollView.refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
         blurView.alpha = 0.3
         self.extendedLayoutIncludesOpaqueBars = true
@@ -87,7 +89,7 @@ class MonthDataViewController: UIViewController{
         headerIndicator.style = .medium
         headerIndicator.color = .white
         headerIndicator.isHidden = true
-
+        
         activityIndicatorView.center = view.center
         activityIndicatorView.style = .large
         activityIndicatorView.color = .darkGray
@@ -102,7 +104,7 @@ class MonthDataViewController: UIViewController{
         userID = UserDefaults.standard.object(forKey: "userID") as! String
         activityIndicatorView.startAnimating()
         loadDBModel.loadOKDelegate = self
-        loadDBModel.loadSettlementDay(groupID: groupID, activityIndicatorView: activityIndicatorView)
+        loadDBModel.loadSettlementDay(groupID: groupID)
     }
     
     
@@ -135,7 +137,6 @@ class MonthDataViewController: UIViewController{
     }
     
     @IBAction func backButton(_ sender: Any) {
-        print(self.navigationController?.viewControllers)
         navigationController?.popViewController(animated: true)
     }
     
@@ -144,61 +145,124 @@ class MonthDataViewController: UIViewController{
 // MARK: - LoadOKDelegate
 extension MonthDataViewController:LoadOKDelegate {
     
+    
     //決済日取得完了
-    func loadSettlementDay_OK(settlementDay: String) {
-        UserDefaults.standard.setValue(settlementDay, forKey: "settlementDay")
-        settlementDayOfInt = Int(settlementDay)!
-        loadDBModel.loadGroupName(groupID: groupID, activityIndicatorView: activityIndicatorView)
+    func loadSettlementDay_OK(check: Int, settlementDay: String?) {
+        if check == 0{
+            activityIndicatorView.stopAnimating()
+            alertModel.errorAlert(viewController: self)
+        }else{
+            UserDefaults.standard.setValue(settlementDay, forKey: "settlementDay")
+            settlementDayOfInt = Int(settlementDay!)!
+            loadDBModel.loadGroupName(groupID: groupID)
+        }
     }
     
     //グループ画像、グループ名を取得完了
-    func loadGroupName_OK(groupName: String, groupImage: String) {
-        UserDefaults.standard.setValue(groupName, forKey: "groupName")
-        UserDefaults.standard.setValue(groupImage, forKey: "groupImage")
-        groupNameLabel.text = groupName
-        groupImageView.sd_setImage(with: URL(string: groupImage), completed: nil)
-        dateModel.getPeriodOfThisMonth(settelemtDay: settlementDayOfInt) { maxDate, minDate in
-            loadDBModel.loadCategoryGraphOfTithMonth(groupID: groupID, startDate: minDate, endDate: maxDate, activityIndicatorView: activityIndicatorView)
+    func loadGroupName_OK(check: Int, groupName: String?, groupImage: String?, groupStoragePath: String?, nextSettlementDay: Date?) {
+        if check == 0{
+            activityIndicatorView.stopAnimating()
+            alertModel.errorAlert(viewController: self)
+        }else{
+            newNextSettlementDay = nextSettlementDay!
+            UserDefaults.standard.setValue(groupName, forKey: "groupName")
+            UserDefaults.standard.setValue(groupImage, forKey: "groupImage")
+            UserDefaults.standard.setValue(groupStoragePath, forKey: "groupStoragePath")
+            groupNameLabel.text = groupName
+            groupImageView.sd_setImage(with: URL(string: groupImage!), completed: nil)
+            dateModel.getPeriodOfThisMonth(settelemtDay: settlementDayOfInt) { maxDate, minDate in
+                loadDBModel.loadCategoryGraphOfTithMonth(groupID: groupID, startDate: minDate, endDate: maxDate)
+                let notificationModel = NotificationModel()
+                notificationModel.deleteNotification(identifier: groupID)
+                notificationModel.registerNotificarionOfSettlement(groupName: groupName!, groupID: groupID, settlementDay: String(settlementDayOfInt))
+
+            }
         }
     }
     
     //グラフに反映するカテゴリ別合計金額取得完了
-    func loadCategoryGraphOfTithMonth_OK(categoryDic: Dictionary<String, Int>) {
-        let sortedCategoryDic = categoryDic.sorted{ $0.1 > $1.1 }
-        print("*******************")
-        print(sortedCategoryDic)
-        //        print(sortedCategoryDic[0].key)
-        graphModel.setPieCht(piecht: pieChartView, categoryDic: sortedCategoryDic)
-        loadDBModel.loadUserIDAndSettlementDic(groupID: groupID, activityIndicatorView: activityIndicatorView)
+    func loadCategoryGraphOfTithMonth_OK(check: Int, categoryDic: Dictionary<String, Int>?) {
+        if check == 0{
+            activityIndicatorView.stopAnimating()
+            alertModel.errorAlert(viewController: self)
+            if headerIndicator.isHidden == false{
+                headerIndicator.isHidden = true
+                headerIndicator.stopAnimating()
+                scrollView.refreshControl?.endRefreshing()
+            }
+        }else{
+            let sortedCategoryDic = categoryDic!.sorted{ $0.1 > $1.1 }
+            graphModel.setPieCht(piecht: pieChartView, categoryDic: sortedCategoryDic)
+            loadDBModel.loadUserIDAndSettlementDic(groupID: groupID)
+        }
     }
     
     //グループに参加しているメンバーを取得完了
-    func loadUserIDAndSettlementDic_OK(settlementDic: Dictionary<String, Bool>, userIDArray: [String]) {
-        dateModel.getPeriodOfThisMonth(settelemtDay: settlementDayOfInt) { maxDate, minDate in
-            dateFormatter.dateFormat = "MM/dd"
-            dateFormatter.locale = Locale(identifier: "ja_JP")
-            dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
-            let maxdd = Calendar.current.date(byAdding: .day, value: -1, to: maxDate)
-            let maxDateFormatter = dateFormatter.string(from: maxdd!)
-            let minDateFormatter = dateFormatter.string(from: minDate)
-            thisMonthLabel.text = "\(minDateFormatter)〜\(maxDateFormatter)"
-            loadDBModel.loadMonthPayment(groupID: groupID, userIDArray: userIDArray, startDate: minDate, endDate: maxDate, activityIndicatorView: activityIndicatorView)
+    func loadUserIDAndSettlementDic_OK(check: Int, settlementDic: Dictionary<String, Bool>?, userIDArray: [String]?) {
+        if check == 0{
+            activityIndicatorView.stopAnimating()
+            alertModel.errorAlert(viewController: self)
+            if headerIndicator.isHidden == false{
+                headerIndicator.isHidden = true
+                headerIndicator.stopAnimating()
+                scrollView.refreshControl?.endRefreshing()
+            }
+        }else{
+            dateModel.checkOfNextsettlement(nextSettlement: newNextSettlementDay, groupID: groupID, settlementDic: settlementDic!)
+            dateModel.getPeriodOfThisMonth(settelemtDay: settlementDayOfInt) { maxDate, minDate in
+                dateFormatter.dateFormat = "MM/dd"
+                dateFormatter.locale = Locale(identifier: "ja_JP")
+                dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
+                let maxdd = Calendar.current.date(byAdding: .day, value: -1, to: maxDate)
+                let maxDateFormatter = dateFormatter.string(from: maxdd!)
+                let minDateFormatter = dateFormatter.string(from: minDate)
+                thisMonthLabel.text = "\(minDateFormatter)〜\(maxDateFormatter)"
+                loadDBModel.loadMonthPayment(groupID: groupID, userIDArray: userIDArray!, startDate: minDate, endDate: maxDate)
+            }
         }
     }
     
     //グループの合計出資額、1人当たりの出資額を取得完了
-    func loadMonthPayment_OK(groupPaymentOfMonth: Int, paymentAverageOfMonth: Int, userIDArray: [String]) {
-        self.groupPaymentOfThisMonth.text = changeCommaModel.getComma(num: groupPaymentOfMonth) + "　円"
-        self.paymentAverageOfTithMonth.text = changeCommaModel.getComma(num: paymentAverageOfMonth) + "　円"
-        dateModel.getPeriodOfThisMonth(settelemtDay: settlementDayOfInt) { maxDate, minDate in
-            loadDBModel.loadMonthSettlement(groupID: groupID, userID: userID, startDate: minDate, endDate: maxDate, activityIndicatorView: activityIndicatorView)
+    func loadMonthPayment_OK(check: Int, groupPaymentOfMonth: Int, paymentAverageOfMonth: Int, userIDArray: [String]?) {
+        if check == 0{
+            activityIndicatorView.stopAnimating()
+            alertModel.errorAlert(viewController: self)
+            if headerIndicator.isHidden == false{
+                headerIndicator.isHidden = true
+                headerIndicator.stopAnimating()
+                scrollView.refreshControl?.endRefreshing()
+            }
+        }else{
+            UserDefaults.standard.setValue(userIDArray, forKey: "joiningUserIDArray")
+            self.groupPaymentOfThisMonth.text = changeCommaModel.getComma(num: groupPaymentOfMonth) + "　円"
+            self.paymentAverageOfTithMonth.text = changeCommaModel.getComma(num: paymentAverageOfMonth) + "　円"
+            dateModel.getPeriodOfThisMonth(settelemtDay: settlementDayOfInt) { maxDate, minDate in
+                loadDBModel.loadMonthSettlement(groupID: groupID, userID: userID, startDate: minDate, endDate: maxDate)
+            }
         }
     }
     
     //自分の支払額を取得完了
-    func loadMonthSettlement_OK() {
-        self.userPaymentThisMonth.text = changeCommaModel.getComma(num: loadDBModel.settlementSets[0].paymentAmount!) + "　円"
-        activityIndicatorView.stopAnimating()
+    func loadMonthSettlement_OK(check: Int) {
+        if check == 0{
+            activityIndicatorView.stopAnimating()
+            alertModel.errorAlert(viewController: self)
+            if headerIndicator.isHidden == false{
+                headerIndicator.isHidden = true
+                headerIndicator.stopAnimating()
+                scrollView.refreshControl?.endRefreshing()
+            }
+        }else{
+            self.userPaymentThisMonth.text = changeCommaModel.getComma(num: loadDBModel.settlementSets[0].paymentAmount!) + "　円"
+            activityIndicatorView.stopAnimating()
+            if headerIndicator.isHidden == false{
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                    self.headerIndicator.isHidden = true
+                    self.headerIndicator.stopAnimating()
+                    self.scrollView.refreshControl?.endRefreshing()
+                }
+            }
+        }
     }
     
     
@@ -208,7 +272,6 @@ extension MonthDataViewController:LoadOKDelegate {
 extension MonthDataViewController:UIScrollViewDelegate{
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print(scrollView.contentOffset.y)
         
         headerViewHeightConstraint.constant = max(150 - scrollView.contentOffset.y, 85)
         groupNameBottomConstraint.constant = max(5, 26 - scrollView.contentOffset.y)
@@ -218,22 +281,17 @@ extension MonthDataViewController:UIScrollViewDelegate{
         }else{
             blurView.alpha = 0.3
         }
-
+        
     }
     
     @objc func refresh() {
-   
+        
         dateModel.getPeriodOfThisMonth(settelemtDay: settlementDayOfInt) { maxDate, minDate in
-            loadDBModel.loadCategoryGraphOfTithMonth(groupID: groupID, startDate: minDate, endDate: maxDate, activityIndicatorView: activityIndicatorView)
+            loadDBModel.loadCategoryGraphOfTithMonth(groupID: groupID, startDate: minDate, endDate: maxDate)
             headerIndicator.isHidden = false
             headerIndicator.startAnimating()
         }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
-            self.headerIndicator.isHidden = true
-            self.headerIndicator.stopAnimating()
-        }
-        scrollView.refreshControl?.endRefreshing()
+        
     }
     
 }
@@ -257,5 +315,3 @@ extension MonthDataViewController:GoToVcDelegate{
     }
     
 }
-
-

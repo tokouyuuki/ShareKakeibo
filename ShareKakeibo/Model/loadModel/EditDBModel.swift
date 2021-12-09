@@ -22,7 +22,7 @@ class EditDBModel{
     var monthMyDetailsSets:[MonthMyDetailsSets] = []
     let dateFormatter = DateFormatter()
     
-    //招待を受けているグループで拒否ボタンを押したときのロード
+
     func editGroupInfoDelete(groupID:String,userID:String,activityIndicatorView:UIActivityIndicatorView){
         db.collection("userManagement").document(userID).getDocument { (snapShot, error) in
             if error != nil{

@@ -27,7 +27,6 @@ class ButtonAnimatedModel{
         
     }
     
-    //ボタンを押した時のアニメーション
     func startAnimation(sender:UIButton){
         UIView.animate(withDuration: withDuration,
                        delay: delay,options: options,
@@ -39,7 +38,6 @@ class ButtonAnimatedModel{
         )
     }
     
-    //ボタンを離した時のアニメーション
     func endAnimation(sender:UIButton){
         UIView.animate(withDuration: withDuration,delay: delay,options:options,
                        animations: {() -> Void in

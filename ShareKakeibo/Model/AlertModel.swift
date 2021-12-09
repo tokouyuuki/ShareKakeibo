@@ -11,15 +11,17 @@ import Photos
 
 class AlertModel{
     
-   //変更_山口
+
     var loginModel = LoginModel()
     var editDBModel = EditDBModel()
     
     func exitAlert(viewController:UIViewController,groupID: String, userID: String, activityIndicatorView: UIActivityIndicatorView){
         
-        let aleat = UIAlertController(title: "本当に退会しますか？", message: "", preferredStyle: .alert)
+        let alert = UIAlertController(title: "本当に退会しますか？", message: "", preferredStyle: .alert)
         
         let exit = UIAlertAction(title: "退会", style: .default) { (action) in
+            let notificationModel = NotificationModel()
+            notificationModel.deleteNotification(identifier: groupID)
             self.editDBModel.editOKDelegate = (viewController as! EditOKDelegate)
             self.editDBModel.editUserDelete(groupID: groupID, userID: userID, activityIndicatorView: activityIndicatorView)
         }
@@ -27,12 +29,18 @@ class AlertModel{
             
         }
         
-        aleat.addAction(exit)
-        aleat.addAction(cancel)
-        viewController.present(aleat, animated: true, completion: nil)
+        alert.addAction(exit)
+        alert.addAction(cancel)
+        viewController.present(alert, animated: true, completion: nil)
     }
     
-   
+    func errorAlert(viewController:UIViewController){
+        let alert = UIAlertController(title: "予期せぬエラーが発生しました", message: "アプリを閉じてもう一度やり直してください", preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "OK", style: .cancel,handler: nil)
+        
+        alert.addAction(cancel)
+        viewController.present(alert, animated: true, completion: nil)
+    }
     
     
     func satsueiAlert(viewController:UIViewController){
@@ -57,7 +65,6 @@ class AlertModel{
     
     func createImagePicker(sourceType:UIImagePickerController.SourceType,CreateImagePicker:UIViewController){
         
-        //インスタンスを作成
         let cameraPicker = UIImagePickerController()
         cameraPicker.sourceType = sourceType
         cameraPicker.allowsEditing = false
@@ -66,10 +73,7 @@ class AlertModel{
         
     }
    
-   
-    
-    //auth内データ更新のため変更_山口
-    func passWordAlert(viewController:UIViewController,userInfo:[String]){
+   func passWordAlert(viewController:UIViewController,userInfo:[String]){
         
         let nilAlert = UIAlertController(title: "未入力です", message: "", preferredStyle: .alert)
         let alert = UIAlertController(title: "パスワードが違います", message: "", preferredStyle: .alert)

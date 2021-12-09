@@ -140,9 +140,6 @@ class PaymentViewController: UIViewController{
             
             dismiss(animated: true, completion: nil)
         }else{
-            //空だった場合の処理をお願いします
-            //ここに来たのは２回目です。elseの処理がわかりません。お願いします。
-            //支払名、カテゴリなどが空だったらどうしましょうか。時間が無いので先進みます。
             let alert = UIAlertController(title: "全て必須入力です", message: "", preferredStyle: .alert)
 
             let cancel = UIAlertAction(title: "OK", style: .cancel) { (acrion) in
@@ -192,12 +189,12 @@ extension PaymentViewController: UIPickerViewDelegate,UIPickerViewDataSource{
         paymentDayTextField.inputAccessoryView = toolbarOfPaymentDay
         
         //支払い日の選択期間を取得＆反映
-//        let settlementDayString = UserDefaults.standard.object(forKey: "settlementDay") as! String
-//        let settlementDay = Int(settlementDayString)
-//        dateModel.getPeriodOfTextField(settelemtDay: settlementDay!, completion: { maxDate, minDate in
-//            pickerViewOfPaymentDay.maximumDate = maxDate
-//            pickerViewOfPaymentDay.minimumDate = minDate
-//        })
+        let settlementDayString = UserDefaults.standard.object(forKey: "settlementDay") as! String
+        let settlementDay = Int(settlementDayString)
+        dateModel.getPeriodOfTextField(settelemtDay: settlementDay!, completion: { maxDate, minDate in
+            pickerViewOfPaymentDay.maximumDate = maxDate
+            pickerViewOfPaymentDay.minimumDate = minDate
+        })
         
     }
     

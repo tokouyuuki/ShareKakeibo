@@ -42,6 +42,10 @@ class CreateGroupViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        title = "グループ作成"
+        navigationController?.navigationBar.backgroundColor = .white
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.darkGray]
+        
         searchUserButton.layer.cornerRadius = 5
         
         searchUserButton.addTarget(self, action: #selector(touchDown(_:)), for: .touchDown)
@@ -110,10 +114,7 @@ class CreateGroupViewController: UIViewController{
             sendDBModel.sendGroupImage(data: data!, activityIndicatorView: activityIndicatorView)
         }
     }
-    
-    @IBAction func back(_ sender: Any) {
-        navigationController?.popViewController(animated: true)
-    }
+
     
     @IBAction func groupImageView(_ sender: Any) {
         alertModel.satsueiAlert(viewController: self)
@@ -200,38 +201,44 @@ extension CreateGroupViewController:CropViewControllerDelegate,UIImagePickerCont
 //MARK:- SendOKDelegate
 extension CreateGroupViewController:SendOKDelegate{
     
-    func sendImage_OK(url: String) {
-        let groupDocument = db.collection("groupManagement").document()
-        let groupID = groupDocument.documentID
-        UserDefaults.standard.setValue(groupID, forKey: "groupID")
-        
-        db.collection("groupManagement").document(groupID).setData([
-            "groupName": groupNameTextField.text!,
-            "groupImage": url,
-            "settlementDay": settlementTextField.text!,
-            "groupID": groupID,
-            "settlementDic": ["\(userID)": false],
-            "userIDArray": [userID],
-            "create_at": Date().timeIntervalSince1970
-        ])
-        
-        db.collection("userManagement").document(userID).setData([
-            "joinGroupDic" : ["\(groupID)": true]
-        ],merge: true)
-        
-        print(userIDArray)
-        userIDArray.removeAll(where: {$0 == userID})
-        print(userIDArray)
-        
-        for usersID in userIDArray{
-            db.collection("userManagement").document(usersID).setData([
-                "joinGroupDic":["\(groupID)": false]
-            ], merge: true)
-        }
-        
-        activityIndicatorView.stopAnimating()
-        navigationController?.popViewController(animated: true)
-    }
+    func sendImage_OK(url: String, storagePath: String?) {
+           let groupDocument = db.collection("groupManagement").document()
+           let groupID = groupDocument.documentID
+           UserDefaults.standard.setValue(groupID, forKey: "groupID")
+           
+           let dateModel = DateModel()
+           let nextSettlementDay = dateModel.getNextSettlement(settlement: settlementTextField.text!)
+           let notificationModel = NotificationModel()
+        notificationModel.registerNotificarionOfSettlement(groupName:groupNameTextField.text!,groupID: groupID,settlementDay: settlementTextField.text!)
+           
+           db.collection("groupManagement").document(groupID).setData([
+               "groupName": groupNameTextField.text!,
+               "groupImage": url,
+               "groupStoragePath": storagePath!,
+               "settlementDay": settlementTextField.text!,
+               "nextSettlementDay":nextSettlementDay,
+               "groupID": groupID,
+               "settlementDic": ["\(userID)": false],
+               "userIDArray": [userID],
+               "create_at": Date().timeIntervalSince1970
+           ])
+           
+           db.collection("userManagement").document(userID).setData([
+               "joinGroupDic" : ["\(groupID)": true]
+           ],merge: true)
+           
+           userIDArray.removeAll(where: {$0 == userID})
+           
+           for usersID in userIDArray{
+               db.collection("userManagement").document(usersID).setData([
+                   "joinGroupDic":["\(groupID)": false]
+               ], merge: true)
+           }
+           
+           activityIndicatorView.stopAnimating()
+           let index = navigationController!.viewControllers.count - 3
+           navigationController?.popToViewController(navigationController!.viewControllers[index], animated: true)
+       }
     
 }
 //MARK:- Picker
@@ -274,13 +281,10 @@ extension CreateGroupViewController:UIPickerViewDelegate,UIPickerViewDataSource{
 extension CreateGroupViewController:CollectionDeligate{
     
     func SendArray(selectedUserImageArray: [String], userIDArray: [String], userNameArray: [String]) {
-        print(selectedUserImageArray)
-        print(userIDArray)
         self.selectedUserImageArray = selectedUserImageArray
         self.userIDArray = userIDArray
         self.userNameArray = userNameArray
         collectionView.reloadData()
-        print(self.userIDArray)
     }
     
 }

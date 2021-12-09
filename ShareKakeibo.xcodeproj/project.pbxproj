@@ -7,122 +7,124 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2235ACD3275385CE00FC57DE /* LoadDBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2235ACD2275385CE00FC57DE /* LoadDBModel.swift */; };
-		224A55EE274FFA41004589B5 /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A55E6274FFA40004589B5 /* AlertModel.swift */; };
-		224A55EF274FFA41004589B5 /* GraphModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A55E7274FFA40004589B5 /* GraphModel.swift */; };
-		224A55F0274FFA41004589B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A55E8274FFA40004589B5 /* AppDelegate.swift */; };
-		224A55F1274FFA41004589B5 /* ButtonAnimatedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A55E9274FFA40004589B5 /* ButtonAnimatedModel.swift */; };
-		224A55F2274FFA41004589B5 /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A55EA274FFA40004589B5 /* LoginModel.swift */; };
-		224A55F3274FFA41004589B5 /* DateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A55EB274FFA40004589B5 /* DateModel.swift */; };
-		224A55F4274FFA41004589B5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A55EC274FFA40004589B5 /* SceneDelegate.swift */; };
-		224A55F5274FFA41004589B5 /* ChangeCommaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A55ED274FFA41004589B5 /* ChangeCommaModel.swift */; };
-		224A55F9274FFA4D004589B5 /* SendDBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A55F6274FFA4D004589B5 /* SendDBModel.swift */; };
-		224A55FB274FFA4D004589B5 /* EditDBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A55F8274FFA4D004589B5 /* EditDBModel.swift */; };
-		224A5603274FFA5D004589B5 /* MonthMyDetailsSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A55FC274FFA5C004589B5 /* MonthMyDetailsSets.swift */; };
-		224A5604274FFA5D004589B5 /* UserSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A55FD274FFA5C004589B5 /* UserSets.swift */; };
-		224A5605274FFA5D004589B5 /* GroupSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A55FE274FFA5C004589B5 /* GroupSets.swift */; };
-		224A5606274FFA5D004589B5 /* UserSearchSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A55FF274FFA5C004589B5 /* UserSearchSets.swift */; };
-		224A5607274FFA5D004589B5 /* SettlementSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A5600274FFA5C004589B5 /* SettlementSets.swift */; };
-		224A5608274FFA5D004589B5 /* MonthGroupDetailsSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A5601274FFA5C004589B5 /* MonthGroupDetailsSets.swift */; };
-		224A5609274FFA5D004589B5 /* NotificationSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A5602274FFA5D004589B5 /* NotificationSets.swift */; };
-		224A561A274FFA79004589B5 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A5618274FFA79004589B5 /* RegisterViewController.swift */; };
-		224A561B274FFA79004589B5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A5619274FFA79004589B5 /* LoginViewController.swift */; };
-		224A5623274FFA87004589B5 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A561C274FFA87004589B5 /* NotificationViewController.swift */; };
-		224A5624274FFA87004589B5 /* CreateGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A561D274FFA87004589B5 /* CreateGroupViewController.swift */; };
-		224A5625274FFA87004589B5 /* NewGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A561E274FFA87004589B5 /* NewGroupViewController.swift */; };
-		224A5626274FFA87004589B5 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A561F274FFA87004589B5 /* ProfileViewController.swift */; };
-		224A5627274FFA87004589B5 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A5620274FFA87004589B5 /* SearchViewController.swift */; };
-		224A5628274FFA87004589B5 /* ProfileConfigurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A5621274FFA87004589B5 /* ProfileConfigurationViewController.swift */; };
-		224A5629274FFA87004589B5 /* ProfileDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A5622274FFA87004589B5 /* ProfileDetailViewController.swift */; };
-		224A5644274FFAA6004589B5 /* FoodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A5640274FFAA6004589B5 /* FoodViewController.swift */; };
-		224A5645274FFAA6004589B5 /* UtilityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A5641274FFAA6004589B5 /* UtilityViewController.swift */; };
-		224A5646274FFAA6004589B5 /* OthersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A5642274FFAA6004589B5 /* OthersViewController.swift */; };
-		224A5647274FFAA6004589B5 /* OverAllViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A5643274FFAA6004589B5 /* OverAllViewController.swift */; };
-		224A564C274FFAB4004589B5 /* DetailMyselfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A5648274FFAB4004589B5 /* DetailMyselfViewController.swift */; };
-		224A564D274FFAB4004589B5 /* DetailAllViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A5649274FFAB4004589B5 /* DetailAllViewController.swift */; };
-		224A564E274FFAB4004589B5 /* DetailAllLastMonthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A564A274FFAB4004589B5 /* DetailAllLastMonthViewController.swift */; };
-		224A564F274FFAB4004589B5 /* DetailMyselfLastMonthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A564B274FFAB4004589B5 /* DetailMyselfLastMonthViewController.swift */; };
-		224A565B274FFEA3004589B5 /* GroupConfigurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A5650274FFEA2004589B5 /* GroupConfigurationViewController.swift */; };
-		224A565C274FFEA3004589B5 /* GroupDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A5651274FFEA2004589B5 /* GroupDetailViewController.swift */; };
-		224A565D274FFEA3004589B5 /* MonthDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A5652274FFEA2004589B5 /* MonthDataViewController.swift */; };
-		224A565E274FFEA3004589B5 /* GroupMemberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A5653274FFEA2004589B5 /* GroupMemberViewController.swift */; };
-		224A565F274FFEA3004589B5 /* MonthlyDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A5654274FFEA2004589B5 /* MonthlyDataViewController.swift */; };
-		224A5660274FFEA3004589B5 /* PaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A5655274FFEA2004589B5 /* PaymentViewController.swift */; };
-		224A5661274FFEA3004589B5 /* LastMonthDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A5656274FFEA2004589B5 /* LastMonthDataViewController.swift */; };
-		224A5662274FFEA3004589B5 /* SettlementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A5657274FFEA2004589B5 /* SettlementViewController.swift */; };
-		224A5663274FFEA3004589B5 /* AdditionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A5658274FFEA3004589B5 /* AdditionViewController.swift */; };
-		224A5664274FFEA3004589B5 /* DetailLastMonthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A5659274FFEA3004589B5 /* DetailLastMonthViewController.swift */; };
-		224A5665274FFEA3004589B5 /* DetailThisMonthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A565A274FFEA3004589B5 /* DetailThisMonthViewController.swift */; };
-		224A566D274FFEE9004589B5 /* ProfileConfigurationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 224A5666274FFEE9004589B5 /* ProfileConfigurationCell.xib */; };
-		224A566E274FFEE9004589B5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 224A5667274FFEE9004589B5 /* Main.storyboard */; };
-		224A566F274FFEE9004589B5 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A5668274FFEE9004589B5 /* CollectionViewCell.swift */; };
-		224A5670274FFEE9004589B5 /* DetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A5669274FFEE9004589B5 /* DetailCell.swift */; };
-		224A5671274FFEE9004589B5 /* DetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 224A566A274FFEE9004589B5 /* DetailCell.xib */; };
-		224A5672274FFEE9004589B5 /* ProfileConfigurationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A566B274FFEE9004589B5 /* ProfileConfigurationCell.swift */; };
-		224A5673274FFEE9004589B5 /* CollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 224A566C274FFEE9004589B5 /* CollectionViewCell.xib */; };
+		2200348A27619D0800F2A859 /* GraphModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2200348127619D0700F2A859 /* GraphModel.swift */; };
+		2200348B27619D0800F2A859 /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2200348227619D0700F2A859 /* LoginModel.swift */; };
+		2200348C27619D0800F2A859 /* NotificationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2200348327619D0700F2A859 /* NotificationModel.swift */; };
+		2200348D27619D0800F2A859 /* ChangeCommaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2200348427619D0700F2A859 /* ChangeCommaModel.swift */; };
+		2200348E27619D0800F2A859 /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2200348527619D0700F2A859 /* AlertModel.swift */; };
+		2200348F27619D0800F2A859 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2200348627619D0700F2A859 /* SceneDelegate.swift */; };
+		2200349027619D0800F2A859 /* ButtonAnimatedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2200348727619D0800F2A859 /* ButtonAnimatedModel.swift */; };
+		2200349127619D0800F2A859 /* DateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2200348827619D0800F2A859 /* DateModel.swift */; };
+		2200349227619D0800F2A859 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2200348927619D0800F2A859 /* AppDelegate.swift */; };
+		2200349627619D1A00F2A859 /* LoadDBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2200349327619D1A00F2A859 /* LoadDBModel.swift */; };
+		2200349727619D1A00F2A859 /* EditDBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2200349427619D1A00F2A859 /* EditDBModel.swift */; };
+		2200349827619D1A00F2A859 /* SendDBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2200349527619D1A00F2A859 /* SendDBModel.swift */; };
+		220034A027619D2900F2A859 /* GroupSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2200349927619D2900F2A859 /* GroupSets.swift */; };
+		220034A127619D2900F2A859 /* UserSearchSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2200349A27619D2900F2A859 /* UserSearchSets.swift */; };
+		220034A227619D2900F2A859 /* NotificationSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2200349B27619D2900F2A859 /* NotificationSets.swift */; };
+		220034A327619D2900F2A859 /* SettlementSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2200349C27619D2900F2A859 /* SettlementSets.swift */; };
+		220034A427619D2900F2A859 /* MonthMyDetailsSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2200349D27619D2900F2A859 /* MonthMyDetailsSets.swift */; };
+		220034A527619D2900F2A859 /* MonthGroupDetailsSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2200349E27619D2900F2A859 /* MonthGroupDetailsSets.swift */; };
+		220034A627619D2900F2A859 /* UserSets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2200349F27619D2900F2A859 /* UserSets.swift */; };
+		220034AF27619D3D00F2A859 /* ProfileConfigurationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 220034A727619D3C00F2A859 /* ProfileConfigurationCell.xib */; };
+		220034B027619D3D00F2A859 /* CollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 220034A827619D3C00F2A859 /* CollectionViewCell.xib */; };
+		220034B127619D3D00F2A859 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220034A927619D3C00F2A859 /* CollectionViewCell.swift */; };
+		220034B227619D3D00F2A859 /* ProfileConfigurationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220034AA27619D3C00F2A859 /* ProfileConfigurationCell.swift */; };
+		220034B327619D3D00F2A859 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 220034AB27619D3D00F2A859 /* LaunchScreen.storyboard */; };
+		220034B427619D3D00F2A859 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 220034AC27619D3D00F2A859 /* Main.storyboard */; };
+		220034B527619D3D00F2A859 /* DetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 220034AD27619D3D00F2A859 /* DetailCell.xib */; };
+		220034B627619D3D00F2A859 /* DetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220034AE27619D3D00F2A859 /* DetailCell.swift */; };
+		220034B927619D4C00F2A859 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220034B727619D4C00F2A859 /* LoginViewController.swift */; };
+		220034BA27619D4C00F2A859 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220034B827619D4C00F2A859 /* RegisterViewController.swift */; };
+		220034C227619D5E00F2A859 /* ProfileDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220034BB27619D5D00F2A859 /* ProfileDetailViewController.swift */; };
+		220034C327619D5E00F2A859 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220034BC27619D5D00F2A859 /* NotificationViewController.swift */; };
+		220034C427619D5E00F2A859 /* NewGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220034BD27619D5D00F2A859 /* NewGroupViewController.swift */; };
+		220034C527619D5E00F2A859 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220034BE27619D5D00F2A859 /* ProfileViewController.swift */; };
+		220034C627619D5E00F2A859 /* CreateGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220034BF27619D5D00F2A859 /* CreateGroupViewController.swift */; };
+		220034C727619D5E00F2A859 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220034C027619D5E00F2A859 /* SearchViewController.swift */; };
+		220034C827619D5E00F2A859 /* ProfileConfigurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220034C127619D5E00F2A859 /* ProfileConfigurationViewController.swift */; };
+		220034D427619D7500F2A859 /* GroupConfigurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220034C927619D7400F2A859 /* GroupConfigurationViewController.swift */; };
+		220034D527619D7500F2A859 /* GroupMemberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220034CA27619D7400F2A859 /* GroupMemberViewController.swift */; };
+		220034D627619D7500F2A859 /* AdditionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220034CB27619D7400F2A859 /* AdditionViewController.swift */; };
+		220034D727619D7500F2A859 /* DetailLastMonthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220034CC27619D7400F2A859 /* DetailLastMonthViewController.swift */; };
+		220034D827619D7500F2A859 /* GroupDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220034CD27619D7400F2A859 /* GroupDetailViewController.swift */; };
+		220034D927619D7500F2A859 /* SettlementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220034CE27619D7400F2A859 /* SettlementViewController.swift */; };
+		220034DA27619D7500F2A859 /* LastMonthDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220034CF27619D7400F2A859 /* LastMonthDataViewController.swift */; };
+		220034DB27619D7500F2A859 /* MonthDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220034D027619D7500F2A859 /* MonthDataViewController.swift */; };
+		220034DC27619D7500F2A859 /* PaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220034D127619D7500F2A859 /* PaymentViewController.swift */; };
+		220034DD27619D7500F2A859 /* DetailThisMonthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220034D227619D7500F2A859 /* DetailThisMonthViewController.swift */; };
+		220034DE27619D7500F2A859 /* MonthlyDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220034D327619D7500F2A859 /* MonthlyDataViewController.swift */; };
+		220034E327619D8300F2A859 /* FoodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220034DF27619D8300F2A859 /* FoodViewController.swift */; };
+		220034E427619D8300F2A859 /* UtilityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220034E027619D8300F2A859 /* UtilityViewController.swift */; };
+		220034E527619D8300F2A859 /* OverAllViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220034E127619D8300F2A859 /* OverAllViewController.swift */; };
+		220034E627619D8300F2A859 /* OthersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220034E227619D8300F2A859 /* OthersViewController.swift */; };
+		220034EB27619D9000F2A859 /* DetailMyselfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220034E727619D9000F2A859 /* DetailMyselfViewController.swift */; };
+		220034EC27619D9000F2A859 /* DetailMyselfLastMonthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220034E827619D9000F2A859 /* DetailMyselfLastMonthViewController.swift */; };
+		220034ED27619D9000F2A859 /* DetailAllLastMonthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220034E927619D9000F2A859 /* DetailAllLastMonthViewController.swift */; };
+		220034EE27619D9000F2A859 /* DetailAllViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220034EA27619D9000F2A859 /* DetailAllViewController.swift */; };
 		225E642E2738165E0040FB1A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 225E642D2738165E0040FB1A /* Assets.xcassets */; };
-		225E64312738165E0040FB1A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 225E642F2738165E0040FB1A /* LaunchScreen.storyboard */; };
 		225E643A273818630040FB1A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 225E6439273818630040FB1A /* GoogleService-Info.plist */; };
 		4B84650965713B51B234DA29 /* Pods_ShareKakeibo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37055A8E67BDC2AF04432771 /* Pods_ShareKakeibo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2235ACD2275385CE00FC57DE /* LoadDBModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadDBModel.swift; sourceTree = "<group>"; };
-		224A55E6274FFA40004589B5 /* AlertModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
-		224A55E7274FFA40004589B5 /* GraphModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphModel.swift; sourceTree = "<group>"; };
-		224A55E8274FFA40004589B5 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		224A55E9274FFA40004589B5 /* ButtonAnimatedModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonAnimatedModel.swift; sourceTree = "<group>"; };
-		224A55EA274FFA40004589B5 /* LoginModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
-		224A55EB274FFA40004589B5 /* DateModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateModel.swift; sourceTree = "<group>"; };
-		224A55EC274FFA40004589B5 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		224A55ED274FFA41004589B5 /* ChangeCommaModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeCommaModel.swift; sourceTree = "<group>"; };
-		224A55F6274FFA4D004589B5 /* SendDBModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendDBModel.swift; sourceTree = "<group>"; };
-		224A55F8274FFA4D004589B5 /* EditDBModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditDBModel.swift; sourceTree = "<group>"; };
-		224A55FC274FFA5C004589B5 /* MonthMyDetailsSets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonthMyDetailsSets.swift; sourceTree = "<group>"; };
-		224A55FD274FFA5C004589B5 /* UserSets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSets.swift; sourceTree = "<group>"; };
-		224A55FE274FFA5C004589B5 /* GroupSets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupSets.swift; sourceTree = "<group>"; };
-		224A55FF274FFA5C004589B5 /* UserSearchSets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSearchSets.swift; sourceTree = "<group>"; };
-		224A5600274FFA5C004589B5 /* SettlementSets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettlementSets.swift; sourceTree = "<group>"; };
-		224A5601274FFA5C004589B5 /* MonthGroupDetailsSets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonthGroupDetailsSets.swift; sourceTree = "<group>"; };
-		224A5602274FFA5D004589B5 /* NotificationSets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationSets.swift; sourceTree = "<group>"; };
-		224A5618274FFA79004589B5 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
-		224A5619274FFA79004589B5 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		224A561C274FFA87004589B5 /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
-		224A561D274FFA87004589B5 /* CreateGroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateGroupViewController.swift; sourceTree = "<group>"; };
-		224A561E274FFA87004589B5 /* NewGroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewGroupViewController.swift; sourceTree = "<group>"; };
-		224A561F274FFA87004589B5 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		224A5620274FFA87004589B5 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
-		224A5621274FFA87004589B5 /* ProfileConfigurationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileConfigurationViewController.swift; sourceTree = "<group>"; };
-		224A5622274FFA87004589B5 /* ProfileDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileDetailViewController.swift; sourceTree = "<group>"; };
-		224A5640274FFAA6004589B5 /* FoodViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodViewController.swift; sourceTree = "<group>"; };
-		224A5641274FFAA6004589B5 /* UtilityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilityViewController.swift; sourceTree = "<group>"; };
-		224A5642274FFAA6004589B5 /* OthersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OthersViewController.swift; sourceTree = "<group>"; };
-		224A5643274FFAA6004589B5 /* OverAllViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverAllViewController.swift; sourceTree = "<group>"; };
-		224A5648274FFAB4004589B5 /* DetailMyselfViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailMyselfViewController.swift; sourceTree = "<group>"; };
-		224A5649274FFAB4004589B5 /* DetailAllViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailAllViewController.swift; sourceTree = "<group>"; };
-		224A564A274FFAB4004589B5 /* DetailAllLastMonthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailAllLastMonthViewController.swift; sourceTree = "<group>"; };
-		224A564B274FFAB4004589B5 /* DetailMyselfLastMonthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailMyselfLastMonthViewController.swift; sourceTree = "<group>"; };
-		224A5650274FFEA2004589B5 /* GroupConfigurationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupConfigurationViewController.swift; sourceTree = "<group>"; };
-		224A5651274FFEA2004589B5 /* GroupDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupDetailViewController.swift; sourceTree = "<group>"; };
-		224A5652274FFEA2004589B5 /* MonthDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonthDataViewController.swift; sourceTree = "<group>"; };
-		224A5653274FFEA2004589B5 /* GroupMemberViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupMemberViewController.swift; sourceTree = "<group>"; };
-		224A5654274FFEA2004589B5 /* MonthlyDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonthlyDataViewController.swift; sourceTree = "<group>"; };
-		224A5655274FFEA2004589B5 /* PaymentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentViewController.swift; sourceTree = "<group>"; };
-		224A5656274FFEA2004589B5 /* LastMonthDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LastMonthDataViewController.swift; sourceTree = "<group>"; };
-		224A5657274FFEA2004589B5 /* SettlementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettlementViewController.swift; sourceTree = "<group>"; };
-		224A5658274FFEA3004589B5 /* AdditionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdditionViewController.swift; sourceTree = "<group>"; };
-		224A5659274FFEA3004589B5 /* DetailLastMonthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailLastMonthViewController.swift; sourceTree = "<group>"; };
-		224A565A274FFEA3004589B5 /* DetailThisMonthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailThisMonthViewController.swift; sourceTree = "<group>"; };
-		224A5666274FFEE9004589B5 /* ProfileConfigurationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileConfigurationCell.xib; sourceTree = "<group>"; };
-		224A5667274FFEE9004589B5 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		224A5668274FFEE9004589B5 /* CollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
-		224A5669274FFEE9004589B5 /* DetailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailCell.swift; sourceTree = "<group>"; };
-		224A566A274FFEE9004589B5 /* DetailCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailCell.xib; sourceTree = "<group>"; };
-		224A566B274FFEE9004589B5 /* ProfileConfigurationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileConfigurationCell.swift; sourceTree = "<group>"; };
-		224A566C274FFEE9004589B5 /* CollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewCell.xib; sourceTree = "<group>"; };
+		2200348127619D0700F2A859 /* GraphModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphModel.swift; sourceTree = "<group>"; };
+		2200348227619D0700F2A859 /* LoginModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
+		2200348327619D0700F2A859 /* NotificationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationModel.swift; sourceTree = "<group>"; };
+		2200348427619D0700F2A859 /* ChangeCommaModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeCommaModel.swift; sourceTree = "<group>"; };
+		2200348527619D0700F2A859 /* AlertModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
+		2200348627619D0700F2A859 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		2200348727619D0800F2A859 /* ButtonAnimatedModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonAnimatedModel.swift; sourceTree = "<group>"; };
+		2200348827619D0800F2A859 /* DateModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateModel.swift; sourceTree = "<group>"; };
+		2200348927619D0800F2A859 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		2200349327619D1A00F2A859 /* LoadDBModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadDBModel.swift; sourceTree = "<group>"; };
+		2200349427619D1A00F2A859 /* EditDBModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditDBModel.swift; sourceTree = "<group>"; };
+		2200349527619D1A00F2A859 /* SendDBModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendDBModel.swift; sourceTree = "<group>"; };
+		2200349927619D2900F2A859 /* GroupSets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupSets.swift; sourceTree = "<group>"; };
+		2200349A27619D2900F2A859 /* UserSearchSets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSearchSets.swift; sourceTree = "<group>"; };
+		2200349B27619D2900F2A859 /* NotificationSets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationSets.swift; sourceTree = "<group>"; };
+		2200349C27619D2900F2A859 /* SettlementSets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettlementSets.swift; sourceTree = "<group>"; };
+		2200349D27619D2900F2A859 /* MonthMyDetailsSets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonthMyDetailsSets.swift; sourceTree = "<group>"; };
+		2200349E27619D2900F2A859 /* MonthGroupDetailsSets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonthGroupDetailsSets.swift; sourceTree = "<group>"; };
+		2200349F27619D2900F2A859 /* UserSets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSets.swift; sourceTree = "<group>"; };
+		220034A727619D3C00F2A859 /* ProfileConfigurationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileConfigurationCell.xib; sourceTree = "<group>"; };
+		220034A827619D3C00F2A859 /* CollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewCell.xib; sourceTree = "<group>"; };
+		220034A927619D3C00F2A859 /* CollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
+		220034AA27619D3C00F2A859 /* ProfileConfigurationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileConfigurationCell.swift; sourceTree = "<group>"; };
+		220034AB27619D3D00F2A859 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		220034AC27619D3D00F2A859 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		220034AD27619D3D00F2A859 /* DetailCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailCell.xib; sourceTree = "<group>"; };
+		220034AE27619D3D00F2A859 /* DetailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailCell.swift; sourceTree = "<group>"; };
+		220034B727619D4C00F2A859 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		220034B827619D4C00F2A859 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		220034BB27619D5D00F2A859 /* ProfileDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileDetailViewController.swift; sourceTree = "<group>"; };
+		220034BC27619D5D00F2A859 /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
+		220034BD27619D5D00F2A859 /* NewGroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewGroupViewController.swift; sourceTree = "<group>"; };
+		220034BE27619D5D00F2A859 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		220034BF27619D5D00F2A859 /* CreateGroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateGroupViewController.swift; sourceTree = "<group>"; };
+		220034C027619D5E00F2A859 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		220034C127619D5E00F2A859 /* ProfileConfigurationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileConfigurationViewController.swift; sourceTree = "<group>"; };
+		220034C927619D7400F2A859 /* GroupConfigurationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupConfigurationViewController.swift; sourceTree = "<group>"; };
+		220034CA27619D7400F2A859 /* GroupMemberViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupMemberViewController.swift; sourceTree = "<group>"; };
+		220034CB27619D7400F2A859 /* AdditionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdditionViewController.swift; sourceTree = "<group>"; };
+		220034CC27619D7400F2A859 /* DetailLastMonthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailLastMonthViewController.swift; sourceTree = "<group>"; };
+		220034CD27619D7400F2A859 /* GroupDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupDetailViewController.swift; sourceTree = "<group>"; };
+		220034CE27619D7400F2A859 /* SettlementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettlementViewController.swift; sourceTree = "<group>"; };
+		220034CF27619D7400F2A859 /* LastMonthDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LastMonthDataViewController.swift; sourceTree = "<group>"; };
+		220034D027619D7500F2A859 /* MonthDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonthDataViewController.swift; sourceTree = "<group>"; };
+		220034D127619D7500F2A859 /* PaymentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentViewController.swift; sourceTree = "<group>"; };
+		220034D227619D7500F2A859 /* DetailThisMonthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailThisMonthViewController.swift; sourceTree = "<group>"; };
+		220034D327619D7500F2A859 /* MonthlyDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonthlyDataViewController.swift; sourceTree = "<group>"; };
+		220034DF27619D8300F2A859 /* FoodViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoodViewController.swift; sourceTree = "<group>"; };
+		220034E027619D8300F2A859 /* UtilityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilityViewController.swift; sourceTree = "<group>"; };
+		220034E127619D8300F2A859 /* OverAllViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverAllViewController.swift; sourceTree = "<group>"; };
+		220034E227619D8300F2A859 /* OthersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OthersViewController.swift; sourceTree = "<group>"; };
+		220034E727619D9000F2A859 /* DetailMyselfViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailMyselfViewController.swift; sourceTree = "<group>"; };
+		220034E827619D9000F2A859 /* DetailMyselfLastMonthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailMyselfLastMonthViewController.swift; sourceTree = "<group>"; };
+		220034E927619D9000F2A859 /* DetailAllLastMonthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailAllLastMonthViewController.swift; sourceTree = "<group>"; };
+		220034EA27619D9000F2A859 /* DetailAllViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailAllViewController.swift; sourceTree = "<group>"; };
 		225E64212738165D0040FB1A /* ShareKakeibo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShareKakeibo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		225E642D2738165E0040FB1A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		225E64302738165E0040FB1A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		225E64322738165E0040FB1A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		225E6439273818630040FB1A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		37055A8E67BDC2AF04432771 /* Pods_ShareKakeibo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShareKakeibo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -145,14 +147,15 @@
 		220556FA2738199C00B8C683 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				224A55E6274FFA40004589B5 /* AlertModel.swift */,
-				224A55E8274FFA40004589B5 /* AppDelegate.swift */,
-				224A55E9274FFA40004589B5 /* ButtonAnimatedModel.swift */,
-				224A55ED274FFA41004589B5 /* ChangeCommaModel.swift */,
-				224A55EB274FFA40004589B5 /* DateModel.swift */,
-				224A55E7274FFA40004589B5 /* GraphModel.swift */,
-				224A55EA274FFA40004589B5 /* LoginModel.swift */,
-				224A55EC274FFA40004589B5 /* SceneDelegate.swift */,
+				2200348527619D0700F2A859 /* AlertModel.swift */,
+				2200348927619D0800F2A859 /* AppDelegate.swift */,
+				2200348727619D0800F2A859 /* ButtonAnimatedModel.swift */,
+				2200348427619D0700F2A859 /* ChangeCommaModel.swift */,
+				2200348827619D0800F2A859 /* DateModel.swift */,
+				2200348127619D0700F2A859 /* GraphModel.swift */,
+				2200348227619D0700F2A859 /* LoginModel.swift */,
+				2200348327619D0700F2A859 /* NotificationModel.swift */,
+				2200348627619D0700F2A859 /* SceneDelegate.swift */,
 				22055701273819E500B8C683 /* loadModel */,
 			);
 			path = Model;
@@ -161,9 +164,9 @@
 		22055701273819E500B8C683 /* loadModel */ = {
 			isa = PBXGroup;
 			children = (
-				224A55F8274FFA4D004589B5 /* EditDBModel.swift */,
-				2235ACD2275385CE00FC57DE /* LoadDBModel.swift */,
-				224A55F6274FFA4D004589B5 /* SendDBModel.swift */,
+				2200349427619D1A00F2A859 /* EditDBModel.swift */,
+				2200349327619D1A00F2A859 /* LoadDBModel.swift */,
+				2200349527619D1A00F2A859 /* SendDBModel.swift */,
 				2205576527383A9000B8C683 /* DataSets */,
 			);
 			path = loadModel;
@@ -172,13 +175,14 @@
 		2205571A27381A2C00B8C683 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				224A5668274FFEE9004589B5 /* CollectionViewCell.swift */,
-				224A566C274FFEE9004589B5 /* CollectionViewCell.xib */,
-				224A5669274FFEE9004589B5 /* DetailCell.swift */,
-				224A566A274FFEE9004589B5 /* DetailCell.xib */,
-				224A5667274FFEE9004589B5 /* Main.storyboard */,
-				224A566B274FFEE9004589B5 /* ProfileConfigurationCell.swift */,
-				224A5666274FFEE9004589B5 /* ProfileConfigurationCell.xib */,
+				220034A927619D3C00F2A859 /* CollectionViewCell.swift */,
+				220034A827619D3C00F2A859 /* CollectionViewCell.xib */,
+				220034AE27619D3D00F2A859 /* DetailCell.swift */,
+				220034AD27619D3D00F2A859 /* DetailCell.xib */,
+				220034AB27619D3D00F2A859 /* LaunchScreen.storyboard */,
+				220034AC27619D3D00F2A859 /* Main.storyboard */,
+				220034AA27619D3C00F2A859 /* ProfileConfigurationCell.swift */,
+				220034A727619D3C00F2A859 /* ProfileConfigurationCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -186,8 +190,8 @@
 		2205572927381A7E00B8C683 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				224A5619274FFA79004589B5 /* LoginViewController.swift */,
-				224A5618274FFA79004589B5 /* RegisterViewController.swift */,
+				220034B727619D4C00F2A859 /* LoginViewController.swift */,
+				220034B827619D4C00F2A859 /* RegisterViewController.swift */,
 				2205572E27381AC700B8C683 /* Profile */,
 				221B871627482FAE0000122F /* Group */,
 			);
@@ -197,13 +201,13 @@
 		2205572E27381AC700B8C683 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				224A561D274FFA87004589B5 /* CreateGroupViewController.swift */,
-				224A561E274FFA87004589B5 /* NewGroupViewController.swift */,
-				224A561C274FFA87004589B5 /* NotificationViewController.swift */,
-				224A5621274FFA87004589B5 /* ProfileConfigurationViewController.swift */,
-				224A5622274FFA87004589B5 /* ProfileDetailViewController.swift */,
-				224A561F274FFA87004589B5 /* ProfileViewController.swift */,
-				224A5620274FFA87004589B5 /* SearchViewController.swift */,
+				220034BF27619D5D00F2A859 /* CreateGroupViewController.swift */,
+				220034BD27619D5D00F2A859 /* NewGroupViewController.swift */,
+				220034BC27619D5D00F2A859 /* NotificationViewController.swift */,
+				220034C127619D5E00F2A859 /* ProfileConfigurationViewController.swift */,
+				220034BB27619D5D00F2A859 /* ProfileDetailViewController.swift */,
+				220034BE27619D5D00F2A859 /* ProfileViewController.swift */,
+				220034C027619D5E00F2A859 /* SearchViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -211,10 +215,10 @@
 		2205575327381B3A00B8C683 /* PagingController */ = {
 			isa = PBXGroup;
 			children = (
-				224A5640274FFAA6004589B5 /* FoodViewController.swift */,
-				224A5642274FFAA6004589B5 /* OthersViewController.swift */,
-				224A5643274FFAA6004589B5 /* OverAllViewController.swift */,
-				224A5641274FFAA6004589B5 /* UtilityViewController.swift */,
+				220034DF27619D8300F2A859 /* FoodViewController.swift */,
+				220034E227619D8300F2A859 /* OthersViewController.swift */,
+				220034E127619D8300F2A859 /* OverAllViewController.swift */,
+				220034E027619D8300F2A859 /* UtilityViewController.swift */,
 				2205575C27381B6D00B8C683 /* DetailController */,
 			);
 			path = PagingController;
@@ -223,10 +227,10 @@
 		2205575C27381B6D00B8C683 /* DetailController */ = {
 			isa = PBXGroup;
 			children = (
-				224A564A274FFAB4004589B5 /* DetailAllLastMonthViewController.swift */,
-				224A5649274FFAB4004589B5 /* DetailAllViewController.swift */,
-				224A564B274FFAB4004589B5 /* DetailMyselfLastMonthViewController.swift */,
-				224A5648274FFAB4004589B5 /* DetailMyselfViewController.swift */,
+				220034E927619D9000F2A859 /* DetailAllLastMonthViewController.swift */,
+				220034EA27619D9000F2A859 /* DetailAllViewController.swift */,
+				220034E827619D9000F2A859 /* DetailMyselfLastMonthViewController.swift */,
+				220034E727619D9000F2A859 /* DetailMyselfViewController.swift */,
 			);
 			path = DetailController;
 			sourceTree = "<group>";
@@ -234,13 +238,13 @@
 		2205576527383A9000B8C683 /* DataSets */ = {
 			isa = PBXGroup;
 			children = (
-				224A55FE274FFA5C004589B5 /* GroupSets.swift */,
-				224A5601274FFA5C004589B5 /* MonthGroupDetailsSets.swift */,
-				224A55FC274FFA5C004589B5 /* MonthMyDetailsSets.swift */,
-				224A5602274FFA5D004589B5 /* NotificationSets.swift */,
-				224A5600274FFA5C004589B5 /* SettlementSets.swift */,
-				224A55FF274FFA5C004589B5 /* UserSearchSets.swift */,
-				224A55FD274FFA5C004589B5 /* UserSets.swift */,
+				2200349927619D2900F2A859 /* GroupSets.swift */,
+				2200349E27619D2900F2A859 /* MonthGroupDetailsSets.swift */,
+				2200349D27619D2900F2A859 /* MonthMyDetailsSets.swift */,
+				2200349B27619D2900F2A859 /* NotificationSets.swift */,
+				2200349C27619D2900F2A859 /* SettlementSets.swift */,
+				2200349A27619D2900F2A859 /* UserSearchSets.swift */,
+				2200349F27619D2900F2A859 /* UserSets.swift */,
 			);
 			path = DataSets;
 			sourceTree = "<group>";
@@ -248,17 +252,17 @@
 		221B871627482FAE0000122F /* Group */ = {
 			isa = PBXGroup;
 			children = (
-				224A5658274FFEA3004589B5 /* AdditionViewController.swift */,
-				224A5659274FFEA3004589B5 /* DetailLastMonthViewController.swift */,
-				224A565A274FFEA3004589B5 /* DetailThisMonthViewController.swift */,
-				224A5650274FFEA2004589B5 /* GroupConfigurationViewController.swift */,
-				224A5651274FFEA2004589B5 /* GroupDetailViewController.swift */,
-				224A5653274FFEA2004589B5 /* GroupMemberViewController.swift */,
-				224A5656274FFEA2004589B5 /* LastMonthDataViewController.swift */,
-				224A5652274FFEA2004589B5 /* MonthDataViewController.swift */,
-				224A5654274FFEA2004589B5 /* MonthlyDataViewController.swift */,
-				224A5655274FFEA2004589B5 /* PaymentViewController.swift */,
-				224A5657274FFEA2004589B5 /* SettlementViewController.swift */,
+				220034CB27619D7400F2A859 /* AdditionViewController.swift */,
+				220034CC27619D7400F2A859 /* DetailLastMonthViewController.swift */,
+				220034D227619D7500F2A859 /* DetailThisMonthViewController.swift */,
+				220034C927619D7400F2A859 /* GroupConfigurationViewController.swift */,
+				220034CD27619D7400F2A859 /* GroupDetailViewController.swift */,
+				220034CA27619D7400F2A859 /* GroupMemberViewController.swift */,
+				220034CF27619D7400F2A859 /* LastMonthDataViewController.swift */,
+				220034D027619D7500F2A859 /* MonthDataViewController.swift */,
+				220034D327619D7500F2A859 /* MonthlyDataViewController.swift */,
+				220034D127619D7500F2A859 /* PaymentViewController.swift */,
+				220034CE27619D7400F2A859 /* SettlementViewController.swift */,
 				2205575327381B3A00B8C683 /* PagingController */,
 			);
 			path = Group;
@@ -289,7 +293,6 @@
 				2205571A27381A2C00B8C683 /* View */,
 				2205572927381A7E00B8C683 /* Controller */,
 				225E642D2738165E0040FB1A /* Assets.xcassets */,
-				225E642F2738165E0040FB1A /* LaunchScreen.storyboard */,
 				225E64322738165E0040FB1A /* Info.plist */,
 				225E6439273818630040FB1A /* GoogleService-Info.plist */,
 			);
@@ -373,13 +376,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				225E64312738165E0040FB1A /* LaunchScreen.storyboard in Resources */,
-				224A5673274FFEE9004589B5 /* CollectionViewCell.xib in Resources */,
-				224A566E274FFEE9004589B5 /* Main.storyboard in Resources */,
-				224A5671274FFEE9004589B5 /* DetailCell.xib in Resources */,
 				225E643A273818630040FB1A /* GoogleService-Info.plist in Resources */,
-				224A566D274FFEE9004589B5 /* ProfileConfigurationCell.xib in Resources */,
 				225E642E2738165E0040FB1A /* Assets.xcassets in Resources */,
+				220034B027619D3D00F2A859 /* CollectionViewCell.xib in Resources */,
+				220034B427619D3D00F2A859 /* Main.storyboard in Resources */,
+				220034B527619D3D00F2A859 /* DetailCell.xib in Resources */,
+				220034B327619D3D00F2A859 /* LaunchScreen.storyboard in Resources */,
+				220034AF27619D3D00F2A859 /* ProfileConfigurationCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -432,70 +435,60 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				224A5661274FFEA3004589B5 /* LastMonthDataViewController.swift in Sources */,
-				224A55F0274FFA41004589B5 /* AppDelegate.swift in Sources */,
-				224A55EE274FFA41004589B5 /* AlertModel.swift in Sources */,
-				224A5623274FFA87004589B5 /* NotificationViewController.swift in Sources */,
-				224A5607274FFA5D004589B5 /* SettlementSets.swift in Sources */,
-				224A564E274FFAB4004589B5 /* DetailAllLastMonthViewController.swift in Sources */,
-				224A565F274FFEA3004589B5 /* MonthlyDataViewController.swift in Sources */,
-				224A5627274FFA87004589B5 /* SearchViewController.swift in Sources */,
-				224A5609274FFA5D004589B5 /* NotificationSets.swift in Sources */,
-				2235ACD3275385CE00FC57DE /* LoadDBModel.swift in Sources */,
-				224A5628274FFA87004589B5 /* ProfileConfigurationViewController.swift in Sources */,
-				224A5629274FFA87004589B5 /* ProfileDetailViewController.swift in Sources */,
-				224A565C274FFEA3004589B5 /* GroupDetailViewController.swift in Sources */,
-				224A564D274FFAB4004589B5 /* DetailAllViewController.swift in Sources */,
-				224A564F274FFAB4004589B5 /* DetailMyselfLastMonthViewController.swift in Sources */,
-				224A5670274FFEE9004589B5 /* DetailCell.swift in Sources */,
-				224A5644274FFAA6004589B5 /* FoodViewController.swift in Sources */,
-				224A55F2274FFA41004589B5 /* LoginModel.swift in Sources */,
-				224A561B274FFA79004589B5 /* LoginViewController.swift in Sources */,
-				224A55F3274FFA41004589B5 /* DateModel.swift in Sources */,
-				224A5604274FFA5D004589B5 /* UserSets.swift in Sources */,
-				224A565D274FFEA3004589B5 /* MonthDataViewController.swift in Sources */,
-				224A564C274FFAB4004589B5 /* DetailMyselfViewController.swift in Sources */,
-				224A5672274FFEE9004589B5 /* ProfileConfigurationCell.swift in Sources */,
-				224A565E274FFEA3004589B5 /* GroupMemberViewController.swift in Sources */,
-				224A5645274FFAA6004589B5 /* UtilityViewController.swift in Sources */,
-				224A55FB274FFA4D004589B5 /* EditDBModel.swift in Sources */,
-				224A55F4274FFA41004589B5 /* SceneDelegate.swift in Sources */,
-				224A55F5274FFA41004589B5 /* ChangeCommaModel.swift in Sources */,
-				224A5647274FFAA6004589B5 /* OverAllViewController.swift in Sources */,
-				224A561A274FFA79004589B5 /* RegisterViewController.swift in Sources */,
-				224A5624274FFA87004589B5 /* CreateGroupViewController.swift in Sources */,
-				224A5608274FFA5D004589B5 /* MonthGroupDetailsSets.swift in Sources */,
-				224A566F274FFEE9004589B5 /* CollectionViewCell.swift in Sources */,
-				224A55F1274FFA41004589B5 /* ButtonAnimatedModel.swift in Sources */,
-				224A5665274FFEA3004589B5 /* DetailThisMonthViewController.swift in Sources */,
-				224A5606274FFA5D004589B5 /* UserSearchSets.swift in Sources */,
-				224A565B274FFEA3004589B5 /* GroupConfigurationViewController.swift in Sources */,
-				224A5646274FFAA6004589B5 /* OthersViewController.swift in Sources */,
-				224A55F9274FFA4D004589B5 /* SendDBModel.swift in Sources */,
-				224A5663274FFEA3004589B5 /* AdditionViewController.swift in Sources */,
-				224A5626274FFA87004589B5 /* ProfileViewController.swift in Sources */,
-				224A5660274FFEA3004589B5 /* PaymentViewController.swift in Sources */,
-				224A5664274FFEA3004589B5 /* DetailLastMonthViewController.swift in Sources */,
-				224A5605274FFA5D004589B5 /* GroupSets.swift in Sources */,
-				224A5625274FFA87004589B5 /* NewGroupViewController.swift in Sources */,
-				224A5603274FFA5D004589B5 /* MonthMyDetailsSets.swift in Sources */,
-				224A55EF274FFA41004589B5 /* GraphModel.swift in Sources */,
-				224A5662274FFEA3004589B5 /* SettlementViewController.swift in Sources */,
+				220034C827619D5E00F2A859 /* ProfileConfigurationViewController.swift in Sources */,
+				2200348A27619D0800F2A859 /* GraphModel.swift in Sources */,
+				2200349827619D1A00F2A859 /* SendDBModel.swift in Sources */,
+				220034DA27619D7500F2A859 /* LastMonthDataViewController.swift in Sources */,
+				220034C327619D5E00F2A859 /* NotificationViewController.swift in Sources */,
+				220034DE27619D7500F2A859 /* MonthlyDataViewController.swift in Sources */,
+				220034C527619D5E00F2A859 /* ProfileViewController.swift in Sources */,
+				220034A327619D2900F2A859 /* SettlementSets.swift in Sources */,
+				2200349127619D0800F2A859 /* DateModel.swift in Sources */,
+				220034A627619D2900F2A859 /* UserSets.swift in Sources */,
+				220034D527619D7500F2A859 /* GroupMemberViewController.swift in Sources */,
+				220034D627619D7500F2A859 /* AdditionViewController.swift in Sources */,
+				220034B927619D4C00F2A859 /* LoginViewController.swift in Sources */,
+				220034A227619D2900F2A859 /* NotificationSets.swift in Sources */,
+				220034B627619D3D00F2A859 /* DetailCell.swift in Sources */,
+				220034D727619D7500F2A859 /* DetailLastMonthViewController.swift in Sources */,
+				220034DC27619D7500F2A859 /* PaymentViewController.swift in Sources */,
+				220034A427619D2900F2A859 /* MonthMyDetailsSets.swift in Sources */,
+				220034DB27619D7500F2A859 /* MonthDataViewController.swift in Sources */,
+				220034B227619D3D00F2A859 /* ProfileConfigurationCell.swift in Sources */,
+				2200349627619D1A00F2A859 /* LoadDBModel.swift in Sources */,
+				2200349727619D1A00F2A859 /* EditDBModel.swift in Sources */,
+				220034C427619D5E00F2A859 /* NewGroupViewController.swift in Sources */,
+				220034E627619D8300F2A859 /* OthersViewController.swift in Sources */,
+				220034E427619D8300F2A859 /* UtilityViewController.swift in Sources */,
+				2200348D27619D0800F2A859 /* ChangeCommaModel.swift in Sources */,
+				220034C627619D5E00F2A859 /* CreateGroupViewController.swift in Sources */,
+				220034E327619D8300F2A859 /* FoodViewController.swift in Sources */,
+				220034E527619D8300F2A859 /* OverAllViewController.swift in Sources */,
+				220034B127619D3D00F2A859 /* CollectionViewCell.swift in Sources */,
+				220034ED27619D9000F2A859 /* DetailAllLastMonthViewController.swift in Sources */,
+				220034C227619D5E00F2A859 /* ProfileDetailViewController.swift in Sources */,
+				220034A527619D2900F2A859 /* MonthGroupDetailsSets.swift in Sources */,
+				220034EE27619D9000F2A859 /* DetailAllViewController.swift in Sources */,
+				220034EC27619D9000F2A859 /* DetailMyselfLastMonthViewController.swift in Sources */,
+				2200349027619D0800F2A859 /* ButtonAnimatedModel.swift in Sources */,
+				220034DD27619D7500F2A859 /* DetailThisMonthViewController.swift in Sources */,
+				2200349227619D0800F2A859 /* AppDelegate.swift in Sources */,
+				2200348E27619D0800F2A859 /* AlertModel.swift in Sources */,
+				220034A027619D2900F2A859 /* GroupSets.swift in Sources */,
+				220034BA27619D4C00F2A859 /* RegisterViewController.swift in Sources */,
+				2200348F27619D0800F2A859 /* SceneDelegate.swift in Sources */,
+				2200348B27619D0800F2A859 /* LoginModel.swift in Sources */,
+				220034C727619D5E00F2A859 /* SearchViewController.swift in Sources */,
+				220034EB27619D9000F2A859 /* DetailMyselfViewController.swift in Sources */,
+				220034D427619D7500F2A859 /* GroupConfigurationViewController.swift in Sources */,
+				220034D927619D7500F2A859 /* SettlementViewController.swift in Sources */,
+				220034D827619D7500F2A859 /* GroupDetailViewController.swift in Sources */,
+				220034A127619D2900F2A859 /* UserSearchSets.swift in Sources */,
+				2200348C27619D0800F2A859 /* NotificationModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		225E642F2738165E0040FB1A /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				225E64302738165E0040FB1A /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		225E64332738165E0040FB1A /* Debug */ = {

@@ -34,6 +34,8 @@ class RegisterViewController: UIViewController,LoginOKDelegate,SendOKDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationController?.navigationBar.isHidden = false
+        
         registerButton.layer.cornerRadius = 5
         profileImageView.layer.cornerRadius = 108
         loginModel.loginOKDelegate = self
@@ -61,14 +63,15 @@ class RegisterViewController: UIViewController,LoginOKDelegate,SendOKDelegate {
         sendDBModel.sendProfileImage(data: data!, activityIndicatorView: activityIndicatorView)
     }
     
-    func sendImage_OK(url: String) {
+    func sendImage_OK(url: String, storagePath: String?) {
         if url.isEmpty != true{
             db.collection("userManagement").document(userID).setData([
-                "email" : emailTextField.text,
-                "userName": userNameTextField.text,
-                "password":passwordTextField.text,
-                "profileImage":url,
-                "userID":userID
+                "email" : emailTextField.text!,
+                "userName": userNameTextField.text!,
+                "password": passwordTextField.text!,
+                "profileImage" : url,
+                "userID" : userID,
+                "profileStoragePath" : storagePath!
             ])
             userNameTextField.text = ""
             emailTextField.text = ""
@@ -104,9 +107,7 @@ extension RegisterViewController: UIImagePickerControllerDelegate,UINavigationCo
             
             cropController.delegate = self
             cropController.customAspectRatio = profileImageView.frame.size
-            //cropBoxのサイズを固定する。
             cropController.cropView.cropBoxResizeEnabled = false
-            //pickerを閉じたら、cropControllerを表示する。
             picker.dismiss(animated: true) {
                 self.present(cropController, animated: true, completion: nil)
             }
@@ -118,7 +119,6 @@ extension RegisterViewController: UIImagePickerControllerDelegate,UINavigationCo
     }
     
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
-        //トリミング編集が終えたら、呼び出される。
         self.profileImageView.image = image
         cropViewController.dismiss(animated: true, completion: nil)
     }

@@ -24,6 +24,11 @@ class LoginViewController: UIViewController,LoginOKDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationController?.navigationBar.isHidden = true
+        navigationController?.navigationBar.barTintColor = .white
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        navigationItem.backBarButtonItem?.tintColor = UIColor(red: 255 / 255, green: 190 / 255, blue: 115 / 255, alpha: 1.0)
+        
         loginButton.layer.cornerRadius = 5
         loginModel.loginOKDelegate = self
         activityIndicatorView.center = view.center

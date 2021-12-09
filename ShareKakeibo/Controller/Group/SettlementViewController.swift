@@ -37,6 +37,7 @@ class SettlementViewController: UIViewController{
     var paymentAverageOfMonth = Int()
     
     var settlementDic = [String:Bool]()
+    var settlementDay = String()
     var sortedSettlementDic = [Dictionary<String,Bool>.Element]()
     var sortedProfileImageDic = [Dictionary<String,String>.Element]()
     var sortedUserNameDic = [Dictionary<String,String>.Element]()
@@ -47,6 +48,7 @@ class SettlementViewController: UIViewController{
     var dateModel = DateModel()
     var settlementDayOfInt = Int()
     var changeCommaModel = ChangeCommaModel()
+    var alertModel = AlertModel()
         
     
     override func viewDidLoad() {
@@ -70,23 +72,20 @@ class SettlementViewController: UIViewController{
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let animation = [AnimationType.vector(CGVector(dx: 0, dy: 30))]
         tableView.separatorStyle = .none
-        UIView.animate(views: tableView.visibleCells, animations: animation, completion:nil)
-        
-        if let indexPath = tableView.indexPathForSelectedRow{
-            tableView.deselectRow(at: indexPath, animated: true)
-        }
+        tableView.isHidden = true
         
         groupID = UserDefaults.standard.object(forKey: "groupID") as! String
         userID = UserDefaults.standard.object(forKey: "userID") as! String
+        settlementDay = UserDefaults.standard.object(forKey: "settlementDay") as! String
         let calendar = Calendar(identifier: .gregorian)
         let date = calendar.dateComponents([.year,.month], from: Date())
         year = String(date.year!)
         month = String(date.month!)
         loadDBModel.loadOKDelegate = self
         activityIndicatorView.startAnimating()
-        loadDBModel.loadSettlementDay(groupID: groupID, activityIndicatorView: activityIndicatorView)
+        settlementDayOfInt = Int(settlementDay)!
+        loadDBModel.loadUserIDAndSettlementDic(groupID: groupID)
     }
     
     
@@ -104,7 +103,7 @@ class SettlementViewController: UIViewController{
         settlementCompletionButton.backgroundColor = .red
         
         db.collection("groupManagement").document(groupID).setData(["settlementDic" : [userID:true]],merge: true)
-        loadDBModel.loadUserIDAndSettlementDic(groupID: groupID, activityIndicatorView: activityIndicatorView)
+        loadDBModel.loadUserIDAndSettlementDic(groupID: groupID)
     }
     
     @IBAction func checkDetailButton(_ sender: Any) {
@@ -118,99 +117,116 @@ class SettlementViewController: UIViewController{
 // MARK: - LoadOKDelegate
 extension SettlementViewController: LoadOKDelegate{
     
-    //決済日取得完了
-    //決済月を求める
-    func loadSettlementDay_OK(settlementDay: String) {
-        settlementDayOfInt = Int(settlementDay)!
-        loadDBModel.loadUserIDAndSettlementDic(groupID: groupID, activityIndicatorView: activityIndicatorView)
-    }
     
     //メンバーの決済可否を取得完了
-    func loadUserIDAndSettlementDic_OK(settlementDic: Dictionary<String, Bool>, userIDArray: [String]) {
-        self.settlementDic = settlementDic
-        if settlementDic[userID] == true{
-            buttonAnimatedModel.startAnimation(sender: settlementCompletionButton)
-            settlementCompletionButton.backgroundColor = .red
-            settlementCompletionButton.setTitle("支払いor受け取り済み", for: .normal)
+    func loadUserIDAndSettlementDic_OK(check: Int, settlementDic: Dictionary<String, Bool>?, userIDArray: [String]?) {
+        if check == 0{
+            activityIndicatorView.stopAnimating()
+            alertModel.errorAlert(viewController: self)
         }else{
-            buttonAnimatedModel.endAnimation(sender: settlementCompletionButton)
-            settlementCompletionButton.backgroundColor = UIColor(red: 255 / 255, green: 190 / 255, blue: 115 / 255, alpha: 1.0)
-            settlementCompletionButton.setTitle("支払いor受け取り済みにする", for: .normal)
-        }
-        
-        sortedSettlementDic = settlementDic.sorted(by: {$0.key < $1.key})
-        dateModel.getPeriodOfLastMonth(settelemtDay: settlementDayOfInt) { maxDate, minDate in
-            dateFormatter.dateFormat = "MM/dd"
-            dateFormatter.locale = Locale(identifier: "ja_JP")
-            dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
-            let maxdd = Calendar.current.date(byAdding: .day, value: -1, to: maxDate)
-            let maxDateFormatter = dateFormatter.string(from: maxdd!)
-            let minDateFormatter = dateFormatter.string(from: minDate)
-            lastMonthLabel.text = "\(minDateFormatter)〜\(maxDateFormatter)の\n決済が確定しました"
-            loadDBModel.loadMonthPayment(groupID: groupID, userIDArray: userIDArray, startDate: minDate, endDate: maxDate, activityIndicatorView: activityIndicatorView)
+            self.settlementDic = settlementDic!
+            if settlementDic![userID] == true{
+                buttonAnimatedModel.startAnimation(sender: settlementCompletionButton)
+                settlementCompletionButton.backgroundColor = .red
+                settlementCompletionButton.setTitle("支払いor受け取り済み", for: .normal)
+            }else{
+                buttonAnimatedModel.endAnimation(sender: settlementCompletionButton)
+                settlementCompletionButton.backgroundColor = UIColor(red: 255 / 255, green: 190 / 255, blue: 115 / 255, alpha: 1.0)
+                settlementCompletionButton.setTitle("支払いor受け取り済みにする", for: .normal)
+            }
+            
+            sortedSettlementDic = settlementDic!.sorted(by: {$0.key < $1.key})
+            dateModel.getPeriodOfLastMonth(settelemtDay: settlementDayOfInt) { maxDate, minDate in
+                dateFormatter.dateFormat = "MM/dd"
+                dateFormatter.locale = Locale(identifier: "ja_JP")
+                dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
+                let maxdd = Calendar.current.date(byAdding: .day, value: -1, to: maxDate)
+                let maxDateFormatter = dateFormatter.string(from: maxdd!)
+                let minDateFormatter = dateFormatter.string(from: minDate)
+                lastMonthLabel.text = "\(minDateFormatter)〜\(maxDateFormatter)の\n決済が確定しました"
+                loadDBModel.loadMonthPayment(groupID: groupID, userIDArray: userIDArray!, startDate: minDate, endDate: maxDate)
+            }
         }
     }
     
     //(グループの合計金額)と(1人当たりの金額)と(支払いに参加したユーザーの数)取得完了
-    func loadMonthPayment_OK(groupPaymentOfMonth: Int, paymentAverageOfMonth: Int, userIDArray: [String]) {
-        profileImageDic = [:]
-        userNameDic = [:]
-        self.userIDArray = userIDArray.sorted()
-        self.paymentAverageOfMonth = paymentAverageOfMonth
-        
-        //各メンバーのプロフィール画像、名前取得完了
-        loadDBModel.loadGroupMember(userIDArray: userIDArray, activityIndicatorView: activityIndicatorView) { [self] UserSets in
-            profileImageDic.updateValue(UserSets.profileImage, forKey: UserSets.userID)
-            userNameDic.updateValue(UserSets.userName, forKey: UserSets.userID)
-            sortedProfileImageDic = profileImageDic.sorted(by: {$0.key < $1.key})
-            sortedUserNameDic = userNameDic.sorted(by: {$0.key < $1.key})
+    func loadMonthPayment_OK(check: Int, groupPaymentOfMonth: Int, paymentAverageOfMonth: Int, userIDArray: [String]?) {
+        if check == 0{
+            activityIndicatorView.stopAnimating()
+            alertModel.errorAlert(viewController: self)
+        }else{
+            profileImageDic = [:]
+            userNameDic = [:]
+            self.userIDArray = userIDArray!.sorted()
+            self.paymentAverageOfMonth = paymentAverageOfMonth
+            
+            //各メンバーのプロフィール画像、名前取得完了
+            loadDBModel.loadGroupMember(userIDArray: userIDArray!) { [self] UserSets in
+                profileImageDic.updateValue(UserSets.profileImage, forKey: UserSets.userID)
+                userNameDic.updateValue(UserSets.userName, forKey: UserSets.userID)
+                sortedProfileImageDic = profileImageDic.sorted(by: {$0.key < $1.key})
+                sortedUserNameDic = userNameDic.sorted(by: {$0.key < $1.key})
+            }
         }
-        
     }
-    
-    func loadGroupMember_OK() {
-        dateModel.getPeriodOfLastMonth(settelemtDay: settlementDayOfInt) { maxDate, minDate in
-            loadDBModel.loadMonthSettlement(groupID: groupID, userID: nil, startDate: minDate, endDate: maxDate, activityIndicatorView: activityIndicatorView)
+
+    func loadGroupMember_OK(check: Int) {
+        if check == 0{
+            activityIndicatorView.stopAnimating()
+            alertModel.errorAlert(viewController: self)
+        }else{
+            dateModel.getPeriodOfLastMonth(settelemtDay: settlementDayOfInt) { maxDate, minDate in
+                loadDBModel.loadMonthSettlement(groupID: groupID, userID: nil, startDate: minDate, endDate: maxDate)
+            }
         }
     }
     
     //グループの支払い状況の取得完了
-    func loadMonthSettlement_OK() {
-        paymentDic = [:]
-        
-        for ID in userIDArray{
-            var totalPay = 0
-            if (loadDBModel.settlementSets.count != 0){
-                for count in 0...loadDBModel.settlementSets.count - 1{
-                    if ID == loadDBModel.settlementSets[count].userID{
-                        totalPay = totalPay + loadDBModel.settlementSets[count].paymentAmount!
-                    }
-                }
-            }else{
-                return
-            }
-            //各メンバーの支払金額の配列
-            paymentDic.updateValue(totalPay, forKey: ID)
-        }
-        sortedPaymentDic = paymentDic.sorted(by: {$0.key < $1.key})
-        
-        //各メンバーの決済額の配列
-        howMuchArray = sortedPaymentDic.map{($1 - paymentAverageOfMonth) * -1}
-        
-        //自分の決済額
-        var userPayment = paymentDic[userID]!
-        userPayment = paymentAverageOfMonth - userPayment
-        if userPayment < 0{
-            let receivePrice = changeCommaModel.getComma(num: userPayment * -1) + "円"
-            userPaymentOfLastMonth.text = "あなたは " + receivePrice + " の受け取りがあります"
+    func loadMonthSettlement_OK(check: Int) {
+        if check == 0{
+            activityIndicatorView.stopAnimating()
+            alertModel.errorAlert(viewController: self)
         }else{
-            let paymentPrice = changeCommaModel.getComma(num: userPayment) + "円"
-            userPaymentOfLastMonth.text = "あなたは " + paymentPrice + " の支払いがあります"
+            paymentDic = [:]
+            
+            for ID in userIDArray{
+                var totalPay = 0
+                if (loadDBModel.settlementSets.count != 0){
+                    for count in 0...loadDBModel.settlementSets.count - 1{
+                        if ID == loadDBModel.settlementSets[count].userID{
+                            totalPay = totalPay + loadDBModel.settlementSets[count].paymentAmount!
+                        }
+                    }
+                }else{
+                    activityIndicatorView.stopAnimating()
+                    return
+                }
+                //各メンバーの支払金額の配列
+                paymentDic.updateValue(totalPay, forKey: ID)
+            }
+            sortedPaymentDic = paymentDic.sorted(by: {$0.key < $1.key})
+            
+            //各メンバーの決済額の配列
+            howMuchArray = sortedPaymentDic.map{($1 - paymentAverageOfMonth) * -1}
+            
+            //自分の決済額
+            var userPayment = paymentDic[userID]!
+            userPayment = paymentAverageOfMonth - userPayment
+            if userPayment < 0{
+                let receivePrice = changeCommaModel.getComma(num: userPayment * -1) + "円"
+                userPaymentOfLastMonth.text = "あなたは " + receivePrice + " の受け取りがあります"
+            }else{
+                let paymentPrice = changeCommaModel.getComma(num: userPayment) + "円"
+                userPaymentOfLastMonth.text = "あなたは " + paymentPrice + " の支払いがあります"
+            }
+            tableView.delegate = self
+            tableView.dataSource = self
+            tableView.reloadData()
+            tableView.isHidden = false
+            let animation = [AnimationType.vector(CGVector(dx: 0, dy: 30))]
+            UIView.animate(views: tableView.visibleCells, animations: animation, completion:nil)
+            activityIndicatorView.stopAnimating()
         }
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.reloadData()
-        activityIndicatorView.stopAnimating()
     }
     
     
@@ -235,7 +251,7 @@ extension SettlementViewController: UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell")
-        let cellView = cell?.contentView.viewWithTag(1) as! UIView
+        let cellView = cell?.contentView.viewWithTag(1)!
         let profileImage = cell?.contentView.viewWithTag(2) as! UIImageView
         let userNameLabel = cell?.contentView.viewWithTag(3) as! UILabel
         let checkSettlementLabel = cell?.contentView.viewWithTag(4) as! UILabel
@@ -264,12 +280,12 @@ extension SettlementViewController: UITableViewDelegate,UITableViewDataSource{
         }else{
             howMuchLabel.text = changeCommaModel.getComma(num: howMuchArray[indexPath.row]) + "　円" + "の支払"
         }
-        cellView.layer.cornerRadius = 5
-        cellView.layer.masksToBounds = false
-        cellView.layer.cornerRadius = 5
-        cellView.layer.shadowOffset = CGSize(width: 1, height: 1)
-        cellView.layer.shadowOpacity = 0.2
-        cellView.layer.shadowRadius = 1
+        cellView!.layer.cornerRadius = 5
+        cellView!.layer.masksToBounds = false
+        cellView!.layer.cornerRadius = 5
+        cellView!.layer.shadowOffset = CGSize(width: 1, height: 1)
+        cellView!.layer.shadowOpacity = 0.2
+        cellView!.layer.shadowRadius = 1
         
         return cell!
     }

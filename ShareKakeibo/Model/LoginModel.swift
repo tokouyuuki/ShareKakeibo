@@ -148,9 +148,7 @@ class LoginModel{
                 print(error.debugDescription)
                 return
             }else{
-//                let ProfileConfigurationVC = viewController.storyboard?.instantiateViewController(identifier: "ProfileConfigurationVC") as! ProfileConfigurationViewController
-//                ProfileConfigurationVC.userInfoArray = userInfoArray
-//                print(userInfoArray)
+                
                 viewController.performSegue(withIdentifier: "ProfileConfigurationVC", sender: nil)
                 
             }
@@ -174,7 +172,6 @@ class LoginModel{
         default: break
         }
         return message
-        
         
     }
     

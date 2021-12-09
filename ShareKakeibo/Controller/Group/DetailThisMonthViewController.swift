@@ -21,6 +21,7 @@ class DetailThisMonthViewController: UIViewController {
     var buttonAnimatedModel = ButtonAnimatedModel(withDuration: 0.1, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, transform: CGAffineTransform(scaleX: 0.95, y: 0.95), alpha: 0.7)
     
     var dateModel = DateModel()
+    var alertModel = AlertModel()
     
     
     override func viewDidLoad() {

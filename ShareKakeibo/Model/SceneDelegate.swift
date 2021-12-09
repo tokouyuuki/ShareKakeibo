@@ -4,7 +4,6 @@
 //
 //  Created by 近藤大伍 on 2021/10/08.
 //
-
 import UIKit
 import Firebase
 import FirebaseAuth
@@ -40,6 +39,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         
         guard let _ = (scene as? UIWindowScene) else { return }
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert,.sound]) { grated, _ in
+            if grated{
+                center.delegate = self
+            }
+        }
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -71,5 +76,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     
+}
+
+extension SceneDelegate: UNUserNotificationCenterDelegate{
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert, .sound])
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        completionHandler()
+    }
 }
 

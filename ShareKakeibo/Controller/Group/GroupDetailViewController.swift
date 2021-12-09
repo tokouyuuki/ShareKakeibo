@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 protocol GoToVcDelegate {
     func goToVC(segueID:String)
 }
@@ -65,7 +66,6 @@ class GroupDetailViewController: UIViewController {
 }
 
 // MARK: - EditOKDelegate
-
 extension GroupDetailViewController: EditOKDelegate{
     
     
@@ -79,4 +79,3 @@ extension GroupDetailViewController: EditOKDelegate{
     
     
 }
-

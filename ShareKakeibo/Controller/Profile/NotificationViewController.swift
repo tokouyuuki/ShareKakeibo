@@ -18,9 +18,15 @@ class NotificationViewController: UIViewController {
     var day = Int()
     var notificationArray = [NotificationSets]() //ロードしてきた通知が入る配列
     var activityIndicatorView = UIActivityIndicatorView()
+    var alertModel = AlertModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        title = "お知らせ"
+        navigationController?.navigationBar.isHidden = false
+        navigationController?.navigationBar.backgroundColor = .white
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.darkGray]
 
         tableView.delegate = self
         tableView.dataSource = self
@@ -45,11 +51,7 @@ class NotificationViewController: UIViewController {
         userID = UserDefaults.standard.object(forKey: "userID") as! String
         loadDBModel.loadOKDelegate = self
         activityIndicatorView.startAnimating()
-        loadDBModel.loadSettlementNotification(userID: userID, day: String(day), activityIndicatorView: activityIndicatorView)
-    }
-  
-    @IBAction func back(_ sender: Any) {
-        navigationController?.popViewController(animated: true)
+        loadDBModel.loadSettlementNotification(userID: userID, day: String(day))
     }
 
     
@@ -91,10 +93,15 @@ extension NotificationViewController:UITableViewDelegate, UITableViewDataSource{
 //MARK:- LoadOKDelegate
 extension NotificationViewController:LoadOKDelegate{
     
-    func loadSettlementNotification_OK() {
-        notificationArray = loadDBModel.notificationSets
-        tableView.reloadData()
-        activityIndicatorView.stopAnimating()
+    func loadSettlementNotification_OK(check: Int) {
+        if check == 0{
+            activityIndicatorView.stopAnimating()
+            alertModel.errorAlert(viewController: self)
+        }else{
+            notificationArray = loadDBModel.notificationSets
+            tableView.reloadData()
+            activityIndicatorView.stopAnimating()
+        }
     }
     
 }

@@ -9,6 +9,7 @@ import UIKit
 import SDWebImage
 import CropViewController
 import Firebase
+import FirebaseAuth
 import FirebaseFirestore
 import FirebaseStorage
 
@@ -20,10 +21,7 @@ class ProfileDetailViewController: UIViewController{
     
     var profileImage = UIImage()
     let user = Auth.auth().currentUser
-    var password = String()
-    var email = String()
-    
-    //    var receiveImage = UIImage()
+
     var nameArray = ["名前","メールアドレス","パスワード"]
     var dataNameArray = ["userName","email","password"]
     var userInfoArray = [String]()
@@ -39,14 +37,23 @@ class ProfileDetailViewController: UIViewController{
     
     var profileImageData:Data?
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationController?.navigationBar.isHidden = false
+        navigationController?.navigationBar.backgroundColor = .white
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.darkGray]
+        title = "プロフィール設定"
+        
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        navigationItem.backBarButtonItem?.tintColor = UIColor(red: 255 / 255, green: 190 / 255, blue: 115 / 255, alpha: 1.0)
         
         profileImageView.image = profileImage
         profileImageView.layer.cornerRadius = 120
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.tableFooterView = UIView() //空白のセルの線を消してるよ
+        tableView.tableFooterView = UIView() 
         
         sendDBModel.sendOKDelegate = self
         
@@ -79,16 +86,7 @@ class ProfileDetailViewController: UIViewController{
     @IBAction func profileImageView(_ sender: UITapGestureRecognizer) {
         alertModel.satsueiAlert(viewController: self)
     }
-    
-    @IBAction func back(_ sender: Any) {
-        if profileImageData != nil{
-            activityIndicatorView.startAnimating()
-            sendDBModel.sendChangeProfileImage(data: profileImageData!, activityIndicatorView: activityIndicatorView)
-        }else{
-            navigationController?.popViewController(animated: true)
-        }
-    }
- 
+
     
 }
 
@@ -144,11 +142,12 @@ extension ProfileDetailViewController:UITableViewDelegate, UITableViewDataSource
 // MARK: - SendOKDelegate
 extension ProfileDetailViewController:SendOKDelegate{
     
-    func sendImage_OK(url: String) {
-        db.collection("userManagement").document(userID).updateData(["profileImage" : url])
-        activityIndicatorView.stopAnimating()
-        navigationController?.popViewController(animated: true)
-    }
+    func sendImage_OK(url: String, storagePath: String?) {
+         db.collection("userManagement").document(userID).updateData(["profileImage" : url])
+        
+         activityIndicatorView.stopAnimating()
+         navigationController?.popViewController(animated: true)
+     }
     
 }
 
@@ -164,9 +163,7 @@ extension ProfileDetailViewController:UIImagePickerControllerDelegate,UINavigati
             
             cropController.delegate = self
             cropController.customAspectRatio = profileImageView.frame.size
-            //cropBoxのサイズを固定する。
             cropController.cropView.cropBoxResizeEnabled = false
-            //pickerを閉じたら、cropControllerを表示する。
             picker.dismiss(animated: true) {
                 self.present(cropController, animated: true, completion: nil)
             }
@@ -178,9 +175,11 @@ extension ProfileDetailViewController:UIImagePickerControllerDelegate,UINavigati
     }
     
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
-        //トリミング編集が終えたら、呼び出される。
+        activityIndicatorView.startAnimating()
         self.profileImageView.image = image
         profileImageData = image.jpegData(compressionQuality: 1.0)!
+        let profileStoragePath = UserDefaults.standard.object(forKey: "profileStoragePath") as! String
+        sendDBModel.sendChangeProfileImage(data: profileImageData!, activityIndicatorView: activityIndicatorView,profileStoragePath: profileStoragePath)
         cropViewController.dismiss(animated: true, completion: nil)
     }
     

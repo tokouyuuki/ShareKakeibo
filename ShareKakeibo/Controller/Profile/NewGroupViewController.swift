@@ -8,6 +8,7 @@
 import UIKit
 import FirebaseFirestore
 import SDWebImage
+import ViewAnimator
 
 class NewGroupViewController: UIViewController {
     
@@ -23,15 +24,25 @@ class NewGroupViewController: UIViewController {
     var userName = String()
     var profileImage = String()
     var groupID = String()
+    var groupName = String()
     
     var buttonAnimatedModel = ButtonAnimatedModel(withDuration: 0.1, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, transform: CGAffineTransform(scaleX: 0.95, y: 0.95), alpha: 0.7)
     
     var groupNotJoinArray = [GroupSets]()
     var sortedGroupNotJoinArray = [GroupSets]()
     var activityIndicatorView = UIActivityIndicatorView()
+    var alertModel = AlertModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        title = "招待を受けているグループ"
+        navigationController?.navigationBar.isHidden = false
+        navigationController?.navigationBar.backgroundColor = .white
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.darkGray]
+        
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        navigationItem.backBarButtonItem?.tintColor = UIColor(red: 255 / 255, green: 190 / 255, blue: 115 / 255, alpha: 1.0)
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -57,7 +68,7 @@ class NewGroupViewController: UIViewController {
         profileImage = UserDefaults.standard.object(forKey: "profileImage") as! String
         loadDBModel.loadOKDelegate = self
         activityIndicatorView.startAnimating()
-        loadDBModel.loadNotJoinGroup(userID: userID, activityIndicatorView: activityIndicatorView)
+        loadDBModel.loadNotJoinGroup(userID: userID)
         
     }
     
@@ -83,14 +94,14 @@ class NewGroupViewController: UIViewController {
         createGroupButton.layer.shadowOpacity = 0.5
         createGroupButton.layer.shadowRadius = 1
     }
-    
+  
     
     @objc func joinButton(_ sender:UIButton){
         buttonAnimatedModel.endAnimation(sender: sender)
-        
         let cell = sender.superview?.superview?.superview as! UITableViewCell
         indexPath = tableView.indexPath(for: cell)!
         groupID = groupNotJoinArray[indexPath.row].groupID
+//        groupName = groupNotJoinArray[indexPath.row].groupName
         UserDefaults.standard.setValue(groupID, forKey: "groupID")
         db.collection("userManagement").document(userID).setData([
             "joinGroupDic": [groupID: true],
@@ -99,6 +110,7 @@ class NewGroupViewController: UIViewController {
             "settlementDic": [userID: false],
             "userIDArray": FieldValue.arrayUnion([userID])
         ],merge: true)
+        loadDBModel.loadSettlementDay(groupID: groupID)
         navigationController?.popViewController(animated: true)
     }
     
@@ -112,11 +124,7 @@ class NewGroupViewController: UIViewController {
         groupID = groupNotJoinArray[indexPath.row].groupID
         editDBModel.editGroupInfoDelete(groupID: groupID, userID: userID, activityIndicatorView: activityIndicatorView)
     }
-    
-    @IBAction func back(_ sender: Any) {
-        navigationController?.popViewController(animated: true)
-    }
-    
+ 
     
 }
 //MARK:- TabeleView
@@ -143,7 +151,7 @@ extension NewGroupViewController:UITableViewDelegate, UITableViewDataSource{
         let rejectButton = cell.contentView.viewWithTag(4) as! UIButton
         let groupImageView = cell.contentView.viewWithTag(5) as! UIImageView
         
-        cell.selectionStyle = .none //セルのハイライトを消している
+        cell.selectionStyle = .none 
         
         invitationView.layer.cornerRadius = 5
         invitationView.layer.masksToBounds = false
@@ -175,22 +183,28 @@ extension NewGroupViewController:UITableViewDelegate, UITableViewDataSource{
 extension NewGroupViewController:LoadOKDelegate, EditOKDelegate{
     
     //どのグループに参加しているか招待されているかを取得完了
-    func loadNotJoinGroup_OK(groupIDArray: [String], notJoinCount: Int) {
-        print("&&&&&&&&&グループID、不参加グループの詳細&&&&&&&&")
-        print(groupIDArray)
-        groupNotJoinArray = []
-        //招待されているグループの情報を取得完了
-        loadDBModel.loadNotJoinGroupInfo(groupIDArray: groupIDArray, activityIndicatorView: activityIndicatorView) { JoinGroupSets in
-            self.groupNotJoinArray.append(JoinGroupSets)
-            self.sortedGroupNotJoinArray = self.groupNotJoinArray.sorted(by: {($0.create_at! > $1.create_at!)})
+    func loadNotJoinGroup_OK(check: Int, groupIDArray: [String]?, notJoinCount: Int) {
+        if check == 0{
+            activityIndicatorView.stopAnimating()
+            alertModel.errorAlert(viewController: self)
+        }else{
+            groupNotJoinArray = []
+            //招待されているグループの情報を取得完了
+            loadDBModel.loadNotJoinGroupInfo(groupIDArray: groupIDArray!) { JoinGroupSets in
+                self.groupNotJoinArray.append(JoinGroupSets)
+                self.sortedGroupNotJoinArray = self.groupNotJoinArray.sorted(by: {($0.create_at! > $1.create_at!)})
+            }
         }
     }
     
     func loadNotJoinGroupInfo_OK(check: Int) {
-        if check == 1{
-            self.tableView.reloadData()
+        if check == 0{
             activityIndicatorView.stopAnimating()
+            alertModel.errorAlert(viewController: self)
         }else{
+            self.tableView.reloadData()
+            let animation = [AnimationType.vector(CGVector(dx: 0, dy: 30))]
+            UIView.animate(views: tableView.visibleCells, animations: animation, completion:nil)
             activityIndicatorView.stopAnimating()
         }
     }
@@ -201,4 +215,13 @@ extension NewGroupViewController:LoadOKDelegate, EditOKDelegate{
         activityIndicatorView.stopAnimating()
     }
     
+    func loadSettlementDay_OK(check: Int, settlementDay: String?) {
+        if check == 0{
+            activityIndicatorView.stopAnimating()
+            alertModel.errorAlert(viewController: self)
+        }else{
+            let notificatinModel = NotificationModel()
+            notificatinModel.registerNotificarionOfSettlement(groupName:groupName,groupID: groupID, settlementDay: settlementDay!)
+        }
+    }
 }
