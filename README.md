@@ -29,4 +29,13 @@ tcnksm/cli-init.
  
  ## Requirement
  You can open each of the following samples as an Xcode project, and run them on a mobile device or a simulator. Simply install the pods and open the .xcworkspace file to see the project in Xcode.  
- 
+  pod 'Firebase/Auth'<br>
+  pod 'Firebase/Firestore'<br> 
+  pod 'IQKeyboardManagerSwift'<br>
+  pod 'ViewAnimator'<br>
+  pod 'Firebase/Storage'<br> 
+  pod 'SDWebImage'<br>
+  pod 'Charts'<br>
+  pod 'SegementSlide'<br> 
+  pod 'Parchment'<br>
+  pod 'CropViewController'<br>
