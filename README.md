@@ -6,17 +6,85 @@
 •月々のお支払い状況や金額をカテゴリ別にグラフで表示する機能を搭載しています。<br>
 •グループを作成して招待することができます。そのグループと情報を共有することもできます。<br>
 •決済日を設定し、決済日が到来するとプッシュ通知でお知らせします。また、グループ内のユーザーが「有料」か「未払い」かを知ることができる機能を搭載しています。
-<!-- • It is a household account book application specialized for people who share a house, written in Swift.  
-• It is equipped with a function that automatically calculates your payment amount every month.  
-• It is equipped with a function to display monthly payment transitions and amounts by category using graphs.  
-• You can create groups and invite them. You can also share information with that group.  
-• We will set a settlement date and notify you with a push notification when the settlement date arrives. In addition, it is equipped with a function that allows users in the group to know whether it is "paid" or "unpaid".   -->
 
 
 ## 目的
 現在リリースされている共有家計簿アプリの多くは、多くの機能を備えているため、少し使いにくいアプリです。<br>
 このシェア家計簿アプリは、機能がシンプルなので使いやすいです。<br>
 使いやすさを重視したアプリを作るのが目的です。
+
+
+## 機能
+■プロフィール画面<br>
+グループ一覧がプロフィール画面に表示されます。<br>
+プロフィール画像を設定できます。<br>
+グループに招待されたらプロフィール画面に通知が届きます。<br>
+
+■グループ<br>
+複数のグループで家計簿をつけることができます。<br>
+招待機能でグループに参加することができます。ユーザー検索は部分一致で簡単に検索できます。<br>
+グループから退会することができます。<br>
+
+■支払い情報<br>
+自分が支払ったお金を書き込むと、自動でグループの人数で割り勘し、自分にいくら支払いがあるか計算し、表示します。<br>
+決済済みか未決済か、一目でわかります。<br>
+
+■グラフ<br>
+月ごとの支払いの推移がカテゴリー毎に折れ線グラフで表示されます。<br>
+今月分、先月分の支払い情報がカテゴリー毎に円グラフで表示されます。<br>
+
+■決済通知
+グループ毎に決済日にプッシュ通知が送られます。
+
+■明細
+今月分、先月分の支払い情報が一件ずつ明細に表示されます。
+誤って支払い情報を送ってしまった場合、明細画面から削除することができます。
+
+■決済日<br>
+グループ毎に決済日を指定することができます。<br>
+後から決済日を変更することも可能です。<br>
+
+
+## 使用方法
+●招待されているグループへの参加
+ホーム画面（ログイン直後の画面）右上の「+」が記載されているボタンから、自分への招待通知一覧が確認でき、
+[参加][拒否]が選択できます。<br>
+[参加]の場合、ホーム画面の「グループ一覧」に参加したグループが表示されます。<br>
+
+●新規グループの作成<br>
+ホーム画面右上「+」が記載されているボタンから、招待通知一覧画面に遷移し、
+画面右下の「＋」ボタンから新規作成できます。
+※指定された決済日で毎月、個々人の決済額を自動計算されます。<br>
+
+●プロフィール情報の変更<br>
+ホーム画面右上の[歯車アイコン]-[プロフィールを変更]から変更できます。<br>
+
+●グループ情報の確認<br>
+ホーム画面より確認したいグループを選択します。<br>
+
+・ホーム<br>
+現在進行中(今月分)のグループの出資情報が確認できます。<br>
+※「➕」ボタンより新規支払い情報を登録できます。<br>
+
+・支払状況<br>
+決済確定済みの先月分の支払い情報を個人別に確認できます。<br>
+「明細の確認」ボタンから支払い情報の詳細を確認できます。<br>
+「支払いor受け取り済みにする」ボタンをタップすることで、自分の決済を完了したことがグループメンバーに共有できます。<br>
+
+・明細<br>
+現在進行中(今月分)のグループの出資情報が確認できます。<br>
+※「➕」ボタンより新規支払い情報を登録できます。<br>
+
+・グラフ<br>
+これまでの支払い情報の推移をカテゴリー毎に確認できます。<br>
+
+●グループ情報の変更・退会など<br>
+グループ情報のホーム画面右上のメニューアイコンからグループ情報の変更・退会などを実行できます。<br>
+
+●テストアカウント<br>
+新規登録いただかなくても、以下のアカウントで既にデータが入っているものをご覧いただけます。<br>
+mail: test@email.com<br>
+password: testtest<br>
 <!-- Many of the currently released share household account book apps are a little difficult to use because they have many functions. This Share Kakeibo app is easy to use because it has simple functions.   -->
 
 
